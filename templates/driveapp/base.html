@@ -203,65 +203,142 @@
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="footer">
+  <!-- Modern Footer -->
+  <footer class="modern-footer">
+    <div class="footer-waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="m-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(102, 126, 234, 0.7)" />
+          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(118, 75, 162, 0.5)" />
+          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(240, 147, 251, 0.3)" />
+          <use xlink:href="#gentle-wave" x="48" y="7" fill="rgba(245, 87, 108, 0.1)" />
+        </g>
+      </svg>
+    </div>
+    
     <div class="container">
       <div class="footer-content">
-        <!-- About Section -->
-        <div class="footer-section">
-          <h5><i class="fas fa-exchange-alt me-2"></i>GDrive Transfer</h5>
-          <p>The ultimate solution for seamlessly transferring files between Google Drive accounts. Our tool helps you migrate data quickly, securely, and efficiently.</p>
-          <div class="d-flex gap-3 mt-3">
-            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <!-- Brand Section -->
+        <div class="footer-brand">
+          <div class="brand-logo">
+            <div class="logo-icon">
+              <i class="fas fa-exchange-alt"></i>
+            </div>
+            <h3 class="gradient-text">GDrive Transfer</h3>
+          </div>
+          <p class="brand-description">
+            Transform your cloud migration experience with our powerful, secure, and lightning-fast Google Drive transfer solution.
+          </p>
+          <div class="social-links">
+            <a href="#" class="social-link" aria-label="Twitter">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="Facebook">
+              <i class="fab fa-facebook"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="LinkedIn">
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="Discord">
+              <i class="fab fa-discord"></i>
+            </a>
           </div>
         </div>
 
-        <!-- Quick Links -->
-        <div class="footer-section">
-          <h5>Quick Links</h5>
-          <ul style="list-style: none; padding: 0;">
-            <li><a href="/">Home</a></li>
-            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-            <li><a href="#features">Features</a></li>
-            <li><a href="#pricing">Pricing</a></li>
-          </ul>
-        </div>
+        <!-- Links Grid -->
+        <div class="footer-links">
+          <!-- Product -->
+          <div class="link-column">
+            <h5 class="column-title">
+              <i class="fas fa-rocket me-2"></i>Product
+            </h5>
+            <ul class="footer-menu">
+              <li><a href="/">Home</a></li>
+              <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#pricing">Pricing</a></li>
+              <li><a href="#demo">Live Demo</a></li>
+            </ul>
+          </div>
 
-        <!-- Support -->
-        <div class="footer-section">
-          <h5>Support</h5>
-          <ul style="list-style: none; padding: 0;">
-            <li><a href="#help">Help Center</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="#contact">Contact Us</a></li>
-            <li><a href="#privacy">Privacy Policy</a></li>
-          </ul>
-        </div>
+          <!-- Support -->
+          <div class="link-column">
+            <h5 class="column-title">
+              <i class="fas fa-life-ring me-2"></i>Support
+            </h5>
+            <ul class="footer-menu">
+              <li><a href="#help">Help Center</a></li>
+              <li><a href="#faq">FAQ</a></li>
+              <li><a href="#tutorials">Tutorials</a></li>
+              <li><a href="#contact">Contact Us</a></li>
+              <li><a href="#status">System Status</a></li>
+            </ul>
+          </div>
 
-        <!-- Newsletter -->
-        <div class="footer-section">
-          <h5>Stay Updated</h5>
-          <p>Subscribe to our newsletter for tips, updates, and new features.</p>
-          <form class="d-flex gap-2 mt-3">
-            <input type="email" class="form-control" placeholder="Enter your email" required>
-            <button type="submit" class="btn btn-primary">
-              <i class="fas fa-paper-plane"></i>
-            </button>
-          </form>
+          <!-- Company -->
+          <div class="link-column">
+            <h5 class="column-title">
+              <i class="fas fa-building me-2"></i>Company
+            </h5>
+            <ul class="footer-menu">
+              <li><a href="#about">About Us</a></li>
+              <li><a href="#blog">Blog</a></li>
+              <li><a href="#careers">Careers</a></li>
+              <li><a href="#press">Press Kit</a></li>
+              <li><a href="#partners">Partners</a></li>
+            </ul>
+          </div>
+
+          <!-- Newsletter -->
+          <div class="link-column">
+            <h5 class="column-title">
+              <i class="fas fa-bell me-2"></i>Stay Connected
+            </h5>
+            <p class="newsletter-text">Get the latest updates, tips, and exclusive features delivered to your inbox.</p>
+            <form class="newsletter-form">
+              <div class="input-group">
+                <input type="email" class="newsletter-input" placeholder="Enter your email" required>
+                <button type="submit" class="newsletter-btn">
+                  <i class="fas fa-paper-plane"></i>
+                </button>
+              </div>
+            </form>
+            <div class="feature-badges">
+              <span class="feature-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span>100% Secure</span>
+              </span>
+              <span class="feature-badge">
+                <i class="fas fa-bolt"></i>
+                <span>Lightning Fast</span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Footer Bottom -->
       <div class="footer-bottom">
-        <div class="d-flex justify-content-between align-items-center flex-column md:flex-row gap-3">
-          <p class="m-0">© 2025 GDrive Transfer. All rights reserved.</p>
-          <div class="d-flex gap-4">
-            <a href="#terms">Terms of Service</a>
-            <a href="#privacy">Privacy Policy</a>
-            <a href="#cookies">Cookie Policy</a>
+        <div class="footer-bottom-content">
+          <div class="copyright">
+            <p>
+              <i class="fas fa-copyright me-1"></i>
+              2025 <strong>GDrive Transfer</strong>. Crafted with 
+              <i class="fas fa-heart text-danger mx-1"></i> 
+              for seamless cloud migration.
+            </p>
+          </div>
+          <div class="legal-links">
+            <a href="#terms" class="legal-link">Terms of Service</a>
+            <a href="#privacy" class="legal-link">Privacy Policy</a>
+            <a href="#cookies" class="legal-link">Cookie Policy</a>
+            <a href="#security" class="legal-link">Security</a>
           </div>
         </div>
       </div>
