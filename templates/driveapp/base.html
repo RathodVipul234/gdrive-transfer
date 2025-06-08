@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Seamlessly transfer files between Google Drive accounts with our secure, fast, and reliable transfer tool.">
+  <meta name="keywords" content="google drive, file transfer, cloud migration, data transfer">
+  <meta name="author" content="GDrive Transfer">
+  
+  <title>{% block title %}GDrive Transfer - Seamless Cloud Migration{% endblock %}</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Theme CSS -->
+  <link rel="stylesheet" href="/static/css/theme.css">
+  
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <!-- Brand -->
+        <a href="/" class="navbar-brand">
+          <i class="fas fa-exchange-alt"></i>
+          <span>GDrive Transfer</span>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <ul class="navbar-nav d-none md:d-flex">
+          <li><a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">
+            <i class="fas fa-home"></i> Home
+          </a></li>
+          <li><a href="{% url 'dashboard' %}" class="nav-link {% if 'dashboard' in request.path %}active{% endif %}">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+          </a></li>
+          <li><a href="#features" class="nav-link">
+            <i class="fas fa-star"></i> Features
+          </a></li>
+          <li><a href="#help" class="nav-link">
+            <i class="fas fa-question-circle"></i> Help
+          </a></li>
+        </ul>
+
+        <!-- User Info & Theme Toggle -->
+        <div class="d-flex align-items-center gap-3">
+          <!-- Theme Toggle -->
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
+            <i class="fas fa-moon"></i>
+          </button>
+
+          <!-- User Profile -->
+          {% if user.is_authenticated %}
+            <div class="d-flex align-items-center gap-2">
+              <!-- Google Account Status -->
+              {% if request.session.source_email or request.session.dest_email %}
+                {% if request.session.source_email %}
+                  <div class="d-flex align-items-center gap-2 d-none sm:d-flex">
+                    <div class="user-avatar">
+                      <i class="fas fa-user"></i>
+                    </div>
+                    <div class="d-flex flex-column">
+                      <small style="color: rgba(255,255,255,0.8); font-size: 0.7rem;">Source</small>
+                      <span style="color: white; font-size: 0.8rem;">{{ request.session.source_email|truncatechars:20 }}</span>
+                    </div>
+                  </div>
+                {% endif %}
+                
+                {% if request.session.dest_email %}
+                  <div class="d-flex align-items-center gap-2 d-none sm:d-flex">
+                    <div class="user-avatar">
+                      <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="d-flex flex-column">
+                      <small style="color: rgba(255,255,255,0.8); font-size: 0.7rem;">Destination</small>
+                      <span style="color: white; font-size: 0.8rem;">{{ request.session.dest_email|truncatechars:20 }}</span>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endif %}
+              
+              <!-- User Info -->
+              <div class="d-flex align-items-center gap-2 d-none md:d-flex">
+                <div class="user-avatar">
+                  <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="d-flex flex-column">
+                  <small style="color: rgba(255,255,255,0.8); font-size: 0.7rem;">Welcome</small>
+                  <span style="color: white; font-size: 0.8rem;">{{ user.username|truncatechars:15 }}</span>
+                </div>
+              </div>
+              
+              <a href="{% url 'logout' %}" class="btn btn-secondary btn-sm">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="d-none sm:d-inline">Logout</span>
+              </a>
+            </div>
+          {% else %}
+            <div class="d-flex gap-2">
+              <a href="{% url 'login' %}" class="btn btn-secondary btn-sm">
+                <i class="fas fa-sign-in-alt"></i>
+                <span class="d-none sm:d-inline">Login</span>
+              </a>
+              <a href="{% url 'register' %}" class="btn btn-primary btn-sm">
+                <i class="fas fa-user-plus"></i>
+                <span class="d-none sm:d-inline">Register</span>
+              </a>
+            </div>
+          {% endif %}
+
+          <!-- Mobile Menu Toggle -->
+          <button class="mobile-menu-toggle md:d-none">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div class="mobile-menu">
+        <a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">
+          <i class="fas fa-home"></i> Home
+        </a>
+        <a href="{% url 'dashboard' %}" class="nav-link {% if 'dashboard' in request.path %}active{% endif %}">
+          <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+        <a href="#features" class="nav-link">
+          <i class="fas fa-star"></i> Features
+        </a>
+        <a href="#help" class="nav-link">
+          <i class="fas fa-question-circle"></i> Help
+        </a>
+        {% if user.is_authenticated %}
+          <div class="p-3" style="border-top: 1px solid var(--border-color);">
+            <div class="mb-2">
+              <small style="color: var(--text-secondary);">Logged in as:</small>
+              <div style="color: var(--text-primary); font-weight: 500;">{{ user.username }}</div>
+            </div>
+            {% if request.session.source_email %}
+              <div class="mb-2">
+                <small style="color: var(--text-secondary);">Source Account:</small>
+                <div style="color: var(--text-primary); font-weight: 500;">{{ request.session.source_email }}</div>
+              </div>
+            {% endif %}
+            {% if request.session.dest_email %}
+              <div class="mb-2">
+                <small style="color: var(--text-secondary);">Destination Account:</small>
+                <div style="color: var(--text-primary); font-weight: 500;">{{ request.session.dest_email }}</div>
+              </div>
+            {% endif %}
+          </div>
+        {% else %}
+          <div class="p-3" style="border-top: 1px solid var(--border-color);">
+            <a href="{% url 'login' %}" class="nav-link">
+              <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+            <a href="{% url 'register' %}" class="nav-link">
+              <i class="fas fa-user-plus"></i> Register
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <main>
+    <!-- Hero Section (for home page) -->
+    {% block hero %}{% endblock %}
+    
+    <!-- Page Header -->
+    {% block page_header %}{% endblock %}
+    
+    <!-- Main Content -->
+    <div class="container">
+      <!-- Flash Messages -->
+      {% if messages %}
+        <div id="flash-messages">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center gap-2">
+                <i class="fas {% if message.tags == 'success' %}fa-check-circle{% elif message.tags == 'error' %}fa-exclamation-circle{% elif message.tags == 'warning' %}fa-exclamation-triangle{% else %}fa-info-circle{% endif %}"></i>
+                <span>{{ message }}</span>
+              </div>
+              <button type="button" class="btn btn-sm" onclick="this.parentElement.remove()" style="background: none; border: none; color: inherit;">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <!-- About Section -->
+        <div class="footer-section">
+          <h5><i class="fas fa-exchange-alt me-2"></i>GDrive Transfer</h5>
+          <p>The ultimate solution for seamlessly transferring files between Google Drive accounts. Our tool helps you migrate data quickly, securely, and efficiently.</p>
+          <div class="d-flex gap-3 mt-3">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-section">
+          <h5>Quick Links</h5>
+          <ul style="list-style: none; padding: 0;">
+            <li><a href="/">Home</a></li>
+            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div class="footer-section">
+          <h5>Support</h5>
+          <ul style="list-style: none; padding: 0;">
+            <li><a href="#help">Help Center</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+            <li><a href="#privacy">Privacy Policy</a></li>
+          </ul>
+        </div>
+
+        <!-- Newsletter -->
+        <div class="footer-section">
+          <h5>Stay Updated</h5>
+          <p>Subscribe to our newsletter for tips, updates, and new features.</p>
+          <form class="d-flex gap-2 mt-3">
+            <input type="email" class="form-control" placeholder="Enter your email" required>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <div class="d-flex justify-content-between align-items-center flex-column md:flex-row gap-3">
+          <p class="m-0">© 2025 GDrive Transfer. All rights reserved.</p>
+          <div class="d-flex gap-4">
+            <a href="#terms">Terms of Service</a>
+            <a href="#privacy">Privacy Policy</a>
+            <a href="#cookies">Cookie Policy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/static/js/theme.js"></script>
+  {% block extra_scripts %}{% endblock %}
+
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "GDrive Transfer",
+    "description": "Seamlessly transfer files between Google Drive accounts",
+    "url": "{{ request.build_absolute_uri }}",
+    "applicationCategory": "Utility",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+</body>
+</html>

@@ -1,0 +1,487 @@
+{% extends 'driveapp/base.html' %}
+
+{% block title %}GDrive Transfer - Fast & Secure Google Drive Migration{% endblock %}
+
+{% block hero %}
+<section class="hero">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12 lg:col-6">
+        <div class="hero-content">
+          <h1 class="mb-4">Transfer Google Drive Files with Ease</h1>
+          <p class="mb-5" style="font-size: 1.125rem; opacity: 0.9;">
+            Seamlessly migrate files and folders between Google Drive accounts. 
+            Fast, secure, and reliable transfers with real-time progress tracking.
+          </p>
+          
+          {% if user.is_authenticated %}
+            {% if not source_logged_in %}
+              <div class="d-flex gap-3 flex-column sm:flex-row">
+                <a href="{% url 'login_source' %}" class="btn btn-secondary btn-lg">
+                  <i class="fab fa-google me-2"></i>Connect Google Drive
+                </a>
+                <a href="#how-it-works" class="btn btn-primary btn-lg" style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3);">
+                  <i class="fas fa-play me-2"></i>See How It Works
+                </a>
+              </div>
+            {% endif %}
+          {% else %}
+            <div class="d-flex gap-3 flex-column sm:flex-row">
+              <a href="{% url 'register' %}" class="btn btn-secondary btn-lg">
+                <i class="fas fa-user-plus me-2"></i>Create Account
+              </a>
+              <a href="{% url 'login' %}" class="btn btn-primary btn-lg" style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3);">
+                <i class="fas fa-sign-in-alt me-2"></i>Sign In
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-12 lg:col-6 text-center mt-5 lg:mt-0">
+        <div style="position: relative; max-width: 500px; margin: 0 auto;">
+          <!-- Animated illustration -->
+          <div style="background: rgba(255,255,255,0.1); border-radius: 20px; padding: 3rem; backdrop-filter: blur(10px);">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <div style="background: #4285F4; border-radius: 15px; padding: 1.5rem; color: white;">
+                <i class="fab fa-google-drive" style="font-size: 2rem;"></i>
+              </div>
+              <div style="flex: 1; height: 3px; background: rgba(255,255,255,0.3); margin: 0 1rem; position: relative; overflow: hidden;">
+                <div style="position: absolute; top: 0; left: 0; height: 100%; width: 50%; background: linear-gradient(90deg, transparent, white, transparent); animation: transferFlow 2s infinite;"></div>
+              </div>
+              <div style="background: #34A853; border-radius: 15px; padding: 1.5rem; color: white;">
+                <i class="fab fa-google-drive" style="font-size: 2rem;"></i>
+              </div>
+            </div>
+            <p style="margin: 0; opacity: 0.8;">Secure Transfer in Progress</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<!-- Transfer Wizard -->
+<section class="py-5">
+  <div class="step-wizard">
+    <div class="card-header">
+      <h3 class="card-title mb-0">
+        <i class="fas fa-rocket me-2"></i>Drive Transfer Wizard
+      </h3>
+    </div>
+    
+    <!-- Step Indicator -->
+    <div class="step-indicator">
+      <div class="step {% if source_logged_in %}completed{% elif not source_logged_in %}active{% else %}pending{% endif %}">
+        <div class="step-number">
+          {% if source_logged_in %}<i class="fas fa-check"></i>{% else %}1{% endif %}
+        </div>
+        <div class="step-label">Connect Source</div>
+      </div>
+      
+      <div class="step {% if dest_logged_in %}completed{% elif source_logged_in and not dest_logged_in %}active{% else %}pending{% endif %}">
+        <div class="step-number">
+          {% if dest_logged_in %}<i class="fas fa-check"></i>{% else %}2{% endif %}
+        </div>
+        <div class="step-label">Connect Destination</div>
+      </div>
+      
+      <div class="step {% if source_logged_in and dest_logged_in and source_folders %}active{% else %}pending{% endif %}">
+        <div class="step-number">3</div>
+        <div class="step-label">Select Folders</div>
+      </div>
+      
+      <div class="step pending">
+        <div class="step-number">4</div>
+        <div class="step-label">Transfer</div>
+      </div>
+    </div>
+
+    <!-- Step Content -->
+    <div class="step-content">
+      {% if not source_logged_in %}
+        <!-- Step 1: Connect Source Account -->
+        <div class="text-center">
+          <div class="mb-4">
+            <i class="fas fa-google-drive" style="font-size: 4rem; color: #4285F4; margin-bottom: 1rem;"></i>
+            <h4>Connect Your Source Google Drive</h4>
+            <p class="text-secondary">Sign in to the Google account containing the files you want to transfer.</p>
+          </div>
+          <a href="{% url 'login_source' %}" class="btn btn-primary btn-lg">
+            <i class="fab fa-google me-2"></i>Connect Source Account
+          </a>
+        </div>
+
+      {% elif not dest_logged_in %}
+        <!-- Step 2: Connect Destination Account -->
+        <div class="text-center">
+          <div class="mb-4">
+            <div class="d-flex justify-content-center mb-3">
+              <div class="badge badge-success">✓ Source Connected</div>
+            </div>
+            <i class="fas fa-google-drive" style="font-size: 4rem; color: #34A853; margin-bottom: 1rem;"></i>
+            <h4>Connect Your Destination Google Drive</h4>
+            <p class="text-secondary">Sign in to the Google account where you want to transfer the files.</p>
+            <div class="alert alert-info">
+              <i class="fas fa-user me-2"></i>
+              <strong>Source Account:</strong> {{ source_email }}
+            </div>
+          </div>
+          <a href="{% url 'login_destination' %}" class="btn btn-success btn-lg">
+            <i class="fab fa-google me-2"></i>Connect Destination Account
+          </a>
+        </div>
+
+      {% elif source_logged_in and dest_logged_in %}
+        <!-- Step 3: Select Folders and Transfer -->
+        <div class="row">
+          <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h4>Ready to Transfer</h4>
+              <div class="d-flex gap-2">
+                <div class="badge badge-success">✓ Source: {{ source_email|truncatechars:30 }}</div>
+                <div class="badge badge-success">✓ Destination: {{ dest_email|truncatechars:30 }}</div>
+              </div>
+            </div>
+
+            <form method="post" action="{% url 'transfer_file' %}" data-validate>
+              {% csrf_token %}
+              
+              <div class="row">
+                <!-- Source Folder Selection -->
+                <div class="col-12 md:col-6">
+                  <div class="form-group">
+                    <label for="source_folder_id" class="form-label">
+                      <i class="fas fa-folder-open me-2 text-primary"></i>Source Folder
+                    </label>
+                    <select name="source_folder_id" id="source_folder_id" class="form-control form-select" required>
+                      <option value="">Select source folder...</option>
+                      <option value="root">📁 Root Folder (My Drive)</option>
+                      {% for folder in source_folders %}
+                        <option value="{{ folder.id }}">
+                          {% if folder.mimeType == 'application/vnd.google-apps.folder' %}📁{% else %}📄{% endif %}
+                          {{ folder.name }}
+                        </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Destination Folder Selection -->
+                <div class="col-12 md:col-6">
+                  <div class="form-group">
+                    <label for="destination_folder_id" class="form-label">
+                      <i class="fas fa-folder me-2 text-success"></i>Destination Folder
+                    </label>
+                    <select name="destination_folder_id" id="destination_folder_id" class="form-control form-select" required>
+                      <option value="">Select destination folder...</option>
+                      <option value="root">📁 Root Folder (My Drive)</option>
+                      {% for folder in destination_folders %}
+                        <option value="{{ folder.id }}">📁 {{ folder.name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary btn-lg" id="transferBtn">
+                  <i class="fas fa-exchange-alt me-2"></i>Start Transfer
+                </button>
+              </div>
+            </form>
+
+            {% if transfer_id %}
+              <div class="alert alert-info mt-4">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <i class="fas fa-spinner fa-spin me-2"></i>
+                    <strong>Active Transfer:</strong> {{ transfer_id|truncatechars:16 }}...
+                    <br><small class="text-muted">Transfer is currently in progress</small>
+                  </div>
+                  <div class="d-flex gap-2">
+                    <a href="{% url 'transfer_status_page' transfer_id %}" class="btn btn-sm btn-primary">
+                      <i class="fas fa-eye me-1"></i>View Progress
+                    </a>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-5" style="background-color: var(--bg-secondary);">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2>Why Choose GDrive Transfer?</h2>
+      <p class="text-secondary">Powerful features designed for seamless file migration</p>
+    </div>
+    
+    <div class="row">
+      <div class="col-12 md:col-4 mb-4">
+        <div class="card text-center">
+          <div class="feature-icon mx-auto">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h5>Secure & Private</h5>
+          <p class="text-secondary">Your files are transferred directly between your accounts. We never store or access your data.</p>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-4 mb-4">
+        <div class="card text-center">
+          <div class="feature-icon mx-auto">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <h5>Lightning Fast</h5>
+          <p class="text-secondary">Optimized transfer process that handles large files and folders efficiently.</p>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-4 mb-4">
+        <div class="card text-center">
+          <div class="feature-icon mx-auto">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h5>Real-time Progress</h5>
+          <p class="text-secondary">Track your transfer progress in real-time with detailed status updates.</p>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-4 mb-4">
+        <div class="card text-center">
+          <div class="feature-icon mx-auto">
+            <i class="fas fa-folder-tree"></i>
+          </div>
+          <h5>Preserve Structure</h5>
+          <p class="text-secondary">Maintains your folder hierarchy and file organization during transfer.</p>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-4 mb-4">
+        <div class="card text-center">
+          <div class="feature-icon mx-auto">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <h5>Mobile Friendly</h5>
+          <p class="text-secondary">Works perfectly on all devices - desktop, tablet, and mobile.</p>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-4 mb-4">
+        <div class="card text-center">
+          <div class="feature-icon mx-auto">
+            <i class="fas fa-history"></i>
+          </div>
+          <h5>Transfer History</h5>
+          <p class="text-secondary">Keep track of all your transfers with detailed logs and history.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section id="how-it-works" class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2>How It Works</h2>
+      <p class="text-secondary">Simple 4-step process to transfer your files</p>
+    </div>
+    
+    <div class="row align-items-center">
+      <div class="col-12 md:col-6 mb-4">
+        <div class="d-flex align-items-start gap-3 mb-4">
+          <div style="background: var(--primary-color); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">1</div>
+          <div>
+            <h5>Connect Source Account</h5>
+            <p class="text-secondary">Sign in to your Google account that contains the files you want to transfer.</p>
+          </div>
+        </div>
+        
+        <div class="d-flex align-items-start gap-3 mb-4">
+          <div style="background: var(--success-color); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">2</div>
+          <div>
+            <h5>Connect Destination Account</h5>
+            <p class="text-secondary">Sign in to the Google account where you want to transfer the files.</p>
+          </div>
+        </div>
+        
+        <div class="d-flex align-items-start gap-3 mb-4">
+          <div style="background: var(--warning-color); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">3</div>
+          <div>
+            <h5>Select Folders</h5>
+            <p class="text-secondary">Choose which folders to transfer from source to destination.</p>
+          </div>
+        </div>
+        
+        <div class="d-flex align-items-start gap-3">
+          <div style="background: var(--info-color); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">4</div>
+          <div>
+            <h5>Monitor Progress</h5>
+            <p class="text-secondary">Watch the real-time progress as your files are transferred securely.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-6 text-center">
+        <div style="background: linear-gradient(135deg, var(--primary-color), var(--success-color)); border-radius: 20px; padding: 2rem; color: white;">
+          <i class="fas fa-exchange-alt" style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.9;"></i>
+          <h4>Safe & Secure Transfer</h4>
+          <p style="opacity: 0.9; margin: 0;">Your files are transferred directly between your Google accounts using secure OAuth authentication.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-5" style="background-color: var(--bg-secondary);">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2>Frequently Asked Questions</h2>
+    </div>
+    
+    <div class="row justify-content-center">
+      <div class="col-12 lg:col-8">
+        <div class="accordion">
+          <div class="card mb-3">
+            <div class="card-header" style="cursor: pointer;" onclick="toggleAccordion(this)">
+              <h6 class="mb-0 d-flex justify-content-between align-items-center">
+                <span>Is my data safe during transfer?</span>
+                <i class="fas fa-chevron-down"></i>
+              </h6>
+            </div>
+            <div class="card-body" style="display: none;">
+              <p>Yes, absolutely! Your files are transferred directly between your Google accounts using secure OAuth authentication. We never store, access, or view your files during the transfer process.</p>
+            </div>
+          </div>
+          
+          <div class="card mb-3">
+            <div class="card-header" style="cursor: pointer;" onclick="toggleAccordion(this)">
+              <h6 class="mb-0 d-flex justify-content-between align-items-center">
+                <span>How long does a transfer take?</span>
+                <i class="fas fa-chevron-down"></i>
+              </h6>
+            </div>
+            <div class="card-body" style="display: none;">
+              <p>Transfer speed depends on the number and size of files. Small folders typically complete in minutes, while large archives may take several hours. You can monitor progress in real-time.</p>
+            </div>
+          </div>
+          
+          <div class="card mb-3">
+            <div class="card-header" style="cursor: pointer;" onclick="toggleAccordion(this)">
+              <h6 class="mb-0 d-flex justify-content-between align-items-center">
+                <span>Can I transfer shared files?</span>
+                <i class="fas fa-chevron-down"></i>
+              </h6>
+            </div>
+            <div class="card-body" style="display: none;">
+              <p>You can only transfer files that you own or have edit access to. Shared files that you don't own cannot be transferred due to Google Drive permissions.</p>
+            </div>
+          </div>
+          
+          <div class="card mb-3">
+            <div class="card-header" style="cursor: pointer;" onclick="toggleAccordion(this)">
+              <h6 class="mb-0 d-flex justify-content-between align-items-center">
+                <span>Is this service free?</span>
+                <i class="fas fa-chevron-down"></i>
+              </h6>
+            </div>
+            <div class="card-body" style="display: none;">
+              <p>Yes, GDrive Transfer is completely free to use. There are no hidden fees or premium features - all functionality is available at no cost.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  @keyframes transferFlow {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+  
+  .feature-icon {
+    background: linear-gradient(135deg, var(--primary-color), var(--success-color));
+    color: white;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .accordion .card-header {
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color var(--transition-fast);
+  }
+  
+  .accordion .card-header:hover {
+    background-color: var(--bg-hover);
+  }
+  
+  .accordion .card-header.active {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  .accordion .card-header.active i {
+    transform: rotate(180deg);
+  }
+  
+  .accordion .card-header i {
+    transition: transform var(--transition-fast);
+  }
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  function toggleAccordion(header) {
+    const body = header.nextElementSibling;
+    const icon = header.querySelector('i');
+    const isActive = header.classList.contains('active');
+    
+    // Close all accordion items
+    document.querySelectorAll('.accordion .card-header').forEach(h => {
+      h.classList.remove('active');
+      h.nextElementSibling.style.display = 'none';
+    });
+    
+    // Open clicked item if it wasn't active
+    if (!isActive) {
+      header.classList.add('active');
+      body.style.display = 'block';
+    }
+  }
+  
+  // Form submission with loading state
+  document.addEventListener('DOMContentLoaded', function() {
+    const transferForm = document.querySelector('form[data-validate]');
+    if (transferForm) {
+      transferForm.addEventListener('submit', function(e) {
+        const submitBtn = document.getElementById('transferBtn');
+        if (submitBtn) {
+          submitBtn.classList.add('loading');
+          submitBtn.disabled = true;
+        }
+      });
+    }
+  });
+</script>
+{% endblock %}

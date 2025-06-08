@@ -1,0 +1,679 @@
+{% extends 'driveapp/base.html' %}
+
+{% block title %}Transfer Progress - {{ transfer.transfer_uuid }}{% endblock %}
+
+{% block page_header %}
+<div style="background: linear-gradient(135deg, var(--primary-color), var(--info-color)); color: white; padding: 0.75rem 0; margin-bottom: 0;">
+  <div class="container-fluid px-4">
+    <!-- Single compact row with all info -->
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <!-- Left: Back button + Title -->
+      <div class="d-flex align-items-center gap-3">
+        <a href="{% url 'dashboard' %}" class="btn btn-sm" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white;">
+          <i class="fas fa-arrow-left"></i>
+        </a>
+        <div>
+          <h5 class="mb-0">Transfer Progress</h5>
+        </div>
+      </div>
+      
+      <!-- Center: Transfer Route -->
+      <div class="d-flex align-items-center gap-2 text-center">
+        <div style="background: rgba(255,255,255,0.15); padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.8rem;">
+          <strong>{{ source_email|truncatechars:18 }}</strong>
+        </div>
+        <i class="fas fa-arrow-right" style="opacity: 0.8;"></i>
+        <div style="background: rgba(255,255,255,0.15); padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.8rem;">
+          <strong>{{ dest_email|truncatechars:18 }}</strong>
+        </div>
+      </div>
+      
+      <!-- Right: Status + ID -->
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge {% if transfer.status == 'completed' %}badge-success{% elif transfer.status == 'failed' %}badge-danger{% elif transfer.status == 'in_progress' %}badge-warning{% else %}badge-secondary{% endif %}" style="font-size: 0.8rem; padding: 0.3rem 0.6rem;">
+          {% if transfer.status == 'completed' %}
+            <i class="fas fa-check-circle me-1"></i>Completed
+          {% elif transfer.status == 'failed' %}
+            <i class="fas fa-exclamation-circle me-1"></i>Failed
+          {% elif transfer.status == 'in_progress' %}
+            <i class="fas fa-spinner fa-spin me-1"></i>In Progress
+          {% elif transfer.status == 'cancelled' %}
+            <i class="fas fa-ban me-1"></i>Cancelled
+          {% else %}
+            <i class="fas fa-clock me-1"></i>{{ transfer.status|title }}
+          {% endif %}
+        </span>
+        <div style="background: rgba(255,255,255,0.15); padding: 0.3rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-family: monospace;">
+          {{ transfer.transfer_uuid|truncatechars:10 }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-3">
+  
+  <!-- Main Progress Section - Compact -->
+  <div class="row mb-3">
+    <div class="col-12">
+      <div class="card" style="border: none; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <div class="card-body p-3">
+          <!-- Progress Info Row -->
+          <div class="row align-items-center mb-3">
+            <div class="col-12 col-md-8">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5 class="mb-0">Overall Progress</h5>
+                <span style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);" id="progressText">{{ progress_percentage }}%</span>
+              </div>
+              <div class="progress" style="height: 20px; border-radius: 10px; background: #e9ecef;">
+                <div id="progressBar" 
+                     class="progress-bar {% if transfer.status == 'in_progress' %}progress-bar-striped progress-bar-animated{% endif %}" 
+                     role="progressbar" 
+                     style="width: {{ progress_percentage }}%; border-radius: 10px; background: linear-gradient(90deg, var(--primary-color), var(--success-color)); font-weight: 600; line-height: 20px;" 
+                     aria-valuenow="{{ progress_percentage }}" 
+                     aria-valuemin="0" 
+                     aria-valuemax="100">
+                  <span style="color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); font-size: 0.85rem;">
+                    {% if progress_percentage > 15 %}{{ progress_percentage }}%{% endif %}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="row text-center">
+                <div class="col-3">
+                  <div style="color: var(--primary-color); font-weight: 700; font-size: 1.2rem;" id="totalFiles">{{ transfer.total_files }}</div>
+                  <small class="text-muted">Total</small>
+                </div>
+                <div class="col-3">
+                  <div style="color: var(--success-color); font-weight: 700; font-size: 1.2rem;" id="transferredFiles">{{ transfer.transferred_files }}</div>
+                  <small class="text-muted">Done</small>
+                </div>
+                <div class="col-3">
+                  <div style="color: var(--warning-color); font-weight: 700; font-size: 1.2rem;" id="remainingFiles">{{ transfer.total_files|add:"-"|add:transfer.transferred_files }}</div>
+                  <small class="text-muted">Left</small>
+                </div>
+                <div class="col-3">
+                  <div style="color: var(--info-color); font-weight: 700; font-size: 0.9rem;">{{ transfer.created_at|timesince }}</div>
+                  <small class="text-muted">Running</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Current File & Controls Row -->
+          <div class="row align-items-center">
+            <div class="col-12 col-md-8">
+              {% if transfer.status == 'in_progress' %}
+                <div class="d-flex align-items-center gap-2 p-2" style="background: #f8f9fa; border-radius: 8px; border-left: 4px solid var(--info-color);">
+                  <i class="fas fa-file-alt text-info"></i>
+                  <div style="flex: 1; min-width: 0;">
+                    <small class="text-muted">Currently Processing:</small>
+                    <div style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" id="currentFileDisplay">
+                      {{ transfer.current_file|default:"Preparing transfer..." }}
+                    </div>
+                  </div>
+                  <div class="spinner-border spinner-border-sm text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              {% else %}
+                <div class="d-flex align-items-center gap-2 p-2" style="background: #f8f9fa; border-radius: 8px;">
+                  <i class="fas fa-info-circle text-muted"></i>
+                  <span>Transfer {{ transfer.status }}</span>
+                  {% if transfer.status == 'completed' %}
+                    <span class="text-success">- All files transferred successfully!</span>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+            <div class="col-12 col-md-4 text-md-end mt-2 mt-md-0">
+              <div class="d-flex gap-2 justify-content-md-end">
+                <!-- Auto-refresh toggle -->
+                <div class="d-flex align-items-center gap-2">
+                  <small class="text-muted">Auto:</small>
+                  <label class="switch-sm">
+                    <input type="checkbox" id="autoRefreshToggle" {% if transfer.status == 'in_progress' %}checked{% endif %}>
+                    <span class="slider-sm round"></span>
+                  </label>
+                </div>
+                
+                <button class="btn btn-sm btn-primary" onclick="manualRefresh()">
+                  <i class="fas fa-sync-alt"></i>
+                </button>
+
+                {% if transfer.status == 'in_progress' %}
+                  <button id="cancelTransferBtn" class="btn btn-sm btn-danger" onclick="cancelTransfer()">
+                    <i class="fas fa-ban"></i>
+                  </button>
+                {% endif %}
+
+                <button class="btn btn-sm btn-info" onclick="shareTransfer()">
+                  <i class="fas fa-share-alt"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Transfer Details & Activity in Single Row -->
+  <div class="row">
+    <!-- Transfer Details -->
+    <div class="col-12 col-lg-4 mb-3">
+      <div class="card h-100" style="border: none; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <div class="card-header py-2" style="background: #f8f9fa; border-bottom: 1px solid #dee2e6;">
+          <h6 class="mb-0">
+            <i class="fas fa-info-circle me-2"></i>Transfer Details
+          </h6>
+        </div>
+        <div class="card-body p-3">
+          <div class="mb-2">
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted">Transfer ID:</small>
+              <button class="btn btn-sm p-0" onclick="copyTransferId()" style="background: none; border: none;">
+                <i class="fas fa-copy text-muted"></i>
+              </button>
+            </div>
+            <code style="background: #f1f3f4; padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.75rem; word-break: break-all;">{{ transfer.transfer_uuid }}</code>
+          </div>
+          
+          <div class="mb-2">
+            <small class="text-muted">Source:</small>
+            <div style="background: #e3f2fd; padding: 0.3rem; border-radius: 4px; border-left: 3px solid var(--primary-color);">
+              <div style="font-weight: 600; font-size: 0.85rem;">{{ source_email|default:"Unknown" }}</div>
+              <small class="text-muted">{{ transfer.source_folder_id|default:"root" }}</small>
+            </div>
+          </div>
+          
+          <div class="mb-2">
+            <small class="text-muted">Destination:</small>
+            <div style="background: #e8f5e8; padding: 0.3rem; border-radius: 4px; border-left: 3px solid var(--success-color);">
+              <div style="font-weight: 600; font-size: 0.85rem;">{{ dest_email|default:"Unknown" }}</div>
+              <small class="text-muted">{{ transfer.destination_folder_id|default:"root" }}</small>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-6">
+              <small class="text-muted">Started:</small>
+              <div style="font-weight: 600; font-size: 0.8rem;">{{ transfer.created_at|date:"M d, H:i" }}</div>
+            </div>
+            <div class="col-6">
+              <small class="text-muted">Updated:</small>
+              <div style="font-weight: 600; font-size: 0.8rem;">{{ transfer.updated_at|date:"M d, H:i" }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity Log -->
+    <div class="col-12 col-lg-8 mb-3">
+      <div class="card h-100" style="border: none; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <div class="card-header py-2 d-flex justify-content-between align-items-center" style="background: #f8f9fa; border-bottom: 1px solid #dee2e6;">
+          <h6 class="mb-0">
+            <i class="fas fa-history me-2"></i>Transfer Activity
+          </h6>
+          <div class="d-flex gap-2 align-items-center">
+            <span class="badge badge-outline-primary" id="logCount">Loading...</span>
+            <button class="btn btn-sm p-1" onclick="manualRefresh()" style="background: none; border: 1px solid #dee2e6;">
+              <i class="fas fa-sync-alt" style="font-size: 0.75rem;"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <div style="height: 300px; overflow-y: auto;" id="transferLogsContainer">
+            <div class="text-center p-4 text-muted">
+              <div class="spinner-border spinner-border-sm text-primary mb-2" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <p class="mb-0" style="font-size: 0.9rem;">Loading transfer activity...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  /* Compact Switch */
+  .switch-sm {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+  }
+
+  .switch-sm input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider-sm {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.3s;
+    border-radius: 20px;
+  }
+
+  .slider-sm:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+
+  input:checked + .slider-sm {
+    background-color: var(--primary-color);
+  }
+
+  input:checked + .slider-sm:before {
+    transform: translateX(20px);
+  }
+
+  /* Custom scrollbar */
+  #transferLogsContainer::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  #transferLogsContainer::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  #transferLogsContainer::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+  }
+
+  #transferLogsContainer::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+
+  /* Badge styles */
+  .badge-outline-primary {
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    background: transparent;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+  }
+
+  /* Card improvements */
+  .card {
+    border-radius: 8px;
+  }
+
+  .card-header {
+    border-radius: 8px 8px 0 0;
+  }
+  
+  /* Progress bar improvements */
+  .progress-bar-animated {
+    animation: progress-bar-stripes 1s linear infinite;
+  }
+
+  @keyframes progress-bar-stripes {
+    0% { background-position: 1rem 0; }
+    100% { background-position: 0 0; }
+  }
+
+  /* Responsive improvements */
+  @media (max-width: 768px) {
+    .col-md-4 .row .col-3 {
+      margin-bottom: 0.5rem;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  const transferUuid = '{{ transfer.transfer_uuid }}';
+  let autoRefreshInterval = null;
+  let isAutoRefresh = false;
+
+  // Copy transfer ID to clipboard
+  function copyTransferId() {
+    navigator.clipboard.writeText(transferUuid).then(() => {
+      showToast('Transfer ID copied to clipboard!', 'success');
+    });
+  }
+
+  // Show toast notification
+  function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `alert alert-${type} position-fixed`;
+    toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 250px; font-size: 0.9rem;';
+    toast.innerHTML = `
+      <div class="d-flex align-items-center justify-content-between">
+        <span>${message}</span>
+        <button type="button" class="btn-close btn-sm" onclick="this.parentElement.parentElement.remove()"></button>
+      </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 4000);
+  }
+
+  // Refresh status
+  function refreshStatus() {
+    fetch(`/api/transfer-status/${transferUuid}/`)
+      .then(response => response.json())
+      .then(data => {
+        updateProgressDisplay(data);
+        if (!isAutoRefresh) {
+          showToast('Status refreshed', 'success');
+        }
+      })
+      .catch(error => {
+        console.error('Error refreshing status:', error);
+        if (!isAutoRefresh) {
+          showToast('Failed to refresh status', 'danger');
+        }
+      });
+  }
+
+  // Update progress display
+  function updateProgressDisplay(data) {
+    // Update progress bar
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    
+    if (progressBar) {
+      progressBar.style.width = `${data.percentage}%`;
+      if (data.percentage > 15) {
+        progressBar.innerHTML = `<span style="color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); font-size: 0.85rem;">${data.percentage}%</span>`;
+      } else {
+        progressBar.innerHTML = '';
+      }
+    }
+    if (progressText) progressText.textContent = `${data.percentage}%`;
+
+    // Update file counts
+    const totalFiles = document.getElementById('totalFiles');
+    const transferredFiles = document.getElementById('transferredFiles');
+    const remainingFiles = document.getElementById('remainingFiles');
+    
+    if (totalFiles) totalFiles.textContent = data.total_files;
+    if (transferredFiles) transferredFiles.textContent = data.transferred_files;
+    if (remainingFiles) remainingFiles.textContent = data.total_files - data.transferred_files;
+
+    // Update current file display
+    const currentFileDisplay = document.getElementById('currentFileDisplay');
+    if (currentFileDisplay && data.current_file) {
+      currentFileDisplay.textContent = data.current_file;
+    }
+
+    // Update transfer logs
+    if (data.recent_logs) {
+      updateTransferLogs(data.recent_logs);
+    }
+
+    // Check if status changed and stop auto-refresh if completed/failed
+    if (data.status === 'completed' || data.status === 'failed' || data.status === 'cancelled') {
+      // Stop auto-refresh immediately
+      if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+        autoRefreshInterval = null;
+        isAutoRefresh = false;
+        const toggle = document.getElementById('autoRefreshToggle');
+        if (toggle) toggle.checked = false;
+      }
+      
+      // Show completion notification only once
+      if (!window.transferCompleted) {
+        window.transferCompleted = true;
+        if (data.status === 'completed') {
+          showToast('Transfer completed successfully!', 'success');
+        } else if (data.status === 'failed') {
+          showToast('Transfer failed', 'danger');
+        } else if (data.status === 'cancelled') {
+          showToast('Transfer cancelled', 'warning');
+        }
+      }
+      
+      // Update page elements to reflect completion
+      updatePageForCompletion(data.status);
+    }
+  }
+
+  // Update transfer logs display (compact)
+  function updateTransferLogs(logs) {
+    const container = document.getElementById('transferLogsContainer');
+    const logCount = document.getElementById('logCount');
+    
+    if (!container) return;
+    
+    logCount.textContent = `${logs.length} items`;
+    
+    if (logs.length === 0) {
+      container.innerHTML = `
+        <div class="text-center p-3 text-muted">
+          <i class="fas fa-info-circle mb-1" style="font-size: 1.5rem; opacity: 0.5;"></i>
+          <p class="mb-0" style="font-size: 0.9rem;">No activity yet</p>
+        </div>
+      `;
+      return;
+    }
+    
+    let html = '';
+    logs.forEach((log, index) => {
+      const statusIcon = getLogStatusIcon(log.status);
+      const statusColor = getLogStatusColor(log.status);
+      const fileTypeIcon = getFileTypeIcon(log.file_type);
+      
+      html += `
+        <div class="d-flex align-items-center gap-2 p-2 ${index < logs.length - 1 ? 'border-bottom' : ''}" style="border-color: #f0f0f0;">
+          <div class="d-flex align-items-center justify-content-center" style="width: 24px; height: 24px; background: ${statusColor}; border-radius: 50%; flex-shrink: 0;">
+            <i class="${statusIcon}" style="color: white; font-size: 0.7rem;"></i>
+          </div>
+          <div style="flex: 1; min-width: 0;">
+            <div class="d-flex align-items-center gap-1 mb-0">
+              <i class="${fileTypeIcon}" style="font-size: 0.8rem;"></i>
+              <span style="font-weight: 600; font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;" title="${log.file_name}">${truncateFileName(log.file_name, 30)}</span>
+              <span class="badge ${getStatusBadgeClass(log.status)}" style="font-size: 0.6rem; padding: 0.1rem 0.3rem;">${log.status}</span>
+            </div>
+            <small style="color: var(--text-muted); font-size: 0.65rem;">
+              <i class="fas fa-clock me-1"></i>${formatTimestamp(log.timestamp)}
+            </small>
+          </div>
+        </div>
+      `;
+    });
+    
+    container.innerHTML = html;
+    container.scrollTop = 0;
+  }
+
+  // Helper functions (simplified)
+  function getLogStatusIcon(status) {
+    switch(status) {
+      case 'success': return 'fas fa-check';
+      case 'failed': return 'fas fa-times';
+      case 'info': return 'fas fa-info';
+      case 'cancelled': return 'fas fa-ban';
+      default: return 'fas fa-circle';
+    }
+  }
+
+  function getLogStatusColor(status) {
+    switch(status) {
+      case 'success': return '#28a745';
+      case 'failed': return '#dc3545';
+      case 'info': return '#17a2b8';
+      case 'cancelled': return '#ffc107';
+      default: return '#6c757d';
+    }
+  }
+
+  function getFileTypeIcon(fileType) {
+    switch(fileType) {
+      case 'folder': return 'fas fa-folder text-warning';
+      case 'file': return 'fas fa-file text-primary';
+      case 'system': return 'fas fa-cog text-info';
+      default: return 'fas fa-circle text-secondary';
+    }
+  }
+
+  function getStatusBadgeClass(status) {
+    switch(status) {
+      case 'success': return 'bg-success';
+      case 'failed': return 'bg-danger';
+      case 'info': return 'bg-info';
+      case 'cancelled': return 'bg-warning';
+      default: return 'bg-secondary';
+    }
+  }
+
+  function truncateFileName(fileName, maxLength) {
+    if (fileName.length <= maxLength) return fileName;
+    return fileName.substring(0, maxLength - 3) + '...';
+  }
+
+  function formatTimestamp(timestamp) {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffSeconds = Math.floor(diffMs / 1000);
+    const diffMinutes = Math.floor(diffSeconds / 60);
+    
+    if (diffSeconds < 60) {
+      return `${diffSeconds}s ago`;
+    } else if (diffMinutes < 60) {
+      return `${diffMinutes}m ago`;
+    } else {
+      return date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    }
+  }
+
+  // Auto-refresh functionality
+  function toggleAutoRefresh() {
+    const toggle = document.getElementById('autoRefreshToggle');
+    
+    if (toggle.checked) {
+      isAutoRefresh = true;
+      autoRefreshInterval = setInterval(() => {
+        isAutoRefresh = true;
+        refreshStatus();
+      }, 3000);
+    } else {
+      isAutoRefresh = false;
+      if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+        autoRefreshInterval = null;
+      }
+    }
+  }
+
+  // Manual refresh function
+  function manualRefresh() {
+    isAutoRefresh = false;
+    refreshStatus();
+  }
+
+  // Update page elements when transfer completes
+  function updatePageForCompletion(status) {
+    const progressBar = document.getElementById('progressBar');
+    if (progressBar) {
+      progressBar.classList.remove('progress-bar-striped', 'progress-bar-animated');
+      if (status === 'completed') {
+        progressBar.style.background = 'linear-gradient(90deg, #28a745, #20c997)';
+      } else if (status === 'failed') {
+        progressBar.style.background = '#dc3545';
+      } else if (status === 'cancelled') {
+        progressBar.style.background = '#ffc107';
+      }
+    }
+  }
+
+  // Cancel transfer
+  function cancelTransfer() {
+    if (!confirm('Cancel this transfer?')) return;
+
+    fetch(`/api/cancel-transfer/${transferUuid}/`, {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': '{{ csrf_token }}',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showToast('Transfer cancelled', 'success');
+        setTimeout(() => location.reload(), 1000);
+      } else {
+        showToast('Failed to cancel: ' + data.error, 'danger');
+      }
+    })
+    .catch(error => {
+      showToast('Error cancelling transfer', 'danger');
+    });
+  }
+
+  // Share transfer
+  function shareTransfer() {
+    const url = window.location.href;
+    
+    if (navigator.share) {
+      navigator.share({
+        title: 'Transfer Status',
+        text: `Transfer ${transferUuid.substring(0, 8)}...`,
+        url: url
+      }).catch(console.error);
+    } else {
+      navigator.clipboard.writeText(url).then(() => {
+        showToast('URL copied to clipboard!', 'success');
+      });
+    }
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    const autoRefreshToggle = document.getElementById('autoRefreshToggle');
+    const transferStatus = '{{ transfer.status }}';
+    
+    if (autoRefreshToggle) {
+      autoRefreshToggle.addEventListener('change', toggleAutoRefresh);
+      
+      // Only start auto-refresh if transfer is actually in progress
+      if (transferStatus === 'in_progress' && autoRefreshToggle.checked) {
+        toggleAutoRefresh();
+      } else if (transferStatus !== 'in_progress') {
+        autoRefreshToggle.checked = false;
+        updatePageForCompletion(transferStatus);
+      }
+    }
+
+    // Initial status check
+    refreshStatus();
+  });
+
+  // Cleanup on page unload
+  window.addEventListener('beforeunload', function() {
+    if (autoRefreshInterval) {
+      clearInterval(autoRefreshInterval);
+    }
+  });
+</script>
+{% endblock %}

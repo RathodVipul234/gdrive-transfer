@@ -1,0 +1,23 @@
+{% extends 'driveapp/base.html' %}
+{% block content %}
+<h3>Select Folders for Transfer</h3>
+
+<form method="post" action="{% url 'start_transfer' %}">
+  {% csrf_token %}
+  <label for="source">Source Folder:</label>
+  <select name="source_folder" class="form-select mb-3">
+    {% for folder in source_folders %}
+      <option value="{{ folder.id }}">{{ folder.name }}</option>
+    {% endfor %}
+  </select>
+
+  <label for="dest">Destination Folder:</label>
+  <select name="dest_folder" class="form-select mb-3">
+    {% for folder in dest_folders %}
+      <option value="{{ folder.id }}">{{ folder.name }}</option>
+    {% endfor %}
+  </select>
+
+  <button type="submit" class="btn btn-primary">Start Transfer</button>
+</form>
+{% endblock %}

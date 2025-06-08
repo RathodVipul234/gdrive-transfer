@@ -1,0 +1,21 @@
+databases:
+  - name: gdrive-transfer-db
+    databaseName: gdrive_transfer
+    user: gdrive_user
+    plan: free
+
+services:
+  - type: web
+    name: gdrive-transfer
+    runtime: python3
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn gdrive_transfer.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: gdrive-transfer-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
