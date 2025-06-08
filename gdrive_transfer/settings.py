@@ -138,6 +138,8 @@ GOOGLE_OAUTH_PATH = config('GOOGLE_OAUTH_PATH', default='new_cred.json')
 
 # Dynamic redirect URIs for production
 BASE_URL = config('BASE_URL', default='http://localhost:8005')
+# Ensure no trailing slash on BASE_URL to prevent double slashes
+BASE_URL = BASE_URL.rstrip('/')
 REDIRECT_URI_SOURCE = f"{BASE_URL}/oauth2callback/source/"
 REDIRECT_URI_DESTINATION = f"{BASE_URL}/oauth2callback/destination/"
 
