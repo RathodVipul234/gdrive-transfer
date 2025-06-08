@@ -147,9 +147,10 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
 
 
+# Logging configuration - production-friendly
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,  # important: don't disable default Django logs
+    'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
             'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
@@ -162,24 +163,29 @@ LOGGING = {
     },
     'handlers': {
         'console': {
-            'class': 'logging.StreamHandler',  # log to console
-            'formatter': 'simple',
-        },
-        'file': {
-            'class': 'logging.FileHandler',  # log to a file
-            'filename': os.path.join(BASE_DIR, 'logs', 'app.log'),
-            'formatter': 'verbose',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose' if not DEBUG else 'simple',
         },
     },
     'loggers': {
-        'django': {  # default Django logger
-            'handlers': ['console', 'file'],
+        'django': {
+            'handlers': ['console'],
             'level': 'INFO',
         },
-        'myapp': {  # custom app logger
-            'handlers': ['console', 'file'],
+        'driveapp': {
+            'handlers': ['console'],
             'level': 'INFO',
             'propagate': False,
         },
     },
 }
+
+# Add file logging only in development
+if DEBUG and os.path.exists(os.path.join(BASE_DIR, 'logs')):
+    LOGGING['handlers']['file'] = {
+        'class': 'logging.FileHandler',
+        'filename': os.path.join(BASE_DIR, 'logs', 'app.log'),
+        'formatter': 'verbose',
+    }
+    LOGGING['loggers']['django']['handlers'].append('file')
+    LOGGING['loggers']['driveapp']['handlers'].append('file')

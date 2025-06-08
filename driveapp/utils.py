@@ -20,13 +20,6 @@ def get_logger(name="app"):
 
     # Set up logging only once
     if not logger.hasHandlers():
-        # Log file path
-        log_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'logs')
-        if not os.path.exists(log_dir):
-            os.makedirs(log_dir)
-
-        log_file = os.path.join(log_dir, 'app.log')
-
         # Formatter for log messages
         formatter = logging.Formatter(
             '{levelname} {asctime} {module} {process:d} {thread:d} {message}', style='{'
@@ -36,15 +29,23 @@ def get_logger(name="app"):
         console_handler = logging.StreamHandler()
         console_handler.setFormatter(formatter)
         console_handler.setLevel(logging.INFO)
-
-        # File handler (logs to a file)
-        file_handler = logging.FileHandler(log_file)
-        file_handler.setFormatter(formatter)
-        file_handler.setLevel(logging.INFO)
-
-        # Add handlers to logger
         logger.addHandler(console_handler)
-        logger.addHandler(file_handler)
+
+        # Only add file handler in development
+        try:
+            log_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'logs')
+            if os.path.exists(log_dir) or (not os.environ.get('RENDER')):  # Not on Render
+                if not os.path.exists(log_dir):
+                    os.makedirs(log_dir)
+                
+                log_file = os.path.join(log_dir, 'app.log')
+                file_handler = logging.FileHandler(log_file)
+                file_handler.setFormatter(formatter)
+                file_handler.setLevel(logging.INFO)
+                logger.addHandler(file_handler)
+        except (OSError, PermissionError):
+            # If we can't create file handler, just use console
+            pass
 
         # Set logger level
         logger.setLevel(logging.INFO)
