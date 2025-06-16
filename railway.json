@@ -5,6 +5,8 @@
   },
   "deploy": {
     "startCommand": "gunicorn gdrive_transfer.wsgi:application --bind 0.0.0.0:$PORT",
-    "healthcheckPath": "/health/"
+    "healthcheckPath": "/health/",
+    "healthcheckTimeout": 300,
+    "restartPolicyType": "ON_FAILURE"
   }
 }
