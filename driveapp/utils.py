@@ -127,21 +127,51 @@ def get_folder_name(service, folder_id):
         return None
 
 def copy_file_between_drives(service_source, service_destination, file_id, name, parent_id, parent_name):
-    """Copy file between source and destination drive"""
+    """Copy file between source and destination drive with memory optimization"""
 
     logger.info(f"Copying file '{name}' to folder '{parent_name}' (Folder ID: {parent_id})")
 
     try:
-        # First, download the file from source
+        # Get file metadata to check size
+        file_metadata_info = service_source.files().get(fileId=file_id, fields="size,mimeType").execute()
+        file_size = int(file_metadata_info.get('size', 0))
+        mime_type = file_metadata_info.get('mimeType', 'application/octet-stream')
+        
+        logger.info(f"File size: {file_size} bytes, MIME type: {mime_type}")
+        
+        # Download file content
         file_data = service_source.files().get_media(fileId=file_id).execute()
         
-        # Then, upload to destination
+        # Create BytesIO object for upload
+        file_stream = io.BytesIO(file_data)
+        
+        # Upload to destination
         file_metadata = {
             'name': name,
             'parents': [parent_id],
         }
-        media = MediaIoBaseUpload(io.BytesIO(file_data), mimetype='application/octet-stream')
-        service_destination.files().create(body=file_metadata, media_body=media, fields='id').execute()
+        
+        media = MediaIoBaseUpload(
+            file_stream, 
+            mimetype=mime_type,
+            resumable=file_size > 5 * 1024 * 1024  # Use resumable upload for files > 5MB
+        )
+        
+        result = service_destination.files().create(
+            body=file_metadata, 
+            media_body=media, 
+            fields='id'
+        ).execute()
+        
+        # Explicitly clear memory references
+        del file_data
+        file_stream.close()
+        del file_stream
+        
+        logger.info(f"Successfully copied file '{name}' (ID: {result.get('id')})")
+        
     except Exception as e:
         logger.error(f"Error copying file {file_id}: {str(e)}")
+        return False
+    
     return True
