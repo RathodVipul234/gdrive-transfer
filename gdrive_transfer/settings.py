@@ -79,28 +79,13 @@ WSGI_APPLICATION = 'gdrive_transfer.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 # Database
-# Check if we're in Railway build phase (when DATABASE_URL is not available)
-IS_RAILWAY_BUILD = (
-    os.environ.get('RAILWAY_ENVIRONMENT') and 
-    not os.environ.get('DATABASE_URL')
-)
-
-if IS_RAILWAY_BUILD:
-    # During Railway build, use a dummy database to avoid connection errors
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': ':memory:',
-        }
-    }
-else:
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=f'sqlite:///{BASE_DIR}/db.sqlite3',
-            conn_max_age=600,
-            conn_health_checks=True,
-        )
-    }
+DATABASES = {
+    'default': dj_database_url.config(
+        default=f'sqlite:///{BASE_DIR}/db.sqlite3',
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
+}
 
 
 # Password validation
