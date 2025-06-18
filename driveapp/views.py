@@ -1,6 +1,8 @@
 import os
 import logging
 import uuid
+import json
+import tempfile
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.conf import settings
@@ -48,6 +50,24 @@ SCOPES = [
 
 # Path to the credentials file
 GOOGLE_OAUTH_PATH = "credentials.json"
+
+def get_oauth_flow(redirect_uri):
+    """Get OAuth flow using either environment variable JSON or file"""
+    if hasattr(settings, 'GOOGLE_OAUTH_JSON') and settings.GOOGLE_OAUTH_JSON:
+        # Use JSON from environment variable
+        credentials_info = json.loads(settings.GOOGLE_OAUTH_JSON)
+        return Flow.from_client_config(
+            credentials_info,
+            scopes=SCOPES,
+            redirect_uri=redirect_uri
+        )
+    else:
+        # Use file path (for local development)
+        return Flow.from_client_secrets_file(
+            settings.GOOGLE_OAUTH_PATH,
+            scopes=SCOPES,
+            redirect_uri=redirect_uri
+        )
 
 # Authentication Views
 def user_login(request):
@@ -107,11 +127,7 @@ def user_logout(request):
 # Login to source Google account
 @login_required
 def login_source(request):
-    flow = Flow.from_client_secrets_file(
-        settings.GOOGLE_OAUTH_PATH,
-        scopes=SCOPES,
-        redirect_uri=settings.REDIRECT_URI_SOURCE
-    )
+    flow = get_oauth_flow(settings.REDIRECT_URI_SOURCE)
     authorization_url, state = flow.authorization_url(access_type='offline', prompt='consent')
     request.session['state_source'] = state
     logger.info("Redirecting to source account authorization URL.")
@@ -120,11 +136,7 @@ def login_source(request):
 # Login to destination Google account
 @login_required
 def login_destination(request):
-    flow = Flow.from_client_secrets_file(
-        settings.GOOGLE_OAUTH_PATH,
-        scopes=SCOPES,
-        redirect_uri=settings.REDIRECT_URI_DESTINATION
-    )
+    flow = get_oauth_flow(settings.REDIRECT_URI_DESTINATION)
     authorization_url, state = flow.authorization_url(access_type='offline', prompt='consent')
     request.session['state_destination'] = state
     logger.info("Redirecting to destination account authorization URL.")
@@ -145,11 +157,7 @@ def oauth2callback_source(request):
             messages.error(request, "Session expired. Please try again.")
             return redirect('home')
         
-        flow = Flow.from_client_secrets_file(
-            settings.GOOGLE_OAUTH_PATH,
-            scopes=SCOPES,
-            redirect_uri=settings.REDIRECT_URI_SOURCE
-        )
+        flow = get_oauth_flow(settings.REDIRECT_URI_SOURCE)
         flow.state = state
 
         flow.fetch_token(authorization_response=request.build_absolute_uri())
@@ -192,11 +200,7 @@ def oauth2callback_destination(request):
             messages.error(request, "Session expired. Please try again.")
             return redirect('home')
         
-        flow = Flow.from_client_secrets_file(
-            settings.GOOGLE_OAUTH_PATH,
-            scopes=SCOPES,
-            redirect_uri=settings.REDIRECT_URI_DESTINATION
-        )
+        flow = get_oauth_flow(settings.REDIRECT_URI_DESTINATION)
         flow.state = state
 
         flow.fetch_token(authorization_response=request.build_absolute_uri())

@@ -136,6 +136,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Google OAuth credentials - for Railway deployment, use environment variable with full JSON
+GOOGLE_OAUTH_JSON = config('GOOGLE_OAUTH_JSON', default='')
 GOOGLE_OAUTH_PATH = config('GOOGLE_OAUTH_PATH', default='new_cred.json')
 
 # Dynamic redirect URIs for production
