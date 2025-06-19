@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from . import privacy_views
 
 # urlpatterns = [
 #         path('', views.home, name='home'),
@@ -36,4 +37,13 @@ urlpatterns = [
     # API endpoints
     path('api/transfer-status/<str:transfer_uuid>/', views.get_transfer_status, name='get_transfer_status'),
     path('api/cancel-transfer/<str:transfer_uuid>/', views.cancel_transfer, name='cancel_transfer'),
+    
+    # Privacy and Security URLs
+    path('privacy/', privacy_views.privacy_dashboard, name='privacy_dashboard'),
+    path('privacy/update/', privacy_views.update_privacy_preferences, name='update_privacy_preferences'),
+    path('privacy/security-logs/', privacy_views.security_log_view, name='security_logs'),
+    path('privacy/export-request/', privacy_views.request_data_export, name='request_data_export'),
+    path('privacy/revoke-access/', privacy_views.revoke_oauth_access, name='revoke_oauth_access'),
+    path('privacy/download-data/', privacy_views.download_user_data, name='download_user_data'),
+    path('api/security-dashboard/', privacy_views.security_dashboard_api, name='security_dashboard_api'),
 ]

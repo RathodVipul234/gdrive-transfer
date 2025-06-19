@@ -1,0 +1,494 @@
+{% extends 'driveapp/base.html' %}
+
+{% block title %}Privacy & Security Dashboard - GDrive Transfer{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h1 class="page-title">
+          <i class="fas fa-shield-alt me-2"></i>Privacy & Security
+        </h1>
+        <p class="page-subtitle">Manage your data privacy and security preferences</p>
+      </div>
+      <div class="d-flex gap-2">
+        <a href="{% url 'security_logs' %}" class="btn btn-secondary">
+          <i class="fas fa-list me-2"></i>View Security Logs
+        </a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'download_user_data' %}" class="btn btn-primary">
+          <i class="fas fa-download me-2"></i>Export My Data
+        </a>
+        {% else %}
+        <a href="{% url 'register' %}" class="btn btn-primary">
+          <i class="fas fa-user-plus me-2"></i>Sign Up for Privacy Controls
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- Security Overview -->
+<div class="row mb-4">
+  <div class="col-12">
+    <div class="card security-overview">
+      <div class="card-header">
+        <h5 class="card-title mb-0">
+          <i class="fas fa-chart-pie me-2"></i>{% if user.is_authenticated %}Your Security Overview{% else %}GDrive Transfer Security{% endif %}
+        </h5>
+        {% if not user.is_authenticated %}
+        <p class="text-muted small mb-0">Sign up to track your personal transfer statistics</p>
+        {% endif %}
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12 md:col-3">
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-exchange-alt"></i>
+              </div>
+              <div class="stat-info">
+                <h6>{{ transfer_stats.total_transfers }}</h6>
+                <p>Total Transfers</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 md:col-3">
+            <div class="stat-card">
+              <div class="stat-icon success">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <div class="stat-info">
+                <h6>{{ transfer_stats.successful_transfers }}</h6>
+                <p>Successful Transfers</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 md:col-3">
+            <div class="stat-card">
+              <div class="stat-icon info">
+                <i class="fas fa-file"></i>
+              </div>
+              <div class="stat-info">
+                <h6>{{ transfer_stats.data_transferred_files|default:"0" }}</h6>
+                <p>Files Transferred</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 md:col-3">
+            <div class="stat-card">
+              <div class="stat-icon warning">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div class="stat-info">
+                <h6>
+                  {% if transfer_stats.last_transfer %}
+                    {{ transfer_stats.last_transfer.created_at|date:"M d" }}
+                  {% else %}
+                    Never
+                  {% endif %}
+                </h6>
+                <p>Last Transfer</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Data Access Transparency -->
+<div class="row mb-4">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">
+          <i class="fas fa-eye me-2"></i>What Data We Access
+        </h5>
+        <p class="text-muted small mb-0">Complete transparency about your data usage</p>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12 lg:col-6">
+            <h6 class="mb-3">
+              <i class="fab fa-google me-2"></i>Google Drive Permissions
+            </h6>
+            {% for scope in data_summary.google_drive_scopes %}
+            <div class="permission-item mb-3">
+              <div class="d-flex justify-content-between align-items-start">
+                <div class="flex-grow-1">
+                  <h6 class="mb-1">{{ scope.description }}</h6>
+                  <p class="text-muted small mb-2">{{ scope.purpose }}</p>
+                  <div class="data-access-tags">
+                    {% for data_type in scope.data_accessed %}
+                    <span class="badge badge-light">{{ data_type }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+                <span class="badge badge-success">Active</span>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          
+          <div class="col-12 lg:col-6">
+            <h6 class="mb-3">
+              <i class="fas fa-database me-2"></i>Local Data Storage
+            </h6>
+            {% for key, storage in data_summary.local_data_storage.items %}
+            <div class="storage-item mb-3">
+              <h6 class="mb-1">{{ storage.description }}</h6>
+              <p class="text-muted small mb-2">
+                <strong>Retention:</strong> {{ storage.retention }}
+              </p>
+              {% if storage.encryption %}
+              <p class="text-muted small mb-2">
+                <strong>Encryption:</strong> {{ storage.encryption }}
+              </p>
+              {% endif %}
+              {% if storage.data_included %}
+              <div class="data-storage-tags">
+                {% for data_type in storage.data_included %}
+                <span class="badge badge-secondary">{{ data_type }}</span>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        
+        <div class="data-policy-summary mt-4 p-3" style="background-color: var(--bg-secondary); border-radius: 8px;">
+          <h6 class="mb-2">
+            <i class="fas fa-shield-alt me-2"></i>Our Data Promise
+          </h6>
+          <p class="mb-2"><strong>Data Sharing:</strong> {{ data_summary.data_sharing }}</p>
+          <p class="mb-2"><strong>Data Retention:</strong> {{ data_summary.data_retention }}</p>
+          <div class="user-rights">
+            <strong>Your Rights:</strong>
+            {% for right in data_summary.user_rights %}
+            <span class="badge badge-primary me-1">{{ right }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Privacy Preferences -->
+<div class="row mb-4">
+  <div class="col-12 lg:col-8">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">
+          <i class="fas fa-cog me-2"></i>Privacy Preferences
+        </h5>
+      </div>
+      <div class="card-body">
+        {% if user.is_authenticated %}
+        <form method="post" action="{% url 'update_privacy_preferences' %}">
+          {% csrf_token %}
+          
+          <div class="form-group mb-3">
+            <div class="form-check">
+              <input type="checkbox" name="analytics_consent" id="analytics_consent" 
+                     class="form-check-input" {% if privacy_prefs.analytics_consent %}checked{% endif %}>
+              <label class="form-check-label" for="analytics_consent">
+                <strong>Analytics & Usage Tracking</strong>
+                <div class="text-muted small">Help us improve the service by sharing anonymous usage data</div>
+              </label>
+            </div>
+          </div>
+          
+          <div class="form-group mb-3">
+            <div class="form-check">
+              <input type="checkbox" name="email_notifications" id="email_notifications" 
+                     class="form-check-input" {% if privacy_prefs.email_notifications %}checked{% endif %}>
+              <label class="form-check-label" for="email_notifications">
+                <strong>Email Notifications</strong>
+                <div class="text-muted small">Get notified when transfers complete or fail</div>
+              </label>
+            </div>
+          </div>
+          
+          <div class="form-group mb-3">
+            <label for="data_retention_days" class="form-label">
+              <strong>Data Retention Period</strong>
+            </label>
+            <select name="data_retention_days" id="data_retention_days" class="form-select">
+              <option value="30" {% if privacy_prefs.data_retention_days == 30 %}selected{% endif %}>30 days</option>
+              <option value="90" {% if privacy_prefs.data_retention_days == 90 %}selected{% endif %}>90 days</option>
+              <option value="180" {% if privacy_prefs.data_retention_days == 180 %}selected{% endif %}>180 days</option>
+              <option value="365" {% if privacy_prefs.data_retention_days == 365 %}selected{% endif %}>1 year</option>
+              <option value="0" {% if privacy_prefs.data_retention_days == 0 %}selected{% endif %}>Keep forever</option>
+            </select>
+            <div class="text-muted small mt-1">Your transfer history will be automatically deleted after this period</div>
+          </div>
+          
+          <div class="form-group mb-4">
+            <div class="form-check">
+              <input type="checkbox" name="share_usage_stats" id="share_usage_stats" 
+                     class="form-check-input" {% if privacy_prefs.share_usage_stats %}checked{% endif %}>
+              <label class="form-check-label" for="share_usage_stats">
+                <strong>Share Anonymous Usage Statistics</strong>
+                <div class="text-muted small">Only anonymous, aggregated statistics are shared - never your personal data</div>
+              </label>
+            </div>
+          </div>
+          
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save me-2"></i>Save Preferences
+          </button>
+        </form>
+        {% else %}
+        <div class="text-center py-5">
+          <i class="fas fa-lock fa-3x text-muted mb-3"></i>
+          <h6 class="text-muted">Privacy Preferences</h6>
+          <p class="text-muted">Sign up to customize your privacy settings and control how your data is handled.</p>
+          <a href="{% url 'register' %}" class="btn btn-primary">
+            <i class="fas fa-user-plus me-2"></i>Create Account
+          </a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-12 lg:col-4">
+    <!-- Security Recommendations -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h6 class="card-title mb-0">
+          <i class="fas fa-lightbulb me-2"></i>Security Tips
+        </h6>
+      </div>
+      <div class="card-body">
+        {% for recommendation in security_recommendations %}
+        <div class="recommendation-item mb-3">
+          <div class="d-flex align-items-start gap-2">
+            <div class="recommendation-priority priority-{{ recommendation.priority }}">
+              {% if recommendation.priority == 'high' %}
+                <i class="fas fa-exclamation-triangle"></i>
+              {% else %}
+                <i class="fas fa-info-circle"></i>
+              {% endif %}
+            </div>
+            <div class="flex-grow-1">
+              <h6 class="mb-1">{{ recommendation.title }}</h6>
+              <p class="text-muted small mb-1">{{ recommendation.description }}</p>
+              <small class="text-primary">{{ recommendation.action }}</small>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="card">
+      <div class="card-header">
+        <h6 class="card-title mb-0">
+          <i class="fas fa-bolt me-2"></i>Quick Actions
+        </h6>
+      </div>
+      <div class="card-body">
+        {% if user.is_authenticated %}
+        <div class="d-grid gap-2">
+          <form method="post" action="{% url 'revoke_oauth_access' %}" style="display: inline;">
+            {% csrf_token %}
+            <input type="hidden" name="account_type" value="source">
+            <button type="submit" class="btn btn-outline-warning btn-sm w-100" 
+                    onclick="return confirm('Are you sure you want to revoke source account access?')">
+              <i class="fas fa-unlink me-2"></i>Revoke Source Access
+            </button>
+          </form>
+          
+          <form method="post" action="{% url 'revoke_oauth_access' %}" style="display: inline;">
+            {% csrf_token %}
+            <input type="hidden" name="account_type" value="destination">
+            <button type="submit" class="btn btn-outline-warning btn-sm w-100"
+                    onclick="return confirm('Are you sure you want to revoke destination account access?')">
+              <i class="fas fa-unlink me-2"></i>Revoke Destination Access
+            </button>
+          </form>
+          
+          <form method="post" action="{% url 'request_data_export' %}" style="display: inline;">
+            {% csrf_token %}
+            <input type="hidden" name="request_type" value="deletion">
+            <button type="submit" class="btn btn-outline-danger btn-sm w-100"
+                    onclick="return confirm('Are you sure you want to request deletion of all your data? This action cannot be undone.')">
+              <i class="fas fa-trash me-2"></i>Request Data Deletion
+            </button>
+          </form>
+        </div>
+        {% else %}
+        <div class="text-center py-3">
+          <p class="text-muted small mb-3">Account management tools available after signup</p>
+          <a href="{% url 'register' %}" class="btn btn-primary btn-sm w-100">
+            <i class="fas fa-user-plus me-2"></i>Create Account
+          </a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Recent Security Events -->
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0">
+            <i class="fas fa-history me-2"></i>Recent Security Events
+          </h5>
+          <a href="{% url 'security_logs' %}" class="btn btn-sm btn-secondary">
+            View All Logs
+          </a>
+        </div>
+      </div>
+      <div class="card-body">
+        {% if recent_security_events %}
+        <div class="security-events">
+          {% for event in recent_security_events %}
+          <div class="security-event-item d-flex justify-content-between align-items-center py-2">
+            <div class="d-flex align-items-center gap-3">
+              <div class="event-severity severity-{{ event.severity|lower }}">
+                {% if event.severity == 'WARNING' %}
+                  <i class="fas fa-exclamation-triangle"></i>
+                {% elif event.severity == 'ERROR' %}
+                  <i class="fas fa-times-circle"></i>
+                {% elif event.severity == 'CRITICAL' %}
+                  <i class="fas fa-skull-crossbones"></i>
+                {% else %}
+                  <i class="fas fa-info-circle"></i>
+                {% endif %}
+              </div>
+              <div>
+                <h6 class="mb-0">{{ event.formatted_event_type }}</h6>
+                <small class="text-muted">{{ event.timestamp|date:"M d, Y H:i" }}</small>
+              </div>
+            </div>
+            <span class="badge badge-{{ event.severity_badge_class }}">{{ event.severity }}</span>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-4">
+          <i class="fas fa-shield-alt fa-3x text-muted mb-3"></i>
+          <h6 class="text-muted">No security events recorded yet</h6>
+          <p class="text-muted small">Security events will appear here as you use the application</p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .page-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--success-color));
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+  }
+  
+  .security-overview .stat-card {
+    text-align: center;
+    padding: 1rem;
+    border-radius: 8px;
+    background: var(--bg-secondary);
+  }
+  
+  .stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.5rem;
+  }
+  
+  .stat-icon.success { background: var(--success-color); }
+  .stat-icon.info { background: var(--info-color); }
+  .stat-icon.warning { background: var(--warning-color); }
+  
+  .permission-item, .storage-item {
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-primary);
+  }
+  
+  .data-access-tags .badge,
+  .data-storage-tags .badge {
+    margin-right: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .recommendation-item {
+    padding: 0.75rem;
+    border-left: 3px solid var(--border-color);
+    background: var(--bg-secondary);
+    border-radius: 0 8px 8px 0;
+  }
+  
+  .recommendation-priority.priority-high {
+    color: var(--warning-color);
+  }
+  
+  .recommendation-priority.priority-medium {
+    color: var(--info-color);
+  }
+  
+  .security-event-item {
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .security-event-item:last-child {
+    border-bottom: none;
+  }
+  
+  .event-severity {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .event-severity.severity-info {
+    background: rgba(13, 110, 253, 0.1);
+    color: var(--info-color);
+  }
+  
+  .event-severity.severity-warning {
+    background: rgba(255, 193, 7, 0.1);
+    color: var(--warning-color);
+  }
+  
+  .event-severity.severity-error {
+    background: rgba(220, 53, 69, 0.1);
+    color: var(--danger-color);
+  }
+  
+  .event-severity.severity-critical {
+    background: rgba(108, 117, 125, 0.1);
+    color: var(--dark-color);
+  }
+</style>
+{% endblock %}

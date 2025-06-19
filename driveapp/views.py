@@ -230,58 +230,74 @@ def oauth2callback_destination(request):
         messages.error(request, "Failed to authenticate with Google. Please try again.")
         return redirect('home')
 
-@login_required
 def home(request):
-    creds_source = request.session.get('credentials_source')
-    creds_destination = request.session.get('credentials_destination')
-    
-    source_email = request.session.get('source_email')
-    dest_email = request.session.get('dest_email')
-    transfer_id = request.session.get('transfer_id', None)
-    
-    # Check if transfer is still active, if not remove from session
-    active_transfer_id = None
-    if transfer_id:
-        try:
-            transfer = FileTransfer.objects.get(transfer_uuid=transfer_id)
-            if transfer.status == 'in_progress':
-                active_transfer_id = transfer_id
-            else:
-                # Transfer is completed/failed/cancelled, remove from session
-                request.session.pop('transfer_id', None)
-        except FileTransfer.DoesNotExist:
-            # Transfer doesn't exist, remove from session
-            request.session.pop('transfer_id', None)
-    
+    # Initialize context with default values for non-authenticated users
     context = {
-        'source_logged_in': bool(creds_source),
-        'dest_logged_in': bool(creds_destination),
-        'source_email': source_email,
-        'dest_email': dest_email,
-        'transfer_id': active_transfer_id,
+        'source_logged_in': False,
+        'dest_logged_in': False,
+        'source_email': None,
+        'dest_email': None,
+        'transfer_id': None,
+        'source_folders': [],
+        'destination_folders': [],
     }
-
-    if creds_source and creds_destination:
-        service_source = build_drive_service(creds_source)
-        service_destination = build_drive_service(creds_destination)
-
-        # Fetch the folders from both source and destination drives
-        source_folders  = service_source.files().list(
-            q="'root' in parents",
-            fields="files(id, name, mimeType, parents)"
-        ).execute().get('files', [])
-
-
-        destination_folders = service_destination.files().list(
-            q="'root' in parents and mimeType='application/vnd.google-apps.folder'",
-            fields="files(id, name, parents)"
-        ).execute().get('files', [])
-
+    
+    # Only process Google Drive credentials if user is authenticated
+    if request.user.is_authenticated:
+        creds_source = request.session.get('credentials_source')
+        creds_destination = request.session.get('credentials_destination')
         
-        context['source_folders'] = source_folders
-        context['destination_folders'] = destination_folders
-        logger.info("Successfully fetched source and destination folders.")
-        return render(request, 'driveapp/home.html', context)
+        source_email = request.session.get('source_email')
+        dest_email = request.session.get('dest_email')
+        transfer_id = request.session.get('transfer_id', None)
+        
+        # Check if transfer is still active, if not remove from session
+        active_transfer_id = None
+        if transfer_id:
+            try:
+                transfer = FileTransfer.objects.get(transfer_uuid=transfer_id)
+                if transfer.status == 'in_progress':
+                    active_transfer_id = transfer_id
+                else:
+                    # Transfer is completed/failed/cancelled, remove from session
+                    request.session.pop('transfer_id', None)
+            except FileTransfer.DoesNotExist:
+                # Transfer doesn't exist, remove from session
+                request.session.pop('transfer_id', None)
+        
+        # Update context with authenticated user data
+        context.update({
+            'source_logged_in': bool(creds_source),
+            'dest_logged_in': bool(creds_destination),
+            'source_email': source_email,
+            'dest_email': dest_email,
+            'transfer_id': active_transfer_id,
+        })
+
+        # Fetch folders only if both Google accounts are connected
+        if creds_source and creds_destination:
+            try:
+                service_source = build_drive_service(creds_source)
+                service_destination = build_drive_service(creds_destination)
+
+                # Fetch the folders from both source and destination drives
+                source_folders = service_source.files().list(
+                    q="'root' in parents",
+                    fields="files(id, name, mimeType, parents)"
+                ).execute().get('files', [])
+
+                destination_folders = service_destination.files().list(
+                    q="'root' in parents and mimeType='application/vnd.google-apps.folder'",
+                    fields="files(id, name, parents)"
+                ).execute().get('files', [])
+
+                context['source_folders'] = source_folders
+                context['destination_folders'] = destination_folders
+                logger.info("Successfully fetched source and destination folders.")
+            except Exception as e:
+                logger.error(f"Error fetching folders: {str(e)}")
+                messages.error(request, "Failed to fetch folders. Please try reconnecting your accounts.")
+    
     return render(request, 'driveapp/home.html', context)
 
 def logout_view(request):

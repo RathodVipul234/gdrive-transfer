@@ -560,9 +560,16 @@ document.addEventListener('DOMContentLoaded', () => {
       display: none;
       background: none;
       border: none;
-      color: white;
+      color: var(--text-primary);
       font-size: 1.5rem;
       cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu-toggle:hover {
+      background: var(--bg-hover);
     }
 
     .mobile-menu {
@@ -586,12 +593,13 @@ document.addEventListener('DOMContentLoaded', () => {
         right: 0;
         background: var(--bg-card);
         border: 1px solid var(--border-color);
-        border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-        box-shadow: var(--shadow-lg);
+        border-radius: 0 0 12px 12px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         opacity: 0;
         visibility: hidden;
         transform: translateY(-10px);
-        transition: all var(--transition-base);
+        transition: all 0.3s ease;
+        z-index: 1000;
       }
 
       .mobile-menu.active {
@@ -602,12 +610,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
       .mobile-menu .nav-link {
         display: block;
-        padding: var(--space-md);
+        padding: 1rem;
         color: var(--text-primary);
         border-bottom: 1px solid var(--border-color);
+        text-decoration: none;
+        transition: all 0.3s ease;
       }
 
-      .mobile-menu .nav-link:hover {
+      .mobile-menu .nav-link:last-child {
+        border-bottom: none;
+      }
+
+      .mobile-menu .nav-link:hover,
+      .mobile-menu .nav-link.active {
         background-color: var(--bg-hover);
         color: var(--primary-color);
       }
@@ -616,6 +631,77 @@ document.addEventListener('DOMContentLoaded', () => {
         right: 10px;
         left: 10px;
         max-width: none;
+      }
+
+      /* Mobile specific hero adjustments */
+      .hero {
+        text-align: center;
+      }
+
+      .hero .row {
+        flex-direction: column;
+      }
+
+      /* Mobile button stacking */
+      .btn-group-mobile {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        width: 100%;
+      }
+
+      .btn-group-mobile .btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      /* Mobile card adjustments */
+      .card {
+        margin-bottom: 1rem;
+      }
+
+      .step-wizard {
+        margin: 1rem;
+        border-radius: 12px;
+      }
+
+      /* Mobile table responsiveness */
+      .table-responsive {
+        font-size: 0.875rem;
+      }
+
+      .table th,
+      .table td {
+        padding: 0.5rem;
+      }
+
+      /* Mobile footer adjustments */
+      .footer-content {
+        text-align: center;
+      }
+
+      .social-links {
+        justify-content: center;
+        margin-top: 1rem;
+      }
+    }
+
+    /* Touch device improvements */
+    @media (pointer: coarse) {
+      .btn {
+        min-height: 44px;
+        min-width: 44px;
+      }
+
+      .nav-link {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+      }
+
+      .theme-toggle {
+        min-height: 44px;
+        min-width: 44px;
       }
     }
 

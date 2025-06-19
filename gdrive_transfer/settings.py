@@ -54,6 +54,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'driveapp.middleware.SecurityHeadersMiddleware',
+    'driveapp.middleware.SecurityAuditMiddleware',
 ]
 
 ROOT_URLCONF = 'gdrive_transfer.urls'
@@ -195,3 +197,53 @@ if DEBUG and os.path.exists(os.path.join(BASE_DIR, 'logs')):
     }
     LOGGING['loggers']['django']['handlers'].append('file')
     LOGGING['loggers']['driveapp']['handlers'].append('file')
+
+# Security Settings
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+
+# Session Security
+SESSION_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_AGE = 3600  # 1 hour
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_SAVE_EVERY_REQUEST = True
+
+# CSRF Protection
+CSRF_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_USE_SESSIONS = True
+
+# Content Security Policy
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com")
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com")
+CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com")
+CSP_IMG_SRC = ("'self'", "data:", "https:")
+CSP_CONNECT_SRC = ("'self'", "https://accounts.google.com", "https://www.googleapis.com")
+
+# Data Security
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
+
+# Rate Limiting (basic implementation)
+RATE_LIMIT_ENABLE = True
+RATE_LIMIT_LOGIN_ATTEMPTS = 5
+RATE_LIMIT_WINDOW_MINUTES = 15
+
+# Security Monitoring
+SECURITY_LOG_FAILED_LOGINS = True
+SECURITY_LOG_OAUTH_EVENTS = True
+SECURITY_LOG_FILE_TRANSFERS = True
+
+# Privacy Settings
+PRIVACY_POLICY_VERSION = "1.0"
+TERMS_OF_SERVICE_VERSION = "1.0"
+DEFAULT_DATA_RETENTION_DAYS = 90

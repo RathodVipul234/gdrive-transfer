@@ -1,21 +1,31 @@
 
 from django.db import models
-
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 class UserCredentials(models.Model):
-    user_email = models.EmailField(unique=True)
-    access_token = models.TextField()
-    refresh_token = models.TextField(null=True, blank=True)
-    token_uri = models.TextField()
-    client_id = models.TextField()
-    client_secret = models.TextField()
-    scopes = models.TextField()
+    """Secure storage for encrypted OAuth credentials"""
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_email = models.EmailField()
+    encrypted_credentials = models.TextField()  # Encrypted JSON of all OAuth data
+    is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    expires_at = models.DateTimeField(null=True, blank=True)
+    
+    class Meta:
+        unique_together = ['user', 'user_email']
+        indexes = [
+            models.Index(fields=['user', 'is_active']),
+            models.Index(fields=['expires_at']),
+        ]
 
     def __str__(self):
-        return self.user_email
+        return f"{self.user.username} - {self.user_email}"
+    
+    def is_expired(self):
+        """Check if credentials have expired"""
+        return self.expires_at and timezone.now() > self.expires_at
 
 class FileTransfer(models.Model):
     """Model to store file transfer details"""
@@ -53,6 +63,86 @@ class TransferLog(models.Model):
     
     def __str__(self):
         return f"{self.file_name} - {self.status}"
+
+class SecurityLog(models.Model):
+    """Model to store security audit logs"""
+    SEVERITY_CHOICES = [
+        ('INFO', 'Information'),
+        ('WARNING', 'Warning'),
+        ('ERROR', 'Error'),
+        ('CRITICAL', 'Critical'),
+    ]
+    
+    timestamp = models.DateTimeField(auto_now_add=True)
+    event_type = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    severity = models.CharField(max_length=10, choices=SEVERITY_CHOICES, default='INFO')
+    details = models.TextField()
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    user_agent = models.CharField(max_length=500, null=True, blank=True)
+    
+    class Meta:
+        ordering = ['-timestamp']
+        indexes = [
+            models.Index(fields=['timestamp', 'severity']),
+            models.Index(fields=['event_type']),
+            models.Index(fields=['user', 'timestamp']),
+        ]
+    
+    def __str__(self):
+        return f"{self.timestamp} - {self.event_type} - {self.severity}"
+    
+    @property
+    def formatted_event_type(self):
+        """Return formatted event type with spaces instead of underscores"""
+        return self.event_type.replace('_', ' ').title()
+    
+    @property
+    def severity_badge_class(self):
+        """Return appropriate CSS class for severity badge"""
+        severity_classes = {
+            'INFO': 'info',
+            'WARNING': 'warning', 
+            'ERROR': 'error',
+            'CRITICAL': 'critical'
+        }
+        return severity_classes.get(self.severity, 'info')
+
+class UserPrivacyPreference(models.Model):
+    """Model to store user privacy preferences"""
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    analytics_consent = models.BooleanField(default=False)
+    email_notifications = models.BooleanField(default=True)
+    data_retention_days = models.IntegerField(default=90)  # How long transfer logs are kept
+    share_usage_stats = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f"Privacy preferences for {self.user.username}"
+
+class DataExportRequest(models.Model):
+    """Model to handle user data export requests"""
+    STATUS_CHOICES = [
+        ('PENDING', 'Pending'),
+        ('PROCESSING', 'Processing'),
+        ('COMPLETED', 'Completed'),
+        ('FAILED', 'Failed'),
+    ]
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    request_type = models.CharField(max_length=50)  # 'export' or 'deletion'
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
+    requested_at = models.DateTimeField(auto_now_add=True)
+    processed_at = models.DateTimeField(null=True, blank=True)
+    export_file_path = models.CharField(max_length=500, null=True, blank=True)
+    notes = models.TextField(blank=True)
+    
+    class Meta:
+        ordering = ['-requested_at']
+    
+    def __str__(self):
+        return f"{self.request_type.title()} request by {self.user.username} - {self.status}"
     
 # class TransferJob(models.Model):
 #     """Model to track transfer job details and progress"""

@@ -123,6 +123,11 @@ credentials.json
 new_cred.json
 token.json
 
+# Security - Encryption keys (NEVER commit these!)
+encryption_key
+*.key
+secret_key
+
 # Logs
 logs/
 *.log

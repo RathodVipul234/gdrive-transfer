@@ -1,133 +1,869 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Account - GDrive Transfer</title>
-    <link rel="stylesheet" href="{% load static %}{% static 'css/theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/theme.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
 </head>
 <body>
+    <!-- Background Animation -->
+    <div class="auth-background">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+            <div class="shape shape-6"></div>
+        </div>
+    </div>
+
+    <!-- Main Auth Container -->
     <div class="auth-container">
-        <div class="auth-card">
-            <div class="text-center mb-4">
-                <h1 class="auth-title">Create Account</h1>
-                <p class="text-secondary">Join GDrive Transfer to start migrating your files</p>
+        <div class="auth-card glass">
+            <!-- Logo & Brand -->
+            <div class="auth-brand text-center mb-4">
+                <div class="brand-logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-cloud-download-alt"></i>
+                    </div>
+                    <h1 class="brand-name gradient-text">GDrive Transfer</h1>
+                </div>
+                <p class="brand-tagline">Secure Google Drive Migration</p>
             </div>
 
+            <!-- Welcome Message -->
+            <div class="welcome-section text-center mb-4">
+                <h2 class="welcome-title">Join Us Today!</h2>
+                <p class="welcome-subtitle">Create your account to start transferring files securely</p>
+            </div>
+
+            <!-- Messages -->
             {% if messages %}
-                <div class="messages">
+                <div class="messages-container mb-4">
                     {% for message in messages %}
-                        <div class="message {{ message.tags }}">
+                        <div class="alert alert-{{ message.tags }} glass">
+                            <i class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% elif message.tags == 'success' %}check-circle{% else %}info-circle{% endif %} me-2"></i>
                             {{ message }}
                         </div>
                     {% endfor %}
                 </div>
             {% endif %}
 
+            <!-- Registration Form -->
             <form method="post" class="auth-form">
                 {% csrf_token %}
                 
                 <div class="form-group">
-                    <label for="{{ form.username.id_for_label }}" class="form-label">
-                        <i class="fas fa-user me-2"></i>Username
-                    </label>
-                    {{ form.username }}
+                    <div class="form-floating">
+                        <input type="text" 
+                               id="{{ form.username.id_for_label }}" 
+                               name="{{ form.username.name }}" 
+                               class="form-control glass-input"
+                               placeholder=" "
+                               value="{{ form.username.value|default:'' }}"
+                               required>
+                        <label for="{{ form.username.id_for_label }}">
+                            <i class="fas fa-user me-2"></i>Username
+                        </label>
+                    </div>
                     {% if form.username.errors %}
-                        <div class="text-danger mt-1">
+                        <div class="field-errors">
                             {% for error in form.username.errors %}
-                                <small>{{ error }}</small>
+                                <div class="error-message">
+                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                </div>
                             {% endfor %}
                         </div>
                     {% endif %}
+                    <div class="field-help">
+                        <small>Choose a unique username (letters, numbers, and @/./+/-/_ only)</small>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="{{ form.password1.id_for_label }}" class="form-label">
-                        <i class="fas fa-lock me-2"></i>Password
-                    </label>
-                    {{ form.password1 }}
+                    <div class="form-floating">
+                        <input type="password" 
+                               id="{{ form.password1.id_for_label }}" 
+                               name="{{ form.password1.name }}" 
+                               class="form-control glass-input"
+                               placeholder=" "
+                               required>
+                        <label for="{{ form.password1.id_for_label }}">
+                            <i class="fas fa-lock me-2"></i>Password
+                        </label>
+                    </div>
                     {% if form.password1.errors %}
-                        <div class="text-danger mt-1">
+                        <div class="field-errors">
                             {% for error in form.password1.errors %}
-                                <small>{{ error }}</small>
+                                <div class="error-message">
+                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                </div>
                             {% endfor %}
                         </div>
                     {% endif %}
+                    <div class="field-help">
+                        <small>Password must be at least 8 characters and not too common</small>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="{{ form.password2.id_for_label }}" class="form-label">
-                        <i class="fas fa-lock me-2"></i>Confirm Password
-                    </label>
-                    {{ form.password2 }}
+                    <div class="form-floating">
+                        <input type="password" 
+                               id="{{ form.password2.id_for_label }}" 
+                               name="{{ form.password2.name }}" 
+                               class="form-control glass-input"
+                               placeholder=" "
+                               required>
+                        <label for="{{ form.password2.id_for_label }}">
+                            <i class="fas fa-lock me-2"></i>Confirm Password
+                        </label>
+                    </div>
                     {% if form.password2.errors %}
-                        <div class="text-danger mt-1">
+                        <div class="field-errors">
                             {% for error in form.password2.errors %}
-                                <small>{{ error }}</small>
+                                <div class="error-message">
+                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                </div>
                             {% endfor %}
                         </div>
                     {% endif %}
+                    <div class="field-help">
+                        <small>Enter the same password as before, for verification</small>
+                    </div>
+                </div>
+
+                <!-- Security Features -->
+                <div class="security-features mb-4">
+                    <h6 class="security-title">
+                        <i class="fas fa-shield-check me-2"></i>Your Security Matters
+                    </h6>
+                    <div class="security-grid">
+                        <div class="security-item">
+                            <i class="fas fa-lock"></i>
+                            <span>End-to-end encryption</span>
+                        </div>
+                        <div class="security-item">
+                            <i class="fas fa-eye-slash"></i>
+                            <span>No data storage</span>
+                        </div>
+                        <div class="security-item">
+                            <i class="fas fa-user-shield"></i>
+                            <span>OAuth 2.0 authentication</span>
+                        </div>
+                        <div class="security-item">
+                            <i class="fas fa-history"></i>
+                            <span>Complete audit logs</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="fas fa-user-plus me-2"></i>Create Account
+                    <button type="submit" class="btn btn-primary btn-auth w-100">
+                        <span class="btn-content">
+                            <i class="fas fa-user-plus me-2"></i>
+                            <span>Create Account</span>
+                        </span>
+                        <div class="btn-glow"></div>
                     </button>
                 </div>
             </form>
 
-            <div class="auth-links">
-                <p class="mb-2">Already have an account?</p>
-                <a href="{% url 'login' %}" class="btn btn-outline w-100">
-                    <i class="fas fa-sign-in-alt me-2"></i>Sign In
+            <!-- Alternative Actions -->
+            <div class="auth-divider">
+                <span class="divider-text">or</span>
+            </div>
+
+            <div class="auth-alternatives">
+                <a href="{% url 'login' %}" class="btn btn-outline-glass w-100">
+                    <i class="fas fa-sign-in-alt me-2"></i>
+                    <span>Sign In to Existing Account</span>
                 </a>
             </div>
+
+            <!-- Terms & Privacy -->
+            <div class="auth-terms text-center mt-3">
+                <p class="terms-text">
+                    By creating an account, you agree to our 
+                    <a href="{% url 'privacy_dashboard' %}" class="terms-link">Privacy Policy</a>
+                    and terms of service
+                </p>
+            </div>
+
+            <!-- Footer Links -->
+            <div class="auth-footer text-center mt-4">
+                <div class="footer-links">
+                    <a href="{% url 'home' %}" class="footer-link">
+                        <i class="fas fa-home me-1"></i>Back to Home
+                    </a>
+                    <span class="separator">•</span>
+                    <a href="{% url 'privacy_dashboard' %}" class="footer-link">
+                        <i class="fas fa-shield-alt me-1"></i>Security
+                    </a>
+                </div>
+                <p class="copyright">
+                    <i class="fas fa-shield-check me-1"></i>
+                    Secure • Private • Fast
+                </p>
+            </div>
+        </div>
+
+        <!-- Theme Toggle -->
+        <div class="theme-toggle-container">
+            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+                <i class="fas fa-moon" id="theme-icon"></i>
+            </button>
         </div>
     </div>
 
+    <!-- Enhanced Styles -->
     <style>
+        /* Auth Background */
+        .auth-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+            background-size: 300% 300%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -2;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            animation: float 20s infinite linear;
+        }
+
+        .shape-1 {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 120px;
+            height: 120px;
+            top: 20%;
+            right: 10%;
+            animation-delay: -5s;
+        }
+
+        .shape-3 {
+            width: 60px;
+            height: 60px;
+            bottom: 30%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        .shape-4 {
+            width: 100px;
+            height: 100px;
+            bottom: 10%;
+            right: 20%;
+            animation-delay: -15s;
+        }
+
+        .shape-5 {
+            width: 150px;
+            height: 150px;
+            top: 50%;
+            left: 50%;
+            animation-delay: -7s;
+        }
+
+        .shape-6 {
+            width: 90px;
+            height: 90px;
+            top: 70%;
+            right: 40%;
+            animation-delay: -12s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(0px) rotate(360deg);
+                opacity: 0.7;
+            }
+        }
+
+        /* Enhanced Auth Card */
+        .auth-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 460px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+        }
+
+        /* Brand Section */
+        .auth-brand .brand-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.75rem;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .brand-name {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .brand-tagline {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Welcome Section */
+        .welcome-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        /* Enhanced Form Inputs */
+        .form-floating {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .glass-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 1.25rem 1rem 0.75rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .glass-input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .glass-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-floating {
+            position: relative;
+        }
+
+        .form-floating > .form-control,
+        .form-floating > .form-select {
+            height: calc(3.5rem + 2px);
+            line-height: 1.25;
+        }
+
+        .form-floating > label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            padding: 1rem 0.75rem;
+            pointer-events: none;
+            border: 1px solid transparent;
+            transform-origin: 0 0;
+            transition: opacity .1s ease-in-out, transform .1s ease-in-out;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .form-floating > .form-control::placeholder {
+            color: transparent;
+        }
+
+        .form-floating > .form-control:focus,
+        .form-floating > .form-control:not(:placeholder-shown),
+        .form-floating > .form-select {
+            padding-top: 1.625rem;
+            padding-bottom: 0.625rem;
+        }
+
+        .form-floating > .form-control:-webkit-autofill {
+            padding-top: 1.625rem;
+            padding-bottom: 0.625rem;
+        }
+
+        .form-floating > .form-control:focus ~ label,
+        .form-floating > .form-control:not(:placeholder-shown) ~ label,
+        .form-floating > .form-select ~ label {
+            opacity: 0.65;
+            transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Field Errors & Help */
+        .field-errors {
+            margin-top: 0.5rem;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 0.5rem;
+            border-radius: 6px;
+            border-left: 3px solid #ff6b6b;
+        }
+
+        .field-help {
+            margin-top: 0.5rem;
+        }
+
+        .field-help small {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.75rem;
+            line-height: 1.4;
+        }
+
+        /* Security Features */
+        .security-features {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .security-title {
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .security-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .security-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.875rem;
+        }
+
+        .security-item i {
+            color: #4ade80;
+            font-size: 1rem;
+        }
+
+        /* Enhanced Buttons */
+        .btn-auth {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: none;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-auth .btn-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-glow {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn-auth:hover .btn-glow {
+            left: 100%;
+        }
+
+        .btn-outline-glass {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.875rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-glass:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        /* Auth Divider */
+        .auth-divider {
+            position: relative;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .auth-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .divider-text {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Terms & Privacy */
+        .auth-terms {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .terms-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .terms-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: underline;
+            transition: color 0.3s ease;
+        }
+
+        .terms-link:hover {
+            color: white;
+        }
+
+        /* Footer */
+        .auth-footer {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: white;
+        }
+
+        .separator {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .copyright {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.875rem;
+            margin: 0;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle-container {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        /* Dark Theme Adjustments */
+        [data-theme="dark"] .auth-background {
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #4a5568 100%);
+        }
+
+        [data-theme="dark"] .auth-card {
+            background: rgba(26, 32, 44, 0.8);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="dark"] .glass-input {
+            background: rgba(45, 55, 72, 0.6);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="dark"] .glass-input:focus {
+            background: rgba(45, 55, 72, 0.8);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        [data-theme="dark"] .security-features {
+            background: rgba(45, 55, 72, 0.6);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .auth-card {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+                border-radius: 20px;
+                max-width: 100%;
+            }
+
+            .welcome-title {
+                font-size: 1.75rem;
+            }
+
+            .brand-name {
+                font-size: 1.5rem;
+            }
+
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .security-grid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .theme-toggle-container {
+                top: 1rem;
+                right: 1rem;
+            }
+
+            .theme-toggle {
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        /* Utility Classes */
         .w-100 { width: 100% !important; }
+        .me-1 { margin-right: 0.25rem !important; }
         .me-2 { margin-right: 0.5rem !important; }
         .mb-2 { margin-bottom: 0.5rem !important; }
         .mb-4 { margin-bottom: 1.5rem !important; }
-        .mt-1 { margin-top: 0.25rem !important; }
-        
-        /* Style form fields */
-        #id_username,
-        #id_password1,
-        #id_password2 {
-            width: 100%;
-            padding: 1rem 1.25rem;
-            border: 2px solid var(--border-color);
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            transition: all var(--transition-smooth);
-            background: rgba(255, 255, 255, 0.8);
-            color: var(--text-primary);
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        #id_username:focus,
-        #id_password1:focus,
-        #id_password2:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1), var(--shadow-md);
-            transform: translateY(-1px);
-            background: var(--bg-primary);
-        }
-        
-        #id_username::placeholder,
-        #id_password1::placeholder,
-        #id_password2::placeholder {
-            color: var(--text-muted);
-            opacity: 0.7;
-        }
+        .mt-3 { margin-top: 1rem !important; }
+        .mt-4 { margin-top: 1.5rem !important; }
+        .text-center { text-align: center !important; }
     </style>
+
+    <!-- JavaScript -->
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('theme-icon');
+            const currentTheme = html.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                themeIcon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                themeIcon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const themeIcon = document.getElementById('theme-icon');
+            
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
+        // Form validation and enhancement
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.auth-form');
+            const inputs = document.querySelectorAll('.glass-input');
+
+            // Floating labels work automatically with Bootstrap CSS
+            // Just ensure any pre-filled inputs trigger the label state
+            inputs.forEach(input => {
+                if (input.value && input.value.trim() !== '') {
+                    input.setAttribute('placeholder', ' ');
+                }
+            });
+
+            // Password strength indicator
+            const password1 = document.getElementById('id_password1');
+            const password2 = document.getElementById('id_password2');
+
+            if (password1) {
+                password1.addEventListener('input', function() {
+                    // Add visual feedback for password strength
+                    const strength = getPasswordStrength(this.value);
+                    this.style.borderColor = strength >= 3 ? '#4ade80' : 
+                                           strength >= 2 ? '#fbbf24' : 
+                                           strength >= 1 ? '#fb7185' : 'rgba(255, 255, 255, 0.2)';
+                });
+            }
+
+            if (password2) {
+                password2.addEventListener('input', function() {
+                    // Check password match
+                    const match = password1.value === this.value;
+                    this.style.borderColor = match && this.value ? '#4ade80' : 'rgba(255, 255, 255, 0.2)';
+                });
+            }
+
+            // Enhanced form submission
+            form.addEventListener('submit', function(e) {
+                const submitBtn = form.querySelector('.btn-auth');
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creating Account...';
+                submitBtn.disabled = true;
+            });
+        });
+
+        function getPasswordStrength(password) {
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (/[a-z]/.test(password)) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            return strength;
+        }
+    </script>
 </body>
 </html>

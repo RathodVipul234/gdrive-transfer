@@ -1,0 +1,187 @@
+{% extends 'driveapp/base.html' %}
+
+{% block title %}Security Logs - GDrive Transfer{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h1 class="page-title">
+          <i class="fas fa-history me-2"></i>Security Logs
+        </h1>
+        <p class="page-subtitle">{% if user.is_authenticated %}View your security activity and events{% else %}View system security information{% endif %}</p>
+      </div>
+      <div class="d-flex gap-2">
+        <a href="{% url 'privacy_dashboard' %}" class="btn btn-secondary">
+          <i class="fas fa-arrow-left me-2"></i>Back to Privacy
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- Filters -->
+<div class="row mb-4">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h6 class="card-title mb-0">
+          <i class="fas fa-filter me-2"></i>Filter Logs
+        </h6>
+      </div>
+      <div class="card-body">
+        <form method="get" class="row g-3">
+          <div class="col-md-3">
+            <label for="severity" class="form-label">Severity</label>
+            <select name="severity" id="severity" class="form-select">
+              <option value="">All Severities</option>
+              {% for value, label in severity_choices %}
+                <option value="{{ value }}" {% if severity_filter == value %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="date_from" class="form-label">From Date</label>
+            <input type="date" name="date_from" id="date_from" class="form-control" value="{{ date_from|default:'' }}">
+          </div>
+          <div class="col-md-3">
+            <label for="date_to" class="form-label">To Date</label>
+            <input type="date" name="date_to" id="date_to" class="form-control" value="{{ date_to|default:'' }}">
+          </div>
+          <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-search me-2"></i>Filter
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Security Logs Table -->
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">
+          <i class="fas fa-list me-2"></i>Security Events
+        </h5>
+      </div>
+      <div class="card-body">
+        {% if page_obj.object_list %}
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Event Type</th>
+                <th>Severity</th>
+                <th>Details</th>
+                <th>IP Address</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for log in page_obj %}
+              <tr>
+                <td>
+                  <small>{{ log.timestamp|date:"M d, Y H:i:s" }}</small>
+                </td>
+                <td>
+                  <span class="badge badge-primary">{{ log.formatted_event_type }}</span>
+                </td>
+                <td>
+                  <span class="badge badge-{{ log.severity_badge_class }}">{{ log.severity }}</span>
+                </td>
+                <td>
+                  <small>{{ log.details|truncatechars:100 }}</small>
+                </td>
+                <td>
+                  <small>{{ log.ip_address|default:"Unknown" }}</small>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="Security logs pagination">
+          <ul class="pagination justify-content-center mt-4">
+            {% if page_obj.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if severity_filter %}&severity={{ severity_filter }}{% endif %}{% if date_from %}&date_from={{ date_from }}{% endif %}{% if date_to %}&date_to={{ date_to }}{% endif %}">Previous</a>
+              </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+              {% if page_obj.number == num %}
+                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+              {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ num }}{% if severity_filter %}&severity={{ severity_filter }}{% endif %}{% if date_from %}&date_from={{ date_from }}{% endif %}{% if date_to %}&date_to={{ date_to }}{% endif %}">{{ num }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if severity_filter %}&severity={{ severity_filter }}{% endif %}{% if date_from %}&date_from={{ date_from }}{% endif %}{% if date_to %}&date_to={{ date_to }}{% endif %}">Next</a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+        {% endif %}
+
+        {% else %}
+        <div class="text-center py-5">
+          <i class="fas fa-shield-alt fa-3x text-muted mb-3"></i>
+          <h6 class="text-muted">No security logs found</h6>
+          <p class="text-muted">Security events will appear here as you use the application</p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .page-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--success-color));
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .badge-info { background: var(--info-color); color: var(--text-primary); }
+  .badge-warning { background: var(--warning-color); color: var(--text-primary); }
+  .badge-error { background: var(--danger-color); color: white; }
+  .badge-critical { background: var(--dark-color); color: white; }
+
+  .table th {
+    font-weight: 600;
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--border-color);
+  }
+
+  .table td {
+    vertical-align: middle;
+  }
+
+  .pagination .page-link {
+    color: var(--primary-color);
+    border-color: var(--border-color);
+  }
+
+  .pagination .page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+</style>
+{% endblock %}

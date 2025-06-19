@@ -41,8 +41,11 @@
           <li><a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">
             <i class="fas fa-home"></i> Home
           </a></li>
-          <li><a href="{% url 'dashboard' %}" class="nav-link {% if 'dashboard' in request.path %}active{% endif %}">
+          <li><a href="{% url 'dashboard' %}" class="nav-link {% if 'dashboard' in request.path and 'privacy' not in request.path %}active{% endif %}">
             <i class="fas fa-tachometer-alt"></i> Dashboard
+          </a></li>
+          <li><a href="{% url 'privacy_dashboard' %}" class="nav-link {% if 'privacy' in request.path %}active{% endif %}">
+            <i class="fas fa-shield-alt"></i> Privacy
           </a></li>
           <li><a href="#features" class="nav-link">
             <i class="fas fa-star"></i> Features
@@ -130,8 +133,11 @@
         <a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">
           <i class="fas fa-home"></i> Home
         </a>
-        <a href="{% url 'dashboard' %}" class="nav-link {% if 'dashboard' in request.path %}active{% endif %}">
+        <a href="{% url 'dashboard' %}" class="nav-link {% if 'dashboard' in request.path and 'privacy' not in request.path %}active{% endif %}">
           <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+        <a href="{% url 'privacy_dashboard' %}" class="nav-link {% if 'privacy' in request.path %}active{% endif %}">
+          <i class="fas fa-shield-alt"></i> Privacy
         </a>
         <a href="#features" class="nav-link">
           <i class="fas fa-star"></i> Features
