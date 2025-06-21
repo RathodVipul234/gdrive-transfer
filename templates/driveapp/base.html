@@ -47,10 +47,10 @@
           <li><a href="{% url 'privacy_dashboard' %}" class="nav-link {% if 'privacy' in request.path %}active{% endif %}">
             <i class="fas fa-shield-alt"></i> Privacy
           </a></li>
-          <li><a href="#features" class="nav-link">
+          <li><a href="#value-proposition" class="nav-link">
             <i class="fas fa-star"></i> Features
           </a></li>
-          <li><a href="#help" class="nav-link">
+          <li><a href="{% url 'help_center' %}" class="nav-link">
             <i class="fas fa-question-circle"></i> Help
           </a></li>
         </ul>
@@ -139,10 +139,10 @@
         <a href="{% url 'privacy_dashboard' %}" class="nav-link {% if 'privacy' in request.path %}active{% endif %}">
           <i class="fas fa-shield-alt"></i> Privacy
         </a>
-        <a href="#features" class="nav-link">
+        <a href="#value-proposition" class="nav-link">
           <i class="fas fa-star"></i> Features
         </a>
-        <a href="#help" class="nav-link">
+        <a href="{% url 'help_center' %}" class="nav-link">
           <i class="fas fa-question-circle"></i> Help
         </a>
         {% if user.is_authenticated %}
@@ -267,9 +267,9 @@
             <ul class="footer-menu">
               <li><a href="/">Home</a></li>
               <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-              <li><a href="#features">Features</a></li>
-              <li><a href="#pricing">Pricing</a></li>
-              <li><a href="#demo">Live Demo</a></li>
+              <li><a href="#value-proposition">Features</a></li>
+              <li><a href="#cta-section">Pricing</a></li>
+              <li><a href="#how-it-works">Live Demo</a></li>
             </ul>
           </div>
 
@@ -279,11 +279,11 @@
               <i class="fas fa-life-ring me-2"></i>Support
             </h5>
             <ul class="footer-menu">
-              <li><a href="#help">Help Center</a></li>
-              <li><a href="#faq">FAQ</a></li>
-              <li><a href="#tutorials">Tutorials</a></li>
-              <li><a href="#contact">Contact Us</a></li>
-              <li><a href="#status">System Status</a></li>
+              <li><a href="{% url 'help_center' %}">Help Center</a></li>
+              <li><a href="{% url 'faq' %}">FAQ</a></li>
+              <li><a href="{% url 'tutorials' %}">Tutorials</a></li>
+              <li><a href="{% url 'contact' %}">Contact Us</a></li>
+              <li><a href="{% url 'status' %}">System Status</a></li>
             </ul>
           </div>
 
@@ -293,11 +293,11 @@
               <i class="fas fa-building me-2"></i>Company
             </h5>
             <ul class="footer-menu">
-              <li><a href="#about">About Us</a></li>
-              <li><a href="#blog">Blog</a></li>
-              <li><a href="#careers">Careers</a></li>
-              <li><a href="#press">Press Kit</a></li>
-              <li><a href="#partners">Partners</a></li>
+              <li><a href="{% url 'about' %}">About Us</a></li>
+              <li><a href="{% url 'blog' %}">Blog</a></li>
+              <li><a href="{% url 'careers' %}">Careers</a></li>
+              <li><a href="{% url 'press' %}">Press Kit</a></li>
+              <li><a href="{% url 'partners' %}">Partners</a></li>
             </ul>
           </div>
 
@@ -341,10 +341,10 @@
             </p>
           </div>
           <div class="legal-links">
-            <a href="#terms" class="legal-link">Terms of Service</a>
-            <a href="#privacy" class="legal-link">Privacy Policy</a>
-            <a href="#cookies" class="legal-link">Cookie Policy</a>
-            <a href="#security" class="legal-link">Security</a>
+            <a href="{% url 'terms' %}" class="legal-link">Terms of Service</a>
+            <a href="{% url 'privacy_dashboard' %}" class="legal-link">Privacy Policy</a>
+            <a href="{% url 'cookies' %}" class="legal-link">Cookie Policy</a>
+            <a href="{% url 'security_logs' %}" class="legal-link">Security</a>
           </div>
         </div>
       </div>

@@ -1,0 +1,1154 @@
+{% extends 'driveapp/base.html' %}
+
+{% block title %}Cookie Policy - How We Use Cookies - GDrive Transfer{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12">
+        <div class="page-header-content text-center">
+          <h1 class="page-title">
+            <i class="fas fa-cookie-bite me-3"></i>Cookie Policy
+          </h1>
+          <p class="page-subtitle">How we use cookies and similar technologies to improve your experience</p>
+          <div class="legal-update">
+            <span class="update-notice">
+              <i class="fas fa-calendar me-2"></i>Last updated: January 1, 2025
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- Cookie Overview -->
+<section class="py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 lg:col-3 mb-5">
+        <div class="cookie-nav sticky-top">
+          <h4><i class="fas fa-list me-2"></i>Quick Navigation</h4>
+          <nav class="cookie-navigation">
+            <a href="#what-are-cookies" class="nav-item">What Are Cookies?</a>
+            <a href="#why-we-use" class="nav-item">Why We Use Cookies</a>
+            <a href="#types-of-cookies" class="nav-item">Types of Cookies</a>
+            <a href="#cookie-details" class="nav-item">Cookie Details</a>
+            <a href="#manage-cookies" class="nav-item">Managing Cookies</a>
+            <a href="#third-party" class="nav-item">Third-Party Cookies</a>
+            <a href="#updates" class="nav-item">Policy Updates</a>
+            <a href="#contact-cookies" class="nav-item">Contact Us</a>
+          </nav>
+          
+          <div class="cookie-preferences">
+            <h5>Cookie Preferences</h5>
+            <button class="btn btn-primary btn-sm" onclick="openCookieSettings()">
+              <i class="fas fa-cog me-2"></i>Manage Settings
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-12 lg:col-9">
+        <div class="cookie-content">
+          <!-- Introduction -->
+          <div class="cookie-intro">
+            <h2>Our Cookie Policy</h2>
+            <p class="lead">At GDrive Transfer, we use cookies and similar technologies to enhance your experience, analyze usage, and provide personalized features. This policy explains what cookies are, how we use them, and how you can control them.</p>
+            
+            <div class="policy-summary">
+              <h3>Quick Summary</h3>
+              <div class="summary-grid">
+                <div class="summary-item">
+                  <i class="fas fa-shield-alt"></i>
+                  <h4>Essential Only</h4>
+                  <p>We primarily use cookies that are essential for our service to function properly.</p>
+                </div>
+                <div class="summary-item">
+                  <i class="fas fa-chart-bar"></i>
+                  <h4>Analytics</h4>
+                  <p>We use anonymous analytics to understand how our service is used and improve it.</p>
+                </div>
+                <div class="summary-item">
+                  <i class="fas fa-user-cog"></i>
+                  <h4>Your Control</h4>
+                  <p>You can manage cookie preferences and opt out of non-essential cookies anytime.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- What Are Cookies -->
+          <section id="what-are-cookies" class="cookie-section">
+            <h3>What Are Cookies?</h3>
+            <p>Cookies are small text files that are stored on your device (computer, tablet, or mobile) when you visit a website. They contain information that helps websites remember your preferences, analyze traffic, and provide a better user experience.</p>
+            
+            <div class="cookie-explanation">
+              <h4>Types of Storage Technologies</h4>
+              <div class="tech-grid">
+                <div class="tech-item">
+                  <i class="fas fa-cookie-bite"></i>
+                  <h5>HTTP Cookies</h5>
+                  <p>Traditional cookies stored in your browser</p>
+                </div>
+                <div class="tech-item">
+                  <i class="fas fa-database"></i>
+                  <h5>Local Storage</h5>
+                  <p>Data stored locally in your browser</p>
+                </div>
+                <div class="tech-item">
+                  <i class="fas fa-memory"></i>
+                  <h5>Session Storage</h5>
+                  <p>Temporary data for the current session</p>
+                </div>
+                <div class="tech-item">
+                  <i class="fas fa-fingerprint"></i>
+                  <h5>Browser Fingerprinting</h5>
+                  <p>Technical information about your browser</p>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+          <!-- Why We Use Cookies -->
+          <section id="why-we-use" class="cookie-section">
+            <h3>Why We Use Cookies</h3>
+            <p>We use cookies and similar technologies for several important purposes:</p>
+            
+            <div class="usage-purposes">
+              <div class="purpose-item">
+                <div class="purpose-icon">
+                  <i class="fas fa-key"></i>
+                </div>
+                <div class="purpose-content">
+                  <h4>Authentication & Security</h4>
+                  <p>To keep you logged in securely and protect against unauthorized access. These cookies are essential for our service to function properly.</p>
+                </div>
+              </div>
+              
+              <div class="purpose-item">
+                <div class="purpose-icon">
+                  <i class="fas fa-cogs"></i>
+                </div>
+                <div class="purpose-content">
+                  <h4>Service Functionality</h4>
+                  <p>To remember your preferences, maintain your session state, and provide core features like transfer monitoring and progress tracking.</p>
+                </div>
+              </div>
+              
+              <div class="purpose-item">
+                <div class="purpose-icon">
+                  <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="purpose-content">
+                  <h4>Analytics & Improvement</h4>
+                  <p>To understand how our service is used, identify issues, and improve performance. This helps us make GDrive Transfer better for everyone.</p>
+                </div>
+              </div>
+              
+              <div class="purpose-item">
+                <div class="purpose-icon">
+                  <i class="fas fa-user"></i>
+                </div>
+                <div class="purpose-content">
+                  <h4>Personalization</h4>
+                  <p>To remember your preferences like theme settings, dashboard layouts, and other customization options.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+          <!-- Types of Cookies -->
+          <section id="types-of-cookies" class="cookie-section">
+            <h3>Types of Cookies We Use</h3>
+            
+            <div class="cookie-categories">
+              <div class="category-card essential">
+                <div class="category-header">
+                  <i class="fas fa-exclamation-circle"></i>
+                  <h4>Essential Cookies</h4>
+                  <span class="category-status required">Required</span>
+                </div>
+                <p>These cookies are necessary for our website to function and cannot be switched off. They're usually set in response to actions you take, such as logging in or filling out forms.</p>
+                <div class="category-examples">
+                  <h5>Examples:</h5>
+                  <ul>
+                    <li>Authentication tokens</li>
+                    <li>Session management</li>
+                    <li>Security cookies</li>
+                    <li>Load balancing</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="category-card functional">
+                <div class="category-header">
+                  <i class="fas fa-sliders-h"></i>
+                  <h4>Functional Cookies</h4>
+                  <span class="category-status optional">Optional</span>
+                </div>
+                <p>These cookies enable enhanced functionality and personalization. They may be set by us or third-party providers whose services we use.</p>
+                <div class="category-examples">
+                  <h5>Examples:</h5>
+                  <ul>
+                    <li>Theme preferences (dark/light mode)</li>
+                    <li>Language settings</li>
+                    <li>Dashboard customization</li>
+                    <li>User interface preferences</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="category-card analytics">
+                <div class="category-header">
+                  <i class="fas fa-chart-bar"></i>
+                  <h4>Analytics Cookies</h4>
+                  <span class="category-status optional">Optional</span>
+                </div>
+                <p>These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously.</p>
+                <div class="category-examples">
+                  <h5>Examples:</h5>
+                  <ul>
+                    <li>Page views and navigation</li>
+                    <li>Feature usage statistics</li>
+                    <li>Performance metrics</li>
+                    <li>Error tracking</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="category-card marketing">
+                <div class="category-header">
+                  <i class="fas fa-bullhorn"></i>
+                  <h4>Marketing Cookies</h4>
+                  <span class="category-status optional">Optional</span>
+                </div>
+                <p>These cookies track your activity across websites to help us provide more relevant advertising and marketing content.</p>
+                <div class="category-examples">
+                  <h5>Examples:</h5>
+                  <ul>
+                    <li>Social media integration</li>
+                    <li>Advertising preferences</li>
+                    <li>Campaign tracking</li>
+                    <li>Conversion measurement</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+          <!-- Cookie Details -->
+          <section id="cookie-details" class="cookie-section">
+            <h3>Detailed Cookie Information</h3>
+            <p>Here's a comprehensive list of cookies we use, their purpose, and retention periods:</p>
+            
+            <div class="cookie-table-container">
+              <table class="cookie-table">
+                <thead>
+                  <tr>
+                    <th>Cookie Name</th>
+                    <th>Purpose</th>
+                    <th>Type</th>
+                    <th>Duration</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>sessionid</code></td>
+                    <td>User authentication and session management</td>
+                    <td>Essential</td>
+                    <td>Session</td>
+                  </tr>
+                  <tr>
+                    <td><code>csrftoken</code></td>
+                    <td>Protection against cross-site request forgery</td>
+                    <td>Essential</td>
+                    <td>1 year</td>
+                  </tr>
+                  <tr>
+                    <td><code>theme_preference</code></td>
+                    <td>Remember your theme choice (light/dark mode)</td>
+                    <td>Functional</td>
+                    <td>1 year</td>
+                  </tr>
+                  <tr>
+                    <td><code>_ga</code></td>
+                    <td>Google Analytics - distinguish users</td>
+                    <td>Analytics</td>
+                    <td>2 years</td>
+                  </tr>
+                  <tr>
+                    <td><code>_gid</code></td>
+                    <td>Google Analytics - distinguish users</td>
+                    <td>Analytics</td>
+                    <td>24 hours</td>
+                  </tr>
+                  <tr>
+                    <td><code>_gat</code></td>
+                    <td>Google Analytics - throttle request rate</td>
+                    <td>Analytics</td>
+                    <td>1 minute</td>
+                  </tr>
+                  <tr>
+                    <td><code>transfer_preferences</code></td>
+                    <td>Remember your transfer settings and preferences</td>
+                    <td>Functional</td>
+                    <td>6 months</td>
+                  </tr>
+                  <tr>
+                    <td><code>cookie_consent</code></td>
+                    <td>Remember your cookie consent choices</td>
+                    <td>Essential</td>
+                    <td>1 year</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+          
+          <!-- Managing Cookies -->
+          <section id="manage-cookies" class="cookie-section">
+            <h3>Managing Your Cookie Preferences</h3>
+            <p>You have control over which cookies you accept. Here are your options:</p>
+            
+            <div class="management-options">
+              <div class="option-card">
+                <i class="fas fa-cog"></i>
+                <h4>Our Cookie Settings</h4>
+                <p>Use our cookie preference center to enable or disable different types of cookies.</p>
+                <button class="btn btn-primary" onclick="openCookieSettings()">
+                  <i class="fas fa-sliders-h me-2"></i>Open Cookie Settings
+                </button>
+              </div>
+              
+              <div class="option-card">
+                <i class="fas fa-browser"></i>
+                <h4>Browser Settings</h4>
+                <p>Most browsers allow you to control cookies through their settings. Here's how:</p>
+                <div class="browser-links">
+                  <a href="https://support.google.com/chrome/answer/95647" target="_blank">Chrome</a>
+                  <a href="https://support.mozilla.org/en-US/kb/enhanced-tracking-protection-firefox-desktop" target="_blank">Firefox</a>
+                  <a href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac" target="_blank">Safari</a>
+                  <a href="https://support.microsoft.com/en-us/help/17442/windows-internet-explorer-delete-manage-cookies" target="_blank">Edge</a>
+                </div>
+              </div>
+              
+              <div class="option-card">
+                <i class="fas fa-mobile-alt"></i>
+                <h4>Mobile Browsers</h4>
+                <p>Mobile browsers also provide cookie controls. Check your browser's privacy settings.</p>
+                <div class="mobile-note">
+                  <small>Note: Disabling essential cookies may prevent some features from working properly.</small>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+          <!-- Third-Party Cookies -->
+          <section id="third-party" class="cookie-section">
+            <h3>Third-Party Cookies and Services</h3>
+            <p>We use some third-party services that may set their own cookies. Here are the main ones:</p>
+            
+            <div class="third-party-services">
+              <div class="service-item">
+                <div class="service-header">
+                  <i class="fab fa-google"></i>
+                  <h4>Google Analytics</h4>
+                </div>
+                <div class="service-details">
+                  <p><strong>Purpose:</strong> Website analytics and performance monitoring</p>
+                  <p><strong>Data collected:</strong> Anonymous usage statistics, page views, user interactions</p>
+                  <p><strong>Privacy:</strong> <a href="https://policies.google.com/privacy" target="_blank">Google Privacy Policy</a></p>
+                  <p><strong>Opt-out:</strong> <a href="https://tools.google.com/dlpage/gaoptout" target="_blank">Google Analytics Opt-out</a></p>
+                </div>
+              </div>
+              
+              <div class="service-item">
+                <div class="service-header">
+                  <i class="fab fa-google"></i>
+                  <h4>Google OAuth</h4>
+                </div>
+                <div class="service-details">
+                  <p><strong>Purpose:</strong> Secure authentication with Google accounts</p>
+                  <p><strong>Data collected:</strong> Authentication tokens, basic profile information</p>
+                  <p><strong>Privacy:</strong> <a href="https://policies.google.com/privacy" target="_blank">Google Privacy Policy</a></p>
+                  <p><strong>Control:</strong> Manage in your Google Account settings</p>
+                </div>
+              </div>
+              
+              <div class="service-item">
+                <div class="service-header">
+                  <i class="fas fa-shield-alt"></i>
+                  <h4>Security Services</h4>
+                </div>
+                <div class="service-details">
+                  <p><strong>Purpose:</strong> Protection against spam, abuse, and security threats</p>
+                  <p><strong>Data collected:</strong> IP addresses, request patterns, security events</p>
+                  <p><strong>Retention:</strong> Automatically deleted after security analysis</p>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+          <!-- Policy Updates -->
+          <section id="updates" class="cookie-section">
+            <h3>Updates to This Policy</h3>
+            <p>We may update this Cookie Policy from time to time to reflect changes in our practices or applicable laws. When we make changes:</p>
+            
+            <ul>
+              <li>We will post the updated policy on this page</li>
+              <li>We will update the "Last updated" date at the top</li>
+              <li>For significant changes, we will provide additional notice</li>
+              <li>We may ask for your renewed consent for new cookie uses</li>
+            </ul>
+            
+            <div class="update-notification">
+              <h4>Stay Informed</h4>
+              <p>We recommend reviewing this policy periodically to stay informed about how we use cookies. You can always find the most current version at this URL.</p>
+            </div>
+          </section>
+          
+          <!-- Contact Information -->
+          <section id="contact-cookies" class="cookie-section">
+            <h3>Questions About Cookies?</h3>
+            <p>If you have questions about our use of cookies or this policy, please contact us:</p>
+            
+            <div class="contact-options">
+              <div class="contact-method">
+                <i class="fas fa-envelope"></i>
+                <div class="contact-details">
+                  <h4>Email Us</h4>
+                  <p>Send your cookie-related questions to:</p>
+                  <a href="mailto:privacy@gdrivetransfer.com">privacy@gdrivetransfer.com</a>
+                </div>
+              </div>
+              
+              <div class="contact-method">
+                <i class="fas fa-life-ring"></i>
+                <div class="contact-details">
+                  <h4>Support Team</h4>
+                  <p>Contact our support team for help with cookie settings:</p>
+                  <a href="{% url 'contact' %}">Contact Support</a>
+                </div>
+              </div>
+              
+              <div class="contact-method">
+                <i class="fas fa-shield-alt"></i>
+                <div class="contact-details">
+                  <h4>Privacy Dashboard</h4>
+                  <p>Manage your privacy settings and data preferences:</p>
+                  <a href="{% url 'privacy_dashboard' %}">Privacy Dashboard</a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Cookie Consent Banner (if not already accepted) -->
+<div id="cookie-banner" class="cookie-banner" style="display: none;">
+  <div class="banner-content">
+    <div class="banner-text">
+      <h4><i class="fas fa-cookie-bite me-2"></i>We Use Cookies</h4>
+      <p>We use cookies to enhance your experience, analyze site usage, and provide personalized features. You can manage your preferences anytime.</p>
+    </div>
+    <div class="banner-actions">
+      <button class="btn btn-outline-light btn-sm" onclick="openCookieSettings()">
+        <i class="fas fa-cog me-2"></i>Cookie Settings
+      </button>
+      <button class="btn btn-light btn-sm" onclick="acceptAllCookies()">
+        <i class="fas fa-check me-2"></i>Accept All
+      </button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.legal-update {
+  margin-top: 1rem;
+}
+
+.update-notice {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+}
+
+.cookie-nav {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+  top: 2rem;
+}
+
+.cookie-nav h4 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.cookie-navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.nav-item {
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius);
+  transition: all var(--transition-fast);
+  font-size: 0.9rem;
+  border-left: 3px solid transparent;
+}
+
+.nav-item:hover {
+  background: var(--bg-hover);
+  color: var(--primary-color);
+  text-decoration: none;
+  border-left-color: var(--primary-color);
+}
+
+.cookie-preferences {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.cookie-preferences h5 {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.cookie-content {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 3rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.cookie-intro {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.cookie-intro h2 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+}
+
+.policy-summary {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  margin-top: 2rem;
+}
+
+.policy-summary h3 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.summary-item {
+  text-align: center;
+  padding: 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+.summary-item i {
+  background: var(--primary-gradient);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 1.2rem;
+}
+
+.summary-item h4 {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.cookie-section {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.cookie-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.cookie-section h3 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.cookie-section h4 {
+  color: var(--text-primary);
+  margin: 2rem 0 1rem 0;
+  font-size: 1.2rem;
+}
+
+.cookie-section p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.cookie-explanation {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.tech-item {
+  text-align: center;
+  padding: 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+.tech-item i {
+  color: var(--primary-color);
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.tech-item h5 {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.usage-purposes {
+  margin: 2rem 0;
+}
+
+.purpose-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+.purpose-icon {
+  background: var(--primary-gradient);
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 2rem;
+  flex-shrink: 0;
+  font-size: 1.5rem;
+}
+
+.purpose-content h4 {
+  color: var(--text-primary);
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.cookie-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.category-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  transition: all var(--transition-smooth);
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.category-card.essential {
+  border-left: 4px solid #dc3545;
+}
+
+.category-card.functional {
+  border-left: 4px solid #0d6efd;
+}
+
+.category-card.analytics {
+  border-left: 4px solid #198754;
+}
+
+.category-card.marketing {
+  border-left: 4px solid #fd7e14;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.category-header i {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin-right: 1rem;
+}
+
+.category-header h4 {
+  color: var(--text-primary);
+  margin: 0;
+  flex: 1;
+}
+
+.category-status {
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.category-status.required {
+  background: #dc3545;
+  color: white;
+}
+
+.category-status.optional {
+  background: #198754;
+  color: white;
+}
+
+.category-examples {
+  margin-top: 1.5rem;
+}
+
+.category-examples h5 {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.category-examples ul {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.cookie-table-container {
+  overflow-x: auto;
+  margin: 2rem 0;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+.cookie-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-card);
+}
+
+.cookie-table th {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.cookie-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-secondary);
+}
+
+.cookie-table code {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--border-radius);
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+}
+
+.management-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.option-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  text-align: center;
+}
+
+.option-card i {
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.option-card h4 {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.browser-links {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.browser-links a {
+  color: var(--primary-color);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  transition: all var(--transition-fast);
+}
+
+.browser-links a:hover {
+  background: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+.mobile-note {
+  margin-top: 1rem;
+  color: var(--text-muted);
+}
+
+.third-party-services {
+  margin: 2rem 0;
+}
+
+.service-item {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.service-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.service-header i {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin-right: 1rem;
+}
+
+.service-header h4 {
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.service-details p {
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.service-details a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.service-details a:hover {
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+
+.update-notification {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.update-notification h4 {
+  color: var(--primary-color);
+  margin-top: 0;
+}
+
+.contact-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.contact-method {
+  display: flex;
+  align-items: flex-start;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+}
+
+.contact-method i {
+  background: var(--secondary-gradient);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1.5rem;
+  flex-shrink: 0;
+  font-size: 1.2rem;
+}
+
+.contact-details h4 {
+  color: var(--text-primary);
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.contact-details a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-details a:hover {
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--primary-gradient);
+  color: white;
+  padding: 1.5rem;
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 2rem;
+}
+
+.banner-text h4 {
+  margin: 0 0 0.5rem 0;
+}
+
+.banner-text p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+.banner-actions {
+  display: flex;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+@media (max-width: 992px) {
+  .cookie-nav {
+    position: static !important;
+    margin-bottom: 2rem;
+  }
+  
+  .cookie-navigation {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+  
+  .nav-item {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+    border-left: none;
+    border-bottom: 3px solid transparent;
+  }
+  
+  .nav-item:hover {
+    border-left: none;
+    border-bottom-color: var(--primary-color);
+  }
+}
+
+@media (max-width: 768px) {
+  .cookie-content {
+    padding: 2rem;
+  }
+  
+  .summary-grid, .tech-grid, .cookie-categories, .management-options {
+    grid-template-columns: 1fr;
+  }
+  
+  .purpose-item {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .purpose-icon {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .banner-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .banner-actions {
+    justify-content: center;
+  }
+}
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Check if cookie consent has been given
+  if (!localStorage.getItem('cookie_consent')) {
+    document.getElementById('cookie-banner').style.display = 'block';
+  }
+  
+  // Smooth scrolling for navigation links
+  const navLinks = document.querySelectorAll('.cookie-navigation .nav-item');
+  
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const targetId = this.getAttribute('href').substring(1);
+      const targetElement = document.getElementById(targetId);
+      
+      if (targetElement) {
+        const navHeight = document.querySelector('.cookie-nav').offsetHeight;
+        const targetPosition = targetElement.offsetTop - navHeight - 20;
+        
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+        
+        // Update active state
+        navLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+      }
+    });
+  });
+  
+  // Highlight current section on scroll
+  const sections = document.querySelectorAll('.cookie-section');
+  
+  window.addEventListener('scroll', function() {
+    let current = '';
+    
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 200;
+      if (scrollY >= sectionTop) {
+        current = section.id;
+      }
+    });
+    
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  });
+});
+
+function openCookieSettings() {
+  // This would open a cookie preference modal in a real implementation
+  alert('Cookie Settings Modal would open here. In a real implementation, this would show detailed cookie controls allowing users to enable/disable specific cookie categories.');
+}
+
+function acceptAllCookies() {
+  localStorage.setItem('cookie_consent', 'all');
+  document.getElementById('cookie-banner').style.display = 'none';
+  
+  // In a real implementation, this would enable all analytics and marketing cookies
+  console.log('All cookies accepted');
+}
+
+function rejectNonEssential() {
+  localStorage.setItem('cookie_consent', 'essential');
+  document.getElementById('cookie-banner').style.display = 'none';
+  
+  // In a real implementation, this would disable non-essential cookies
+  console.log('Only essential cookies accepted');
+}
+</script>
+{% endblock %}

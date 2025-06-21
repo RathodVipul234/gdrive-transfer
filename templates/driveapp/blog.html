@@ -1,0 +1,597 @@
+{% extends 'driveapp/base.html' %}
+
+{% block title %}Blog - Latest Updates & Insights - GDrive Transfer{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12">
+        <div class="page-header-content text-center">
+          <h1 class="page-title">
+            <i class="fas fa-blog me-3"></i>GDrive Transfer Blog
+          </h1>
+          <p class="page-subtitle">Stay updated with the latest features, tips, and insights from our team</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- Featured Post -->
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 lg:col-10">
+        <div class="featured-post">
+          <div class="row align-items-center">
+            <div class="col-12 lg:col-6">
+              <div class="post-content">
+                <span class="badge badge-primary mb-3">
+                  <i class="fas fa-star me-1"></i>Featured Post
+                </span>
+                <h2>Introducing Advanced Transfer Analytics</h2>
+                <p class="post-excerpt">
+                  Get deeper insights into your file transfers with our new analytics dashboard. 
+                  Track performance, monitor trends, and optimize your migration strategies.
+                </p>
+                <div class="post-meta">
+                  <span class="meta-item">
+                    <i class="fas fa-calendar me-1"></i>January 20, 2025
+                  </span>
+                  <span class="meta-item">
+                    <i class="fas fa-user me-1"></i>Alex Chen
+                  </span>
+                  <span class="meta-item">
+                    <i class="fas fa-clock me-1"></i>5 min read
+                  </span>
+                </div>
+                <a href="#post-1" class="btn btn-primary mt-3">
+                  <i class="fas fa-arrow-right me-2"></i>Read More
+                </a>
+              </div>
+            </div>
+            <div class="col-12 lg:col-6">
+              <div class="post-image">
+                <div class="image-placeholder">
+                  <i class="fas fa-chart-line"></i>
+                  <span>Analytics Dashboard Preview</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Blog Categories -->
+<section class="py-5" style="background-color: var(--bg-secondary);">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="section-title">Browse by Category</h2>
+    </div>
+    
+    <div class="row">
+      <div class="col-12 md:col-6 lg:col-3 mb-3">
+        <div class="category-filter active" data-category="all">
+          <i class="fas fa-th-large me-2"></i>All Posts
+        </div>
+      </div>
+      <div class="col-12 md:col-6 lg:col-3 mb-3">
+        <div class="category-filter" data-category="features">
+          <i class="fas fa-rocket me-2"></i>New Features
+        </div>
+      </div>
+      <div class="col-12 md:col-6 lg:col-3 mb-3">
+        <div class="category-filter" data-category="tutorials">
+          <i class="fas fa-graduation-cap me-2"></i>Tutorials
+        </div>
+      </div>
+      <div class="col-12 md:col-6 lg:col-3 mb-3">
+        <div class="category-filter" data-category="company">
+          <i class="fas fa-building me-2"></i>Company News
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Blog Posts Grid -->
+<section class="py-5">
+  <div class="container">
+    <div class="row" id="blog-posts">
+      <!-- New Features Posts -->
+      <div class="col-12 md:col-6 lg:col-4 mb-4 blog-post" data-category="features">
+        <article class="post-card">
+          <div class="post-image-small">
+            <div class="image-placeholder-small">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="post-category">Features</div>
+          </div>
+          <div class="post-content-small">
+            <h3>Enhanced Security Measures</h3>
+            <p>We've implemented additional security layers including end-to-end encryption and advanced threat detection to protect your transfers.</p>
+            <div class="post-meta-small">
+              <span><i class="fas fa-calendar me-1"></i>Jan 18, 2025</span>
+              <span><i class="fas fa-clock me-1"></i>3 min read</span>
+            </div>
+            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+          </div>
+        </article>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-4 mb-4 blog-post" data-category="tutorials">
+        <article class="post-card">
+          <div class="post-image-small">
+            <div class="image-placeholder-small">
+              <i class="fas fa-cogs"></i>
+            </div>
+            <div class="post-category">Tutorial</div>
+          </div>
+          <div class="post-content-small">
+            <h3>Optimizing Large File Transfers</h3>
+            <p>Learn best practices for transferring large files and folders efficiently. Tips for handling files over 1GB and optimizing transfer speeds.</p>
+            <div class="post-meta-small">
+              <span><i class="fas fa-calendar me-1"></i>Jan 15, 2025</span>
+              <span><i class="fas fa-clock me-1"></i>8 min read</span>
+            </div>
+            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+          </div>
+        </article>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-4 mb-4 blog-post" data-category="company">
+        <article class="post-card">
+          <div class="post-image-small">
+            <div class="image-placeholder-small">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="post-category">Company</div>
+          </div>
+          <div class="post-content-small">
+            <h3>Reaching 50,000 Users Milestone</h3>
+            <p>We're excited to announce that GDrive Transfer has reached 50,000 registered users! Thank you for being part of our journey.</p>
+            <div class="post-meta-small">
+              <span><i class="fas fa-calendar me-1"></i>Jan 12, 2025</span>
+              <span><i class="fas fa-clock me-1"></i>2 min read</span>
+            </div>
+            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+          </div>
+        </article>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-4 mb-4 blog-post" data-category="features">
+        <article class="post-card">
+          <div class="post-image-small">
+            <div class="image-placeholder-small">
+              <i class="fas fa-mobile-alt"></i>
+            </div>
+            <div class="post-category">Features</div>
+          </div>
+          <div class="post-content-small">
+            <h3>Mobile-Responsive Dashboard</h3>
+            <p>Our new mobile-friendly interface makes it easier than ever to monitor your transfers on the go. Full responsiveness across all devices.</p>
+            <div class="post-meta-small">
+              <span><i class="fas fa-calendar me-1"></i>Jan 10, 2025</span>
+              <span><i class="fas fa-clock me-1"></i>4 min read</span>
+            </div>
+            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+          </div>
+        </article>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-4 mb-4 blog-post" data-category="tutorials">
+        <article class="post-card">
+          <div class="post-image-small">
+            <div class="image-placeholder-small">
+              <i class="fas fa-question-circle"></i>
+            </div>
+            <div class="post-category">Tutorial</div>
+          </div>
+          <div class="post-content-small">
+            <h3>Troubleshooting Common Issues</h3>
+            <p>A comprehensive guide to solving the most common transfer problems. From authentication errors to stuck transfers.</p>
+            <div class="post-meta-small">
+              <span><i class="fas fa-calendar me-1"></i>Jan 8, 2025</span>
+              <span><i class="fas fa-clock me-1"></i>12 min read</span>
+            </div>
+            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+          </div>
+        </article>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-4 mb-4 blog-post" data-category="company">
+        <article class="post-card">
+          <div class="post-image-small">
+            <div class="image-placeholder-small">
+              <i class="fas fa-handshake"></i>
+            </div>
+            <div class="post-category">Company</div>
+          </div>
+          <div class="post-content-small">
+            <h3>New Partnership with CloudSecure</h3>
+            <p>We're partnering with CloudSecure to enhance our security infrastructure and provide even better protection for your data.</p>
+            <div class="post-meta-small">
+              <span><i class="fas fa-calendar me-1"></i>Jan 5, 2025</span>
+              <span><i class="fas fa-clock me-1"></i>3 min read</span>
+            </div>
+            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+          </div>
+        </article>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-4 mb-4 blog-post" data-category="features">
+        <article class="post-card">
+          <div class="post-image-small">
+            <div class="image-placeholder-small">
+              <i class="fas fa-bell"></i>
+            </div>
+            <div class="post-category">Features</div>
+          </div>
+          <div class="post-content-small">
+            <h3>Real-time Transfer Notifications</h3>
+            <p>Stay updated with instant notifications when your transfers complete, fail, or need attention. Available via email and in-app.</p>
+            <div class="post-meta-small">
+              <span><i class="fas fa-calendar me-1"></i>Jan 3, 2025</span>
+              <span><i class="fas fa-clock me-1"></i>5 min read</span>
+            </div>
+            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+          </div>
+        </article>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-4 mb-4 blog-post" data-category="tutorials">
+        <article class="post-card">
+          <div class="post-image-small">
+            <div class="image-placeholder-small">
+              <i class="fas fa-lock"></i>
+            </div>
+            <div class="post-category">Tutorial</div>
+          </div>
+          <div class="post-content-small">
+            <h3>Understanding OAuth Security</h3>
+            <p>Learn how OAuth authentication protects your Google accounts and why it's the safest way to authorize file transfers.</p>
+            <div class="post-meta-small">
+              <span><i class="fas fa-calendar me-1"></i>Dec 30, 2024</span>
+              <span><i class="fas fa-clock me-1"></i>6 min read</span>
+            </div>
+            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+          </div>
+        </article>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-4 mb-4 blog-post" data-category="company">
+        <article class="post-card">
+          <div class="post-image-small">
+            <div class="image-placeholder-small">
+              <i class="fas fa-gift"></i>
+            </div>
+            <div class="post-category">Company</div>
+          </div>
+          <div class="post-content-small">
+            <h3>Year-End Review: 2024 Highlights</h3>
+            <p>Looking back at an amazing year of growth, new features, and community milestones. Thank you for making 2024 incredible!</p>
+            <div class="post-meta-small">
+              <span><i class="fas fa-calendar me-1"></i>Dec 28, 2024</span>
+              <span><i class="fas fa-clock me-1"></i>7 min read</span>
+            </div>
+            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+          </div>
+        </article>
+      </div>
+    </div>
+    
+    <!-- Load More Button -->
+    <div class="text-center mt-5">
+      <button class="btn btn-outline-primary btn-lg" id="loadMore">
+        <i class="fas fa-plus me-2"></i>Load More Posts
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter Subscription -->
+<section class="py-5" style="background: var(--primary-gradient);">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 lg:col-8">
+        <div class="newsletter-section text-center text-white">
+          <h3><i class="fas fa-envelope-open me-2"></i>Never Miss an Update</h3>
+          <p>Subscribe to our newsletter and get the latest blog posts, feature announcements, and exclusive tips delivered to your inbox.</p>
+          
+          <form class="newsletter-form mt-4">
+            <div class="input-group">
+              <input type="email" class="form-control newsletter-input" placeholder="Enter your email address" required>
+              <button class="btn btn-light" type="submit">
+                <i class="fas fa-paper-plane me-2"></i>Subscribe
+              </button>
+            </div>
+          </form>
+          
+          <div class="newsletter-benefits mt-4">
+            <div class="benefit">
+              <i class="fas fa-check me-2"></i>Weekly digest of new posts
+            </div>
+            <div class="benefit">
+              <i class="fas fa-check me-2"></i>Exclusive feature previews
+            </div>
+            <div class="benefit">
+              <i class="fas fa-check me-2"></i>No spam, unsubscribe anytime
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.featured-post {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-xl);
+  padding: 3rem;
+  margin-bottom: 3rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.post-excerpt {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.post-meta, .post-meta-small {
+  display: flex;
+  gap: 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+}
+
+.post-image {
+  position: relative;
+}
+
+.image-placeholder {
+  background: var(--bg-tertiary);
+  border: 2px dashed var(--border-color);
+  border-radius: var(--border-radius-lg);
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 3rem;
+}
+
+.image-placeholder span {
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+.category-filter {
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 1rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.category-filter:hover {
+  background: var(--bg-hover);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.category-filter.active {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+.post-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  height: 100%;
+  transition: all var(--transition-smooth);
+}
+
+.post-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.post-image-small {
+  position: relative;
+  height: 200px;
+}
+
+.image-placeholder-small {
+  background: var(--bg-tertiary);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 2rem;
+}
+
+.post-category {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: var(--primary-color);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.post-content-small {
+  padding: 1.5rem;
+}
+
+.post-content-small h3 {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.post-content-small p {
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.post-meta-small {
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.read-more {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.read-more:hover {
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+
+.blog-post {
+  transition: all var(--transition-smooth);
+}
+
+.blog-post.hidden {
+  display: none;
+}
+
+.newsletter-section {
+  padding: 2rem;
+}
+
+.newsletter-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.newsletter-input {
+  border: none;
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+.newsletter-benefits {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.benefit {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .post-meta, .post-meta-small {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .newsletter-benefits {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .featured-post {
+    padding: 2rem;
+  }
+}
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const categoryFilters = document.querySelectorAll('.category-filter');
+  const blogPosts = document.querySelectorAll('.blog-post');
+  const loadMoreBtn = document.getElementById('loadMore');
+  
+  // Category filtering
+  categoryFilters.forEach(filter => {
+    filter.addEventListener('click', function() {
+      const category = this.getAttribute('data-category');
+      
+      // Update active filter
+      categoryFilters.forEach(f => f.classList.remove('active'));
+      this.classList.add('active');
+      
+      // Filter posts
+      blogPosts.forEach(post => {
+        if (category === 'all' || post.getAttribute('data-category') === category) {
+          post.classList.remove('hidden');
+        } else {
+          post.classList.add('hidden');
+        }
+      });
+    });
+  });
+  
+  // Load more functionality (placeholder)
+  loadMoreBtn.addEventListener('click', function() {
+    this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
+    
+    // Simulate loading
+    setTimeout(() => {
+      this.innerHTML = '<i class="fas fa-check me-2"></i>All posts loaded';
+      this.disabled = true;
+    }, 1500);
+  });
+  
+  // Newsletter form
+  const newsletterForm = document.querySelector('.newsletter-form');
+  newsletterForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = this.querySelector('button');
+    const originalText = submitBtn.innerHTML;
+    
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Subscribing...';
+    submitBtn.disabled = true;
+    
+    setTimeout(() => {
+      alert('Thank you for subscribing! Check your email to confirm.');
+      this.reset();
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
+    }, 2000);
+  });
+});
+</script>
+{% endblock %}

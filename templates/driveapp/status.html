@@ -1,0 +1,698 @@
+{% extends 'driveapp/base.html' %}
+
+{% block title %}System Status - Service Health Dashboard - GDrive Transfer{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12">
+        <div class="page-header-content text-center">
+          <h1 class="page-title">
+            <i class="fas fa-heartbeat me-3"></i>System Status
+          </h1>
+          <p class="page-subtitle">Real-time status of our services and infrastructure</p>
+          <div class="overall-status">
+            <span class="status-indicator operational">
+              <i class="fas fa-check-circle me-2"></i>All Systems Operational
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- Current Status Overview -->
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 lg:col-10">
+        <div class="status-overview">
+          <h2 class="section-title text-center mb-5">Service Status</h2>
+          
+          <div class="row">
+            <div class="col-12 md:col-6 lg:col-3 mb-4">
+              <div class="service-status">
+                <div class="service-header">
+                  <div class="service-icon">
+                    <i class="fas fa-cloud"></i>
+                  </div>
+                  <h4>Web Application</h4>
+                </div>
+                <div class="status-badge operational">
+                  <i class="fas fa-check-circle me-2"></i>Operational
+                </div>
+                <div class="service-metrics">
+                  <div class="metric">
+                    <span class="metric-label">Uptime</span>
+                    <span class="metric-value">99.9%</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Response Time</span>
+                    <span class="metric-value">245ms</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-12 md:col-6 lg:col-3 mb-4">
+              <div class="service-status">
+                <div class="service-header">
+                  <div class="service-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                  </div>
+                  <h4>Transfer Engine</h4>
+                </div>
+                <div class="status-badge operational">
+                  <i class="fas fa-check-circle me-2"></i>Operational
+                </div>
+                <div class="service-metrics">
+                  <div class="metric">
+                    <span class="metric-label">Active Transfers</span>
+                    <span class="metric-value">1,247</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Queue Time</span>
+                    <span class="metric-value">< 1min</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-12 md:col-6 lg:col-3 mb-4">
+              <div class="service-status">
+                <div class="service-header">
+                  <div class="service-icon">
+                    <i class="fab fa-google"></i>
+                  </div>
+                  <h4>Google API</h4>
+                </div>
+                <div class="status-badge operational">
+                  <i class="fas fa-check-circle me-2"></i>Operational
+                </div>
+                <div class="service-metrics">
+                  <div class="metric">
+                    <span class="metric-label">API Health</span>
+                    <span class="metric-value">100%</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Rate Limit</span>
+                    <span class="metric-value">Normal</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-12 md:col-6 lg:col-3 mb-4">
+              <div class="service-status">
+                <div class="service-header">
+                  <div class="service-icon">
+                    <i class="fas fa-database"></i>
+                  </div>
+                  <h4>Database</h4>
+                </div>
+                <div class="status-badge operational">
+                  <i class="fas fa-check-circle me-2"></i>Operational
+                </div>
+                <div class="service-metrics">
+                  <div class="metric">
+                    <span class="metric-label">Connection</span>
+                    <span class="metric-value">Stable</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Query Time</span>
+                    <span class="metric-value">12ms</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Performance Metrics -->
+<section class="py-5" style="background-color: var(--bg-secondary);">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 lg:col-10">
+        <h2 class="section-title text-center mb-5">Performance Metrics</h2>
+        
+        <div class="row">
+          <div class="col-12 lg:col-6 mb-4">
+            <div class="metrics-chart">
+              <h4><i class="fas fa-chart-line me-2"></i>Response Time (24h)</h4>
+              <div class="chart-container">
+                <canvas id="responseTimeChart" width="400" height="200"></canvas>
+              </div>
+              <div class="chart-legend">
+                <span class="legend-item">
+                  <span class="legend-color" style="background: var(--success-color);"></span>
+                  Average: 245ms
+                </span>
+                <span class="legend-item">
+                  <span class="legend-color" style="background: var(--warning-color);"></span>
+                  Peak: 1.2s
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-12 lg:col-6 mb-4">
+            <div class="metrics-chart">
+              <h4><i class="fas fa-users me-2"></i>Active Users (24h)</h4>
+              <div class="chart-container">
+                <canvas id="activeUsersChart" width="400" height="200"></canvas>
+              </div>
+              <div class="chart-legend">
+                <span class="legend-item">
+                  <span class="legend-color" style="background: var(--primary-color);"></span>
+                  Current: 3,247
+                </span>
+                <span class="legend-item">
+                  <span class="legend-color" style="background: var(--secondary-color);"></span>
+                  Peak: 8,432
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Incident History -->
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 lg:col-10">
+        <h2 class="section-title text-center mb-5">Recent Incidents</h2>
+        
+        <div class="incident-timeline">
+          <!-- No Current Incidents -->
+          <div class="incident-item resolved">
+            <div class="incident-status">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="incident-content">
+              <div class="incident-header">
+                <h4>No Recent Incidents</h4>
+                <span class="incident-date">All systems running smoothly</span>
+              </div>
+              <p>Our services have been running without any major incidents for the past 30 days. We're committed to maintaining this level of reliability.</p>
+            </div>
+          </div>
+          
+          <!-- Past Incident Example -->
+          <div class="incident-item resolved">
+            <div class="incident-status">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="incident-content">
+              <div class="incident-header">
+                <h4>Resolved: Increased API Response Times</h4>
+                <span class="incident-date">Jan 15, 2025 - 14:30 PST</span>
+              </div>
+              <p>We experienced elevated response times for approximately 45 minutes due to increased traffic. The issue was resolved by scaling our infrastructure.</p>
+              <div class="incident-updates">
+                <div class="update">
+                  <span class="update-time">15:15 PST</span>
+                  <span class="update-text">Issue fully resolved. All services operating normally.</span>
+                </div>
+                <div class="update">
+                  <span class="update-time">14:45 PST</span>
+                  <span class="update-text">Implementing fix. Response times improving.</span>
+                </div>
+                <div class="update">
+                  <span class="update-time">14:30 PST</span>
+                  <span class="update-text">Investigating elevated response times.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="incident-item resolved">
+            <div class="incident-status">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="incident-content">
+              <div class="incident-header">
+                <h4>Resolved: Scheduled Maintenance</h4>
+                <span class="incident-date">Jan 10, 2025 - 02:00 PST</span>
+              </div>
+              <p>Scheduled maintenance to upgrade our database infrastructure. All services were restored ahead of schedule.</p>
+              <div class="incident-stats">
+                <span class="stat">Duration: 1h 30m</span>
+                <span class="stat">Impact: Minimal</span>
+                <span class="stat">Users Affected: < 50</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Uptime Statistics -->
+<section class="py-5" style="background-color: var(--bg-secondary);">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 lg:col-10">
+        <h2 class="section-title text-center mb-5">Historical Uptime</h2>
+        
+        <div class="uptime-stats">
+          <div class="row">
+            <div class="col-12 md:col-3 mb-4">
+              <div class="uptime-card">
+                <h4>Last 24 Hours</h4>
+                <div class="uptime-percentage">99.98%</div>
+                <div class="uptime-bar">
+                  <div class="uptime-fill" style="width: 99.98%;"></div>
+                </div>
+                <small>0.02% downtime (3 minutes)</small>
+              </div>
+            </div>
+            
+            <div class="col-12 md:col-3 mb-4">
+              <div class="uptime-card">
+                <h4>Last 7 Days</h4>
+                <div class="uptime-percentage">99.95%</div>
+                <div class="uptime-bar">
+                  <div class="uptime-fill" style="width: 99.95%;"></div>
+                </div>
+                <small>0.05% downtime (50 minutes)</small>
+              </div>
+            </div>
+            
+            <div class="col-12 md:col-3 mb-4">
+              <div class="uptime-card">
+                <h4>Last 30 Days</h4>
+                <div class="uptime-percentage">99.92%</div>
+                <div class="uptime-bar">
+                  <div class="uptime-fill" style="width: 99.92%;"></div>
+                </div>
+                <small>0.08% downtime (3.4 hours)</small>
+              </div>
+            </div>
+            
+            <div class="col-12 md:col-3 mb-4">
+              <div class="uptime-card">
+                <h4>Last 90 Days</h4>
+                <div class="uptime-percentage">99.89%</div>
+                <div class="uptime-bar">
+                  <div class="uptime-fill" style="width: 99.89%;"></div>
+                </div>
+                <small>0.11% downtime (7.1 hours)</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Status Updates Subscription -->
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 lg:col-8">
+        <div class="subscription-section text-center">
+          <h3><i class="fas fa-bell me-2"></i>Stay Informed</h3>
+          <p>Get notified about planned maintenance, incidents, and service updates</p>
+          
+          <div class="subscription-options">
+            <div class="row">
+              <div class="col-12 md:col-4 mb-3">
+                <div class="subscription-option">
+                  <i class="fas fa-envelope"></i>
+                  <h5>Email Alerts</h5>
+                  <p>Receive notifications via email</p>
+                  <button class="btn btn-outline-primary">Subscribe</button>
+                </div>
+              </div>
+              
+              <div class="col-12 md:col-4 mb-3">
+                <div class="subscription-option">
+                  <i class="fas fa-sms"></i>
+                  <h5>SMS Alerts</h5>
+                  <p>Get instant text messages</p>
+                  <button class="btn btn-outline-primary">Subscribe</button>
+                </div>
+              </div>
+              
+              <div class="col-12 md:col-4 mb-3">
+                <div class="subscription-option">
+                  <i class="fas fa-rss"></i>
+                  <h5>RSS Feed</h5>
+                  <p>Subscribe to our status feed</p>
+                  <a href="#" class="btn btn-outline-primary">RSS Feed</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.overall-status {
+  margin-top: 2rem;
+}
+
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-radius: var(--border-radius-lg);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.status-indicator.operational {
+  background: rgba(72, 187, 120, 0.1);
+  color: #48bb78;
+  border: 2px solid #48bb78;
+}
+
+.service-status {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  text-align: center;
+  height: 100%;
+  transition: all var(--transition-smooth);
+}
+
+.service-status:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.service-header {
+  margin-bottom: 1.5rem;
+}
+
+.service-icon {
+  background: var(--primary-gradient);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 1.2rem;
+}
+
+.service-status h4 {
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.status-badge.operational {
+  background: rgba(72, 187, 120, 0.1);
+  color: #48bb78;
+}
+
+.service-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.metric:last-child {
+  border-bottom: none;
+}
+
+.metric-label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.metric-value {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.metrics-chart {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+}
+
+.chart-container {
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  margin: 1rem 0;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+}
+
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.incident-timeline {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.incident-item {
+  display: flex;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.incident-item:last-child {
+  border-bottom: none;
+}
+
+.incident-status {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 2rem;
+  flex-shrink: 0;
+  font-size: 1.5rem;
+}
+
+.incident-item.resolved .incident-status {
+  background: rgba(72, 187, 120, 0.1);
+  color: #48bb78;
+}
+
+.incident-content {
+  flex: 1;
+}
+
+.incident-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.incident-header h4 {
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.incident-date {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.incident-updates {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius);
+}
+
+.update {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.update:last-child {
+  margin-bottom: 0;
+}
+
+.update-time {
+  color: var(--text-muted);
+  min-width: 100px;
+}
+
+.incident-stats {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.stat {
+  background: var(--bg-hover);
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.uptime-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  text-align: center;
+}
+
+.uptime-percentage {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--success-color);
+  margin: 1rem 0;
+}
+
+.uptime-bar {
+  background: var(--border-color);
+  height: 8px;
+  border-radius: 4px;
+  margin: 1rem 0;
+  overflow: hidden;
+}
+
+.uptime-fill {
+  background: var(--success-color);
+  height: 100%;
+  border-radius: 4px;
+  transition: width var(--transition-smooth);
+}
+
+.subscription-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-xl);
+  padding: 3rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.subscription-option {
+  padding: 2rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--border-radius-lg);
+  margin-bottom: 1rem;
+  transition: all var(--transition-smooth);
+}
+
+.subscription-option:hover {
+  background: var(--bg-hover);
+  border-color: var(--primary-color);
+}
+
+.subscription-option i {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.subscription-option h5 {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Simulate real-time status updates
+document.addEventListener('DOMContentLoaded', function() {
+  // Auto-refresh status every 30 seconds
+  setInterval(updateStatus, 30000);
+  
+  function updateStatus() {
+    // This would make an API call to get real status in production
+    console.log('Updating status...');
+  }
+  
+  // Simple chart simulation (replace with actual charting library)
+  const responseChart = document.getElementById('responseTimeChart');
+  const usersChart = document.getElementById('activeUsersChart');
+  
+  if (responseChart) {
+    const ctx = responseChart.getContext('2d');
+    ctx.fillStyle = 'var(--text-muted)';
+    ctx.font = '16px Inter';
+    ctx.textAlign = 'center';
+    ctx.fillText('Response Time Chart', 200, 100);
+    ctx.fillText('(Chart placeholder)', 200, 120);
+  }
+  
+  if (usersChart) {
+    const ctx = usersChart.getContext('2d');
+    ctx.fillStyle = 'var(--text-muted)';
+    ctx.font = '16px Inter';
+    ctx.textAlign = 'center';
+    ctx.fillText('Active Users Chart', 200, 100);
+    ctx.fillText('(Chart placeholder)', 200, 120);
+  }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,340 @@
+{% extends 'driveapp/base.html' %}
+
+{% block title %}Help Center - GDrive Transfer{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12">
+        <div class="page-header-content text-center">
+          <h1 class="page-title">
+            <i class="fas fa-life-ring me-3"></i>Help Center
+          </h1>
+          <p class="page-subtitle">Find answers to your questions and get the most out of GDrive Transfer</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- Search Section -->
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 lg:col-8">
+        <div class="search-box">
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fas fa-search"></i>
+            </span>
+            <input type="text" class="form-control" placeholder="Search for help articles, guides, and FAQs...">
+            <button class="btn btn-primary" type="button">
+              <i class="fas fa-search me-2"></i>Search
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Popular Topics -->
+<section class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="section-title">Popular Topics</h2>
+      <p class="section-subtitle">Quick access to the most requested help topics</p>
+    </div>
+    
+    <div class="row">
+      <div class="col-12 md:col-6 lg:col-4 mb-4">
+        <div class="help-card">
+          <div class="help-icon">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <h4>Getting Started</h4>
+          <p>Learn how to set up your first transfer and connect your Google Drive accounts.</p>
+          <a href="#getting-started" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-right me-2"></i>Learn More
+          </a>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-4 mb-4">
+        <div class="help-card">
+          <div class="help-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h4>Security & Privacy</h4>
+          <p>Understand how we protect your data and maintain your privacy during transfers.</p>
+          <a href="#security" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-right me-2"></i>Learn More
+          </a>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-4 mb-4">
+        <div class="help-card">
+          <div class="help-icon">
+            <i class="fas fa-cogs"></i>
+          </div>
+          <h4>Troubleshooting</h4>
+          <p>Solve common issues and get your transfers back on track quickly.</p>
+          <a href="#troubleshooting" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-right me-2"></i>Learn More
+          </a>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-4 mb-4">
+        <div class="help-card">
+          <div class="help-icon">
+            <i class="fas fa-exchange-alt"></i>
+          </div>
+          <h4>Transfer Process</h4>
+          <p>Detailed guide on how our transfer system works and what to expect.</p>
+          <a href="#transfer-process" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-right me-2"></i>Learn More
+          </a>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-4 mb-4">
+        <div class="help-card">
+          <div class="help-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h4>Managing Transfers</h4>
+          <p>Monitor progress, cancel transfers, and manage your transfer history.</p>
+          <a href="#managing-transfers" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-right me-2"></i>Learn More
+          </a>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-4 mb-4">
+        <div class="help-card">
+          <div class="help-icon">
+            <i class="fas fa-question-circle"></i>
+          </div>
+          <h4>FAQ</h4>
+          <p>Find quick answers to frequently asked questions about our service.</p>
+          <a href="{% url 'faq' %}" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-right me-2"></i>View FAQ
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Help Categories -->
+<section class="py-5" style="background-color: var(--bg-secondary);">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="section-title">Browse by Category</h2>
+    </div>
+    
+    <div class="row">
+      <div class="col-12 lg:col-6 mb-4">
+        <div class="category-section">
+          <h3 id="getting-started">
+            <i class="fas fa-rocket me-2"></i>Getting Started
+          </h3>
+          <div class="help-articles">
+            <a href="#" class="help-article">
+              <i class="fas fa-file-alt me-2"></i>How to create your first transfer
+            </a>
+            <a href="#" class="help-article">
+              <i class="fas fa-file-alt me-2"></i>Connecting your Google Drive accounts
+            </a>
+            <a href="#" class="help-article">
+              <i class="fas fa-file-alt me-2"></i>Understanding OAuth authentication
+            </a>
+            <a href="#" class="help-article">
+              <i class="fas fa-file-alt me-2"></i>Selecting files and folders
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-12 lg:col-6 mb-4">
+        <div class="category-section">
+          <h3 id="security">
+            <i class="fas fa-shield-alt me-2"></i>Security & Privacy
+          </h3>
+          <div class="help-articles">
+            <a href="#" class="help-article">
+              <i class="fas fa-file-alt me-2"></i>How we protect your data
+            </a>
+            <a href="#" class="help-article">
+              <i class="fas fa-file-alt me-2"></i>OAuth permissions explained
+            </a>
+            <a href="#" class="help-article">
+              <i class="fas fa-file-alt me-2"></i>Data encryption and security
+            </a>
+            <a href="#" class="help-article">
+              <i class="fas fa-file-alt me-2"></i>Revoking access permissions
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-12 lg:col-6 mb-4">
+        <div class="category-section">
+          <h3 id="troubleshooting">
+            <i class="fas fa-cogs me-2"></i>Troubleshooting
+          </h3>
+          <div class="help-articles">
+            <a href="#" class="help-article">
+              <i class="fas fa-file-alt me-2"></i>Transfer failed or stuck
+            </a>
+            <a href="#" class="help-article">
+              <i class="fas fa-file-alt me-2"></i>Authentication errors
+            </a>
+            <a href="#" class="help-article">
+              <i class="fas fa-file-alt me-2"></i>Files not appearing in destination
+            </a>
+            <a href="#" class="help-article">
+              <i class="fas fa-file-alt me-2"></i>Slow transfer speeds
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-12 lg:col-6 mb-4">
+        <div class="category-section">
+          <h3 id="managing-transfers">
+            <i class="fas fa-chart-line me-2"></i>Managing Transfers
+          </h3>
+          <div class="help-articles">
+            <a href="#" class="help-article">
+              <i class="fas fa-file-alt me-2"></i>Monitoring transfer progress
+            </a>
+            <a href="#" class="help-article">
+              <i class="fas fa-file-alt me-2"></i>Canceling active transfers
+            </a>
+            <a href="#" class="help-article">
+              <i class="fas fa-file-alt me-2"></i>Viewing transfer history
+            </a>
+            <a href="#" class="help-article">
+              <i class="fas fa-file-alt me-2"></i>Understanding transfer logs
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Support -->
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 lg:col-8">
+        <div class="support-cta text-center">
+          <h3>Still Need Help?</h3>
+          <p>Can't find what you're looking for? Our support team is here to help you.</p>
+          <div class="support-options">
+            <a href="{% url 'contact' %}" class="btn btn-primary btn-lg me-3">
+              <i class="fas fa-envelope me-2"></i>Contact Support
+            </a>
+            <a href="{% url 'tutorials' %}" class="btn btn-secondary btn-lg">
+              <i class="fas fa-video me-2"></i>Watch Tutorials
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.help-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  text-align: center;
+  height: 100%;
+  transition: all var(--transition-smooth);
+}
+
+.help-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.help-icon {
+  background: var(--primary-gradient);
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 1.5rem;
+}
+
+.category-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  height: 100%;
+}
+
+.category-section h3 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.help-articles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.help-article {
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0.75rem;
+  border-radius: var(--border-radius);
+  transition: all var(--transition-fast);
+}
+
+.help-article:hover {
+  background: var(--bg-hover);
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.search-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+}
+
+.support-cta {
+  background: var(--primary-gradient);
+  color: white;
+  padding: 3rem;
+  border-radius: var(--border-radius-lg);
+}
+
+.support-options {
+  margin-top: 2rem;
+}
+</style>
+{% endblock %}

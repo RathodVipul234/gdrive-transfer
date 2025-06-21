@@ -23,6 +23,7 @@ urlpatterns = [
     # Main app URLs
     path('', views.home, name='home'),
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('transfer-wizard/', views.transfer_wizard, name='transfer_wizard'),
     
     # Google OAuth URLs
     path('login/source/', views.login_source, name='login_source'),
@@ -37,6 +38,7 @@ urlpatterns = [
     # API endpoints
     path('api/transfer-status/<str:transfer_uuid>/', views.get_transfer_status, name='get_transfer_status'),
     path('api/cancel-transfer/<str:transfer_uuid>/', views.cancel_transfer, name='cancel_transfer'),
+    path('api/photos/albums/', views.get_photos_albums, name='get_photos_albums'),
     
     # Privacy and Security URLs
     path('privacy/', privacy_views.privacy_dashboard, name='privacy_dashboard'),
@@ -46,4 +48,23 @@ urlpatterns = [
     path('privacy/revoke-access/', privacy_views.revoke_oauth_access, name='revoke_oauth_access'),
     path('privacy/download-data/', privacy_views.download_user_data, name='download_user_data'),
     path('api/security-dashboard/', privacy_views.security_dashboard_api, name='security_dashboard_api'),
+    
+    # Footer Pages URLs
+    # Support Pages
+    path('help/', views.help_center, name='help_center'),
+    path('faq/', views.faq, name='faq'),
+    path('tutorials/', views.tutorials, name='tutorials'),
+    path('contact/', views.contact, name='contact'),
+    path('status/', views.status, name='status'),
+    
+    # Company Pages
+    path('about/', views.about, name='about'),
+    path('blog/', views.blog, name='blog'),
+    path('careers/', views.careers, name='careers'),
+    path('press/', views.press, name='press'),
+    path('partners/', views.partners, name='partners'),
+    
+    # Legal Pages
+    path('terms/', views.terms, name='terms'),
+    path('cookies/', views.cookies, name='cookies'),
 ]

@@ -560,10 +560,10 @@ a:hover {
 .step-wizard {
   max-width: 1000px;
   margin: 3rem auto;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--bg-card);
   border-radius: var(--border-radius-xl);
   box-shadow: var(--shadow-xl);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-color);
   overflow: hidden;
   backdrop-filter: blur(20px);
 }
@@ -2741,6 +2741,16 @@ a:hover {
   color: var(--text-primary);
 }
 
+[data-theme="dark"] .step-wizard {
+  background: var(--bg-card) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .step-indicator {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)) !important;
+  border-bottom-color: var(--border-color) !important;
+}
+
 [data-theme="dark"] #transfer-wizard .card-title {
   color: var(--text-primary) !important;
 }
@@ -2765,6 +2775,33 @@ a:hover {
 /* Step Indicator Dark Theme */
 [data-theme="dark"] #transfer-wizard .step-label {
   color: var(--text-primary) !important;
+}
+
+/* General Dark Theme Card Overrides */
+[data-theme="dark"] .card {
+  background: var(--bg-card) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .card-header {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)) !important;
+  border-bottom-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .card-title {
+  color: var(--text-primary) !important;
+}
+
+/* Transfer Wizard Section Dark Theme Override */
+[data-theme="dark"] #transfer-wizard {
+  background: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] #transfer-wizard .step-wizard {
+  background: var(--bg-card) !important;
+  border-color: var(--border-color) !important;
 }
 
 [data-theme="dark"] #transfer-wizard .step-number {

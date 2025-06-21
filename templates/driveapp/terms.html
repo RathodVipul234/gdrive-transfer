@@ -1,0 +1,658 @@
+{% extends 'driveapp/base.html' %}
+
+{% block title %}Terms of Service - Legal Information - GDrive Transfer{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12">
+        <div class="page-header-content text-center">
+          <h1 class="page-title">
+            <i class="fas fa-gavel me-3"></i>Terms of Service
+          </h1>
+          <p class="page-subtitle">Legal terms and conditions for using GDrive Transfer services</p>
+          <div class="legal-update">
+            <span class="update-notice">
+              <i class="fas fa-calendar me-2"></i>Last updated: January 1, 2025
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- Table of Contents -->
+<section class="py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 lg:col-3 mb-5">
+        <div class="terms-nav sticky-top">
+          <h4><i class="fas fa-list me-2"></i>Table of Contents</h4>
+          <nav class="terms-navigation">
+            <a href="#acceptance" class="nav-item">1. Acceptance of Terms</a>
+            <a href="#description" class="nav-item">2. Service Description</a>
+            <a href="#account" class="nav-item">3. User Accounts</a>
+            <a href="#usage" class="nav-item">4. Acceptable Use</a>
+            <a href="#privacy" class="nav-item">5. Privacy and Data</a>
+            <a href="#security" class="nav-item">6. Security</a>
+            <a href="#intellectual" class="nav-item">7. Intellectual Property</a>
+            <a href="#disclaimers" class="nav-item">8. Disclaimers</a>
+            <a href="#limitation" class="nav-item">9. Limitation of Liability</a>
+            <a href="#termination" class="nav-item">10. Termination</a>
+            <a href="#changes" class="nav-item">11. Changes to Terms</a>
+            <a href="#contact" class="nav-item">12. Contact Information</a>
+          </nav>
+        </div>
+      </div>
+      
+      <div class="col-12 lg:col-9">
+        <div class="terms-content">
+          <!-- Introduction -->
+          <div class="terms-intro">
+            <h2>Welcome to GDrive Transfer</h2>
+            <p class="lead">These Terms of Service ("Terms") govern your access to and use of GDrive Transfer's services, website, and applications. By using our service, you agree to be bound by these Terms.</p>
+            
+            <div class="important-notice">
+              <i class="fas fa-exclamation-triangle me-2"></i>
+              <strong>Please read these Terms carefully before using our service.</strong> If you do not agree to these Terms, you may not access or use GDrive Transfer.
+            </div>
+          </div>
+          
+          <!-- Section 1: Acceptance of Terms -->
+          <section id="acceptance" class="terms-section">
+            <h3>1. Acceptance of Terms</h3>
+            <p>By accessing or using GDrive Transfer's services, you acknowledge that you have read, understood, and agree to be bound by these Terms and our Privacy Policy. These Terms constitute a legally binding agreement between you and GDrive Transfer.</p>
+            
+            <p>If you are using our service on behalf of an organization, you represent and warrant that you have the authority to bind that organization to these Terms, and your agreement to these Terms will be treated as the agreement of the organization.</p>
+          </section>
+          
+          <!-- Section 2: Service Description -->
+          <section id="description" class="terms-section">
+            <h3>2. Service Description</h3>
+            <p>GDrive Transfer provides a web-based platform that enables users to transfer files and folders between Google Drive accounts. Our service includes:</p>
+            
+            <ul>
+              <li>Secure authentication with Google accounts using OAuth 2.0</li>
+              <li>File and folder listing from connected Google Drive accounts</li>
+              <li>Direct transfer of files between user-specified accounts</li>
+              <li>Real-time transfer progress monitoring and logging</li>
+              <li>Transfer history and status tracking</li>
+            </ul>
+            
+            <div class="service-limitation">
+              <h4>Service Limitations</h4>
+              <p>Our service is subject to certain limitations:</p>
+              <ul>
+                <li>Transfers are limited by Google Drive API quotas and rate limits</li>
+                <li>File size and storage limitations imposed by Google Drive</li>
+                <li>Network connectivity and performance dependencies</li>
+                <li>Availability and reliability of third-party services (Google APIs)</li>
+              </ul>
+            </div>
+          </section>
+          
+          <!-- Section 3: User Accounts -->
+          <section id="account" class="terms-section">
+            <h3>3. User Accounts</h3>
+            
+            <h4>Account Registration</h4>
+            <p>To use GDrive Transfer, you must create an account and provide accurate, current, and complete information. You are responsible for safeguarding your account credentials and for all activities that occur under your account.</p>
+            
+            <h4>Google Account Authorization</h4>
+            <p>Our service requires authorization to access your Google Drive accounts. By granting this authorization, you:</p>
+            <ul>
+              <li>Confirm you have the right to authorize access to the Google accounts</li>
+              <li>Understand that we will only access data necessary to provide our service</li>
+              <li>Acknowledge that you can revoke authorization at any time</li>
+            </ul>
+            
+            <h4>Account Responsibilities</h4>
+            <p>You agree to:</p>
+            <ul>
+              <li>Maintain the security of your account credentials</li>
+              <li>Notify us immediately of any unauthorized use of your account</li>
+              <li>Ensure all information provided is accurate and up-to-date</li>
+              <li>Comply with Google's terms of service for Google Drive</li>
+            </ul>
+          </section>
+          
+          <!-- Section 4: Acceptable Use -->
+          <section id="usage" class="terms-section">
+            <h3>4. Acceptable Use</h3>
+            
+            <h4>Permitted Uses</h4>
+            <p>You may use GDrive Transfer only for lawful purposes and in accordance with these Terms. Permitted uses include:</p>
+            <ul>
+              <li>Transferring your own files between your Google Drive accounts</li>
+              <li>Migrating files you have legal rights to transfer</li>
+              <li>Educational and research purposes (subject to applicable laws)</li>
+              <li>Business use for legitimate data migration needs</li>
+            </ul>
+            
+            <h4>Prohibited Uses</h4>
+            <p>You agree not to use GDrive Transfer to:</p>
+            <ul>
+              <li>Transfer files you do not own or have permission to transfer</li>
+              <li>Violate any laws, regulations, or third-party rights</li>
+              <li>Transmit malware, viruses, or other harmful code</li>
+              <li>Interfere with or disrupt our service or servers</li>
+              <li>Attempt to gain unauthorized access to our systems</li>
+              <li>Use the service for spam, phishing, or other malicious activities</li>
+              <li>Violate Google's terms of service or acceptable use policies</li>
+            </ul>
+          </section>
+          
+          <!-- Section 5: Privacy and Data -->
+          <section id="privacy" class="terms-section">
+            <h3>5. Privacy and Data</h3>
+            
+            <h4>Data Handling</h4>
+            <p>We are committed to protecting your privacy and data. Key principles include:</p>
+            <ul>
+              <li><strong>No File Storage:</strong> We do not store, cache, or retain your files during transfers</li>
+              <li><strong>Direct Transfer:</strong> Files move directly between your Google Drive accounts</li>
+              <li><strong>Minimal Data Collection:</strong> We only collect data necessary to provide our service</li>
+              <li><strong>Secure Processing:</strong> All data is processed using industry-standard security measures</li>
+            </ul>
+            
+            <h4>Information We Collect</h4>
+            <p>We may collect:</p>
+            <ul>
+              <li>Account information (email, name) from your registration</li>
+              <li>Transfer metadata (file names, sizes, transfer status)</li>
+              <li>Usage analytics and performance metrics</li>
+              <li>Technical information (IP address, browser type, device information)</li>
+            </ul>
+            
+            <p>For complete details, please review our <a href="{% url 'privacy_dashboard' %}">Privacy Policy</a>.</p>
+          </section>
+          
+          <!-- Section 6: Security -->
+          <section id="security" class="terms-section">
+            <h3>6. Security</h3>
+            
+            <p>We implement robust security measures to protect your data and our service:</p>
+            
+            <h4>Technical Safeguards</h4>
+            <ul>
+              <li>End-to-end encryption for all data transfers</li>
+              <li>Secure OAuth 2.0 authentication with Google</li>
+              <li>Regular security audits and vulnerability assessments</li>
+              <li>Monitoring and intrusion detection systems</li>
+            </ul>
+            
+            <h4>Your Security Responsibilities</h4>
+            <p>You agree to:</p>
+            <ul>
+              <li>Use strong, unique passwords for your accounts</li>
+              <li>Keep your devices and software updated</li>
+              <li>Report security vulnerabilities or incidents to us immediately</li>
+              <li>Not share your account credentials with others</li>
+            </ul>
+          </section>
+          
+          <!-- Section 7: Intellectual Property -->
+          <section id="intellectual" class="terms-section">
+            <h3>7. Intellectual Property</h3>
+            
+            <h4>Our Rights</h4>
+            <p>GDrive Transfer and all related content, features, and functionality are owned by us and are protected by copyright, trademark, and other intellectual property laws.</p>
+            
+            <h4>Your Rights</h4>
+            <p>You retain all rights to your files and data. By using our service, you grant us a limited license to:</p>
+            <ul>
+              <li>Access your files solely to provide transfer services</li>
+              <li>Process metadata for service optimization and support</li>
+              <li>Use anonymized, aggregated data for analytics and improvements</li>
+            </ul>
+            
+            <h4>Respect for Third-Party Rights</h4>
+            <p>You warrant that your use of our service does not infringe on the intellectual property rights of others.</p>
+          </section>
+          
+          <!-- Section 8: Disclaimers -->
+          <section id="disclaimers" class="terms-section">
+            <h3>8. Disclaimers</h3>
+            
+            <div class="legal-notice">
+              <h4>Service Provided "As Is"</h4>
+              <p>GDrive Transfer is provided on an "as is" and "as available" basis. We make no warranties, expressed or implied, including but not limited to:</p>
+              <ul>
+                <li>Merchantability or fitness for a particular purpose</li>
+                <li>Uninterrupted or error-free operation</li>
+                <li>Complete accuracy or reliability of transfers</li>
+                <li>Compatibility with all systems or configurations</li>
+              </ul>
+            </div>
+            
+            <h4>Third-Party Dependencies</h4>
+            <p>Our service relies on third-party providers, including Google. We are not responsible for:</p>
+            <ul>
+              <li>Google Drive service availability or performance</li>
+              <li>Changes to Google APIs or policies</li>
+              <li>Network connectivity issues</li>
+              <li>Third-party service interruptions</li>
+            </ul>
+          </section>
+          
+          <!-- Section 9: Limitation of Liability -->
+          <section id="limitation" class="terms-section">
+            <h3>9. Limitation of Liability</h3>
+            
+            <div class="legal-notice">
+              <p><strong>To the maximum extent permitted by law, GDrive Transfer shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to:</strong></p>
+              <ul>
+                <li>Loss of data, files, or information</li>
+                <li>Loss of profits or business opportunities</li>
+                <li>Service interruptions or delays</li>
+                <li>Unauthorized access to accounts or data</li>
+              </ul>
+              
+              <p><strong>In no event shall our total liability exceed the amount paid by you for our service in the twelve months preceding the claim.</strong></p>
+            </div>
+            
+            <h4>Force Majeure</h4>
+            <p>We are not liable for delays or failures due to circumstances beyond our reasonable control, including natural disasters, government actions, internet outages, or third-party service failures.</p>
+          </section>
+          
+          <!-- Section 10: Termination -->
+          <section id="termination" class="terms-section">
+            <h3>10. Termination</h3>
+            
+            <h4>Termination by You</h4>
+            <p>You may terminate your account at any time by:</p>
+            <ul>
+              <li>Deleting your account through our platform</li>
+              <li>Revoking Google account authorizations</li>
+              <li>Contacting our support team</li>
+            </ul>
+            
+            <h4>Termination by Us</h4>
+            <p>We may suspend or terminate your access if you:</p>
+            <ul>
+              <li>Violate these Terms or our policies</li>
+              <li>Engage in fraudulent or illegal activities</li>
+              <li>Abuse our service or harm other users</li>
+              <li>Fail to comply with applicable laws</li>
+            </ul>
+            
+            <h4>Effect of Termination</h4>
+            <p>Upon termination:</p>
+            <ul>
+              <li>Your access to our service will be discontinued</li>
+              <li>We will delete your account data within 30 days</li>
+              <li>These Terms will continue to apply to past use</li>
+              <li>Surviving provisions will remain in effect</li>
+            </ul>
+          </section>
+          
+          <!-- Section 11: Changes to Terms -->
+          <section id="changes" class="terms-section">
+            <h3>11. Changes to Terms</h3>
+            
+            <p>We may update these Terms from time to time. When we make changes:</p>
+            <ul>
+              <li>We will post the updated Terms on our website</li>
+              <li>We will update the "Last modified" date</li>
+              <li>For material changes, we will provide additional notice</li>
+              <li>Continued use of our service constitutes acceptance of new Terms</li>
+            </ul>
+            
+            <p>We encourage you to review these Terms periodically to stay informed of any updates.</p>
+          </section>
+          
+          <!-- Section 12: Contact Information -->
+          <section id="contact" class="terms-section">
+            <h3>12. Contact Information</h3>
+            
+            <p>If you have questions about these Terms or our service, please contact us:</p>
+            
+            <div class="contact-info">
+              <div class="contact-method">
+                <h4>Email</h4>
+                <p><a href="mailto:legal@gdrivetransfer.com">legal@gdrivetransfer.com</a></p>
+              </div>
+              
+              <div class="contact-method">
+                <h4>Support</h4>
+                <p><a href="{% url 'contact' %}">Contact Support Team</a></p>
+              </div>
+              
+              <div class="contact-method">
+                <h4>Mailing Address</h4>
+                <p>
+                  GDrive Transfer<br>
+                  123 Tech Street<br>
+                  San Francisco, CA 94105<br>
+                  United States
+                </p>
+              </div>
+            </div>
+          </section>
+          
+          <!-- Legal Footer -->
+          <div class="legal-footer">
+            <div class="footer-notice">
+              <p><strong>Governing Law:</strong> These Terms are governed by the laws of the State of California, without regard to conflict of law principles.</p>
+              <p><strong>Dispute Resolution:</strong> Any disputes arising from these Terms will be resolved through binding arbitration in accordance with the rules of the American Arbitration Association.</p>
+              <p><strong>Severability:</strong> If any provision of these Terms is found to be unenforceable, the remaining provisions will remain in full force and effect.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.legal-update {
+  margin-top: 1rem;
+}
+
+.update-notice {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+}
+
+.terms-nav {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+  top: 2rem;
+}
+
+.terms-nav h4 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.terms-navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-item {
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius);
+  transition: all var(--transition-fast);
+  font-size: 0.9rem;
+  border-left: 3px solid transparent;
+}
+
+.nav-item:hover {
+  background: var(--bg-hover);
+  color: var(--primary-color);
+  text-decoration: none;
+  border-left-color: var(--primary-color);
+}
+
+.terms-content {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 3rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.terms-intro {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.terms-intro h2 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+}
+
+.important-notice {
+  background: rgba(245, 87, 108, 0.1);
+  border: 1px solid #f5576c;
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  margin-top: 2rem;
+  color: #d63384;
+}
+
+.terms-section {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.terms-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.terms-section h3 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.terms-section h4 {
+  color: var(--text-primary);
+  margin: 2rem 0 1rem 0;
+  font-size: 1.2rem;
+}
+
+.terms-section p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.terms-section ul {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  padding-left: 2rem;
+}
+
+.terms-section li {
+  margin-bottom: 0.5rem;
+}
+
+.service-limitation, .legal-notice {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.service-limitation h4, .legal-notice h4 {
+  color: var(--primary-color);
+  margin-top: 0;
+}
+
+.legal-notice {
+  border-left: 4px solid var(--warning-color);
+}
+
+.contact-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.contact-method {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+}
+
+.contact-method h4 {
+  color: var(--primary-color);
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.contact-method a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-method a:hover {
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+
+.legal-footer {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  margin-top: 3rem;
+}
+
+.footer-notice p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.footer-notice p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 992px) {
+  .terms-nav {
+    position: static !important;
+    margin-bottom: 2rem;
+  }
+  
+  .terms-navigation {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+  
+  .nav-item {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+    border-left: none;
+    border-bottom: 3px solid transparent;
+  }
+  
+  .nav-item:hover {
+    border-left: none;
+    border-bottom-color: var(--primary-color);
+  }
+  
+  .terms-content {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-info {
+    grid-template-columns: 1fr;
+  }
+  
+  .terms-content {
+    padding: 1.5rem;
+  }
+  
+  .terms-intro {
+    margin-bottom: 2rem;
+  }
+  
+  .terms-section {
+    margin-bottom: 2rem;
+  }
+}
+
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Active section highlighting */
+.nav-item.active {
+  background: var(--primary-color);
+  color: white;
+  border-left-color: var(--primary-color);
+}
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Smooth scrolling for navigation links
+  const navLinks = document.querySelectorAll('.terms-navigation .nav-item');
+  
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const targetId = this.getAttribute('href').substring(1);
+      const targetElement = document.getElementById(targetId);
+      
+      if (targetElement) {
+        const navHeight = document.querySelector('.terms-nav').offsetHeight;
+        const targetPosition = targetElement.offsetTop - navHeight - 20;
+        
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+        
+        // Update active state
+        navLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+      }
+    });
+  });
+  
+  // Highlight current section on scroll
+  const sections = document.querySelectorAll('.terms-section');
+  
+  window.addEventListener('scroll', function() {
+    let current = '';
+    
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 200;
+      if (scrollY >= sectionTop) {
+        current = section.id;
+      }
+    });
+    
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  });
+  
+  // Print functionality
+  if (window.location.search.includes('print=true')) {
+    window.print();
+  }
+});
+</script>
+{% endblock %}

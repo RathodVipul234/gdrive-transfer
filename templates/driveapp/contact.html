@@ -1,0 +1,525 @@
+{% extends 'driveapp/base.html' %}
+
+{% block title %}Contact Us - Support & Help - GDrive Transfer{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12">
+        <div class="page-header-content text-center">
+          <h1 class="page-title">
+            <i class="fas fa-envelope me-3"></i>Contact Us
+          </h1>
+          <p class="page-subtitle">Get in touch with our support team - we're here to help!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- Contact Options -->
+<section class="py-5">
+  <div class="container">
+    <div class="row">
+      <!-- Contact Form -->
+      <div class="col-12 lg:col-8 mb-5">
+        <div class="contact-form-section">
+          <div class="section-header">
+            <h2><i class="fas fa-paper-plane me-2"></i>Send us a Message</h2>
+            <p>Fill out the form below and we'll get back to you within 24 hours.</p>
+          </div>
+          
+          <form class="contact-form" method="post" action="">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-12 md:col-6 mb-3">
+                <label for="name" class="form-label">
+                  <i class="fas fa-user me-2"></i>Full Name *
+                </label>
+                <input type="text" class="form-control" id="name" name="name" required>
+              </div>
+              
+              <div class="col-12 md:col-6 mb-3">
+                <label for="email" class="form-label">
+                  <i class="fas fa-envelope me-2"></i>Email Address *
+                </label>
+                <input type="email" class="form-control" id="email" name="email" required>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-12 md:col-6 mb-3">
+                <label for="subject" class="form-label">
+                  <i class="fas fa-tag me-2"></i>Subject Category *
+                </label>
+                <select class="form-control form-select" id="subject" name="subject" required>
+                  <option value="">Select a category...</option>
+                  <option value="technical">Technical Support</option>
+                  <option value="billing">Billing Questions</option>
+                  <option value="feature">Feature Request</option>
+                  <option value="bug">Bug Report</option>
+                  <option value="account">Account Issues</option>
+                  <option value="general">General Inquiry</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              
+              <div class="col-12 md:col-6 mb-3">
+                <label for="priority" class="form-label">
+                  <i class="fas fa-exclamation-circle me-2"></i>Priority Level
+                </label>
+                <select class="form-control form-select" id="priority" name="priority">
+                  <option value="low">Low - General question</option>
+                  <option value="medium" selected>Medium - Need assistance</option>
+                  <option value="high">High - Service disruption</option>
+                  <option value="urgent">Urgent - Critical issue</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="message" class="form-label">
+                <i class="fas fa-comment me-2"></i>Message *
+              </label>
+              <textarea class="form-control" id="message" name="message" rows="6" 
+                        placeholder="Please describe your issue or question in detail. Include any error messages, transfer IDs, or specific steps you've taken." required></textarea>
+            </div>
+            
+            <div class="mb-3">
+              <label for="transfer_id" class="form-label">
+                <i class="fas fa-id-card me-2"></i>Transfer ID (if applicable)
+              </label>
+              <input type="text" class="form-control" id="transfer_id" name="transfer_id" 
+                     placeholder="Enter transfer UUID if your question relates to a specific transfer">
+            </div>
+            
+            <div class="form-check mb-4">
+              <input class="form-check-input" type="checkbox" id="subscribe" name="subscribe">
+              <label class="form-check-label" for="subscribe">
+                Send me helpful tips and updates about GDrive Transfer
+              </label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-lg">
+              <i class="fas fa-paper-plane me-2"></i>Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+      
+      <!-- Contact Info -->
+      <div class="col-12 lg:col-4">
+        <div class="contact-info">
+          <!-- Response Time -->
+          <div class="info-card">
+            <div class="info-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <h4>Response Time</h4>
+            <p>We typically respond to all inquiries within 24 hours during business days.</p>
+            <div class="response-times">
+              <div class="response-item">
+                <span class="response-type">General Questions</span>
+                <span class="response-time">< 24 hours</span>
+              </div>
+              <div class="response-item">
+                <span class="response-type">Technical Issues</span>
+                <span class="response-time">< 12 hours</span>
+              </div>
+              <div class="response-item">
+                <span class="response-type">Urgent Issues</span>
+                <span class="response-time">< 4 hours</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Business Hours -->
+          <div class="info-card">
+            <div class="info-icon">
+              <i class="fas fa-business-time"></i>
+            </div>
+            <h4>Business Hours</h4>
+            <p>Our support team is available during the following hours:</p>
+            <div class="business-hours">
+              <div class="hours-item">
+                <span class="day">Monday - Friday</span>
+                <span class="time">9:00 AM - 6:00 PM PST</span>
+              </div>
+              <div class="hours-item">
+                <span class="day">Saturday</span>
+                <span class="time">10:00 AM - 4:00 PM PST</span>
+              </div>
+              <div class="hours-item">
+                <span class="day">Sunday</span>
+                <span class="time">Closed</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Quick Links -->
+          <div class="info-card">
+            <div class="info-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <h4>Quick Solutions</h4>
+            <p>Looking for immediate help? Try these resources:</p>
+            <div class="quick-links">
+              <a href="{% url 'faq' %}" class="quick-link">
+                <i class="fas fa-question-circle me-2"></i>FAQ
+              </a>
+              <a href="{% url 'tutorials' %}" class="quick-link">
+                <i class="fas fa-video me-2"></i>Video Tutorials
+              </a>
+              <a href="{% url 'help_center' %}" class="quick-link">
+                <i class="fas fa-life-ring me-2"></i>Help Center
+              </a>
+              <a href="{% url 'status' %}" class="quick-link">
+                <i class="fas fa-heartbeat me-2"></i>System Status
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Alternative Contact Methods -->
+<section class="py-5" style="background-color: var(--bg-secondary);">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="section-title">Other Ways to Reach Us</h2>
+      <p class="section-subtitle">Choose the method that works best for you</p>
+    </div>
+    
+    <div class="row">
+      <div class="col-12 md:col-6 lg:col-3 mb-4">
+        <div class="contact-method">
+          <div class="method-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <h4>Email Support</h4>
+          <p>Send us an email for detailed technical questions or account issues.</p>
+          <a href="mailto:support@gdrivetransfer.com" class="contact-link">
+            support@gdrivetransfer.com
+          </a>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-3 mb-4">
+        <div class="contact-method">
+          <div class="method-icon">
+            <i class="fab fa-twitter"></i>
+          </div>
+          <h4>Twitter Support</h4>
+          <p>Follow us for updates and quick support responses on social media.</p>
+          <a href="https://twitter.com/gdrivetransfer" class="contact-link" target="_blank">
+            @gdrivetransfer
+          </a>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-3 mb-4">
+        <div class="contact-method">
+          <div class="method-icon">
+            <i class="fab fa-discord"></i>
+          </div>
+          <h4>Community Discord</h4>
+          <p>Join our Discord server to get help from the community and our team.</p>
+          <a href="https://discord.gg/gdrivetransfer" class="contact-link" target="_blank">
+            Join Discord
+          </a>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-3 mb-4">
+        <div class="contact-method">
+          <div class="method-icon">
+            <i class="fab fa-github"></i>
+          </div>
+          <h4>GitHub Issues</h4>
+          <p>Report bugs or request features on our public GitHub repository.</p>
+          <a href="https://github.com/gdrivetransfer/issues" class="contact-link" target="_blank">
+            Open Issue
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Emergency Support -->
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 lg:col-8">
+        <div class="emergency-support">
+          <div class="emergency-header">
+            <div class="emergency-icon">
+              <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3>Need Urgent Help?</h3>
+          </div>
+          <div class="emergency-content">
+            <p>If you're experiencing a critical issue that's preventing you from using our service, or if you've encountered a security concern, please contact us immediately:</p>
+            <div class="emergency-actions">
+              <a href="mailto:urgent@gdrivetransfer.com" class="btn btn-danger btn-lg me-3">
+                <i class="fas fa-bolt me-2"></i>Emergency Email
+              </a>
+              <a href="{% url 'status' %}" class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-heartbeat me-2"></i>Check System Status
+              </a>
+            </div>
+            <div class="emergency-note">
+              <small><i class="fas fa-info-circle me-1"></i>Emergency support is for critical issues only. For general questions, please use the contact form above.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.contact-form-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-md);
+}
+
+.section-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.section-header h2 {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.contact-form .form-label {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.info-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.info-icon {
+  background: var(--primary-gradient);
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 1.5rem;
+}
+
+.info-card h4 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.response-times, .business-hours {
+  text-align: left;
+  margin-top: 1rem;
+}
+
+.response-item, .hours-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.response-item:last-child, .hours-item:last-child {
+  border-bottom: none;
+}
+
+.response-type, .day {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.response-time, .time {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.quick-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.quick-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0.75rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--border-radius);
+  transition: all var(--transition-fast);
+  text-align: left;
+}
+
+.quick-link:hover {
+  background: var(--bg-hover);
+  color: var(--primary-color);
+  text-decoration: none;
+  border-color: var(--primary-color);
+}
+
+.contact-method {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  text-align: center;
+  height: 100%;
+  transition: all var(--transition-smooth);
+}
+
+.contact-method:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.method-icon {
+  background: var(--secondary-gradient);
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 1.5rem;
+}
+
+.contact-method h4 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.contact-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  transition: all var(--transition-fast);
+}
+
+.contact-link:hover {
+  background: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+.emergency-support {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  color: white;
+  border-radius: var(--border-radius-xl);
+  padding: 3rem;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+}
+
+.emergency-header {
+  margin-bottom: 2rem;
+}
+
+.emergency-icon {
+  background: rgba(255,255,255,0.2);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 2rem;
+}
+
+.emergency-actions {
+  margin: 2rem 0;
+}
+
+.emergency-note {
+  background: rgba(255,255,255,0.1);
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  margin-top: 2rem;
+}
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Form validation and enhancement
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.querySelector('.contact-form');
+  const subjectSelect = document.getElementById('subject');
+  const messageTextarea = document.getElementById('message');
+  
+  // Auto-populate message placeholder based on subject
+  subjectSelect.addEventListener('change', function() {
+    const placeholders = {
+      'technical': 'Please describe the technical issue you\'re experiencing. Include any error messages, browser information, and steps to reproduce the problem.',
+      'billing': 'Please describe your billing question or concern. Include any relevant account information.',
+      'feature': 'Please describe the feature you\'d like to see added or improved. Explain how it would benefit you and other users.',
+      'bug': 'Please describe the bug you encountered. Include steps to reproduce it, expected behavior vs actual behavior, and any error messages.',
+      'account': 'Please describe the account issue you\'re experiencing. Include your account email and any relevant details.',
+      'general': 'Please describe your question or inquiry in detail.',
+      'other': 'Please describe your question or concern in detail.'
+    };
+    
+    if (placeholders[this.value]) {
+      messageTextarea.placeholder = placeholders[this.value];
+    }
+  });
+  
+  // Form submission handling
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Show loading state
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
+    submitBtn.disabled = true;
+    
+    // Simulate form submission (replace with actual form handling)
+    setTimeout(() => {
+      alert('Thank you for your message! We\'ll get back to you within 24 hours.');
+      form.reset();
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
+    }, 2000);
+  });
+});
+</script>
+{% endblock %}

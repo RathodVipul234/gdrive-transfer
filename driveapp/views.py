@@ -15,6 +15,7 @@ from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
 from .models import FileTransfer, TransferLog
 from .utils import get_user_credentials, list_files_and_folders, create_folder, build_drive_service, copy_file_between_drives,get_folder_name
+from .photos_utils import build_photos_service, list_albums
 import threading
 from django.contrib.auth.models import User
 from django.http import JsonResponse
@@ -41,11 +42,12 @@ def require_auth(view_func):
         return view_func(request, *args, **kwargs)
     return wrapper
 
-# SCOPES for Google Drive
+# SCOPES for Google Drive and Google Photos
 SCOPES = [
     "https://www.googleapis.com/auth/userinfo.email",
     "openid",
-    "https://www.googleapis.com/auth/drive"
+    "https://www.googleapis.com/auth/drive",
+    "https://www.googleapis.com/auth/photoslibrary"
 ]
 
 # Path to the credentials file
@@ -166,6 +168,8 @@ def oauth2callback_source(request):
         user_info_service = build('oauth2', 'v2', credentials=credentials)
         user_info = user_info_service.userinfo().get().execute()
         source_email = user_info.get('email')
+        
+        logger.info(f"OAuth granted scopes: {credentials.scopes}")
         
         # Save source email in session
         request.session['source_email'] = source_email
@@ -300,6 +304,76 @@ def home(request):
     
     return render(request, 'driveapp/home.html', context)
 
+@login_required
+def transfer_wizard(request):
+    """Transfer wizard page with step-by-step interface"""
+    # Initialize context with default values
+    context = {
+        'source_logged_in': False,
+        'dest_logged_in': False,
+        'source_email': None,
+        'dest_email': None,
+        'transfer_id': None,
+        'source_folders': [],
+        'destination_folders': [],
+    }
+    
+    creds_source = request.session.get('credentials_source')
+    creds_destination = request.session.get('credentials_destination')
+    
+    source_email = request.session.get('source_email')
+    dest_email = request.session.get('dest_email')
+    transfer_id = request.session.get('transfer_id', None)
+    
+    # Check if transfer is still active, if not remove from session
+    active_transfer_id = None
+    if transfer_id:
+        try:
+            transfer = FileTransfer.objects.get(transfer_uuid=transfer_id)
+            if transfer.status == 'in_progress':
+                active_transfer_id = transfer_id
+            else:
+                # Transfer is completed/failed/cancelled, remove from session
+                request.session.pop('transfer_id', None)
+        except FileTransfer.DoesNotExist:
+            # Transfer doesn't exist, remove from session
+            request.session.pop('transfer_id', None)
+    
+    # Update context with authenticated user data
+    context.update({
+        'source_logged_in': bool(creds_source),
+        'dest_logged_in': bool(creds_destination),
+        'source_email': source_email,
+        'dest_email': dest_email,
+        'transfer_id': active_transfer_id,
+    })
+
+    # Fetch folders only if both Google accounts are connected
+    if creds_source and creds_destination:
+        try:
+            service_source = build_drive_service(creds_source)
+            service_destination = build_drive_service(creds_destination)
+
+            # Fetch the folders from both source and destination drives
+            source_folders = service_source.files().list(
+                q="'root' in parents",
+                fields="files(id, name, mimeType, parents)"
+            ).execute().get('files', [])
+
+            destination_folders = service_destination.files().list(
+                q="'root' in parents and mimeType='application/vnd.google-apps.folder'",
+                fields="files(id, name, parents)"
+            ).execute().get('files', [])
+
+            context['source_folders'] = source_folders
+            context['destination_folders'] = destination_folders
+            logger.info("Successfully fetched source and destination folders for wizard.")
+        except Exception as e:
+            logger.error(f"Error fetching folders for wizard: {str(e)}")
+            messages.error(request, "Failed to fetch folders. Please try reconnecting your accounts.")
+    
+    return render(request, 'driveapp/transfer_wizard.html', context)
+
 def logout_view(request):
     logout(request)
     request.session.flush()
@@ -355,19 +429,75 @@ def transfer_file(request):
         
         # Use the authenticated user for the transfer
         user = request.user
-        # Validate folder IDs
-        source_folder_id = request.POST.get('source_folder_id')
-        destination_folder_id = request.POST.get('destination_folder_id')
         
-        if not source_folder_id or not destination_folder_id:
-            logger.error("Missing source or destination folder ID")
-            return JsonResponse({'error': 'Both source and destination folders must be selected'}, status=400)
+        # Get transfer type and source parameters
+        transfer_type = request.POST.get('transfer_type', 'drive')
+        destination_folder_id = request.POST.get('destination_folder_id')
+        new_folder_name = request.POST.get('new_folder_name')
+        new_folder_parent = request.POST.get('new_folder_parent')
+        
+        # Validate source based on transfer type
+        if transfer_type == 'photos':
+            source_album_id = request.POST.get('source_album_id')
+            photos_date_filter = request.POST.get('photos_date_filter', 'all')
+            
+            if not source_album_id:
+                logger.error("Missing source album ID for Photos transfer")
+                return JsonResponse({'error': 'Source album must be selected for Photos transfer'}, status=400)
+            
+            # For photos transfers, source_folder_id will be None
+            source_folder_id = None
+        else:
+            source_folder_id = request.POST.get('source_folder_id')
+            source_album_id = None
+            photos_date_filter = None
+            
+            if not source_folder_id:
+                logger.error("Missing source folder ID for Drive transfer")
+                return JsonResponse({'error': 'Source folder must be selected for Drive transfer'}, status=400)
+        
+        # Validate destination folder (required for both transfer types)
+        if not destination_folder_id:
+            logger.error("Missing destination folder ID")
+            return JsonResponse({'error': 'Destination folder must be selected'}, status=400)
+        
+        # Handle new folder creation
+        if destination_folder_id == 'create_new':
+            if not new_folder_name or not new_folder_name.strip():
+                logger.error("Missing new folder name")
+                return JsonResponse({'error': 'New folder name is required'}, status=400)
+            
+            # Clean the folder name
+            new_folder_name = new_folder_name.strip()
+            parent_folder_id = new_folder_parent if new_folder_parent else 'root'
         
         try:
+            # Build drive services first (needed for folder creation)
+            try:
+                service_source = build_drive_service(creds_source)
+                service_destination = build_drive_service(creds_destination)
+            except Exception as e:
+                logger.error(f"Error building drive services: {str(e)}")
+                return JsonResponse({'error': 'Error connecting to Google Drive'}, status=500)
+            
+            # Create new folder if requested
+            if destination_folder_id == 'create_new':
+                try:
+                    logger.info(f"Creating new folder '{new_folder_name}' in parent '{parent_folder_id}'")
+                    new_folder_id = create_folder(service_destination, new_folder_name, parent_folder_id)
+                    destination_folder_id = new_folder_id
+                    logger.info(f"Successfully created new folder with ID: {new_folder_id}")
+                except Exception as e:
+                    logger.error(f"Error creating new folder: {str(e)}")
+                    return JsonResponse({'error': f'Error creating folder "{new_folder_name}": {str(e)}'}, status=500)
+            
             obj = FileTransfer.objects.create(
                 user=user,
+                transfer_type=transfer_type,
                 source_folder_id=source_folder_id,
                 destination_folder_id=destination_folder_id,
+                photos_album_id=source_album_id,
+                photos_date_filter=photos_date_filter,
                 status='pending',
                 transfer_uuid=str(uuid.uuid4())
             )
@@ -375,46 +505,63 @@ def transfer_file(request):
             obj.source_email = request.session.get('source_email')
             obj.destination_email = request.session.get('dest_email')
             obj.save()
-            
-            # Build drive services with error handling
-            try:
-                service_source = build_drive_service(creds_source)
-                service_destination = build_drive_service(creds_destination)
-            except Exception as e:
-                logger.error(f"Error building drive services: {str(e)}")
-                obj.status = 'failed'
-                obj.save()
-                return JsonResponse({'error': 'Error connecting to Google Drive'}, status=500)
 
-            # List files once with error handling
+            # List items based on transfer type
             try:
-                logger.info(f"Transfer {obj.transfer_uuid}: Listing files from folder ID: {obj.source_folder_id}")
-                all_items = list_files_and_folders(service_source, obj.source_folder_id)
-                logger.info(f"Transfer {obj.transfer_uuid}: Raw file listing completed. Items found: {len(all_items)}")
+                if transfer_type == 'photos':
+                    # List photos from Google Photos
+                    logger.info(f"Transfer {obj.transfer_uuid}: Listing photos from album ID: {source_album_id}")
+                    photos_credentials = build_photos_service(creds_source)
+                    
+                    # Import photos utils
+                    from .photos_utils import list_media_items
+                    
+                    # Get date filter if specified
+                    date_filter = None
+                    if photos_date_filter and photos_date_filter != 'all':
+                        # You can implement date filtering logic here
+                        pass
+                    
+                    # List media items
+                    album_id = source_album_id if source_album_id != 'all' else None
+                    all_items = list_media_items(photos_credentials, album_id, date_filter)
+                    logger.info(f"Transfer {obj.transfer_uuid}: Photos listing completed. Items found: {len(all_items)}")
+                else:
+                    # List files from Google Drive
+                    logger.info(f"Transfer {obj.transfer_uuid}: Listing files from folder ID: {obj.source_folder_id}")
+                    all_items = list_files_and_folders(service_source, obj.source_folder_id)
+                    logger.info(f"Transfer {obj.transfer_uuid}: Drive listing completed. Items found: {len(all_items)}")
                 
                 # Log first few items for debugging
                 for i, item in enumerate(all_items[:5]):
-                    logger.info(f"Item {i+1}: {item.get('name', 'Unknown')} (Type: {item.get('mimeType', 'Unknown')})")
+                    logger.info(f"Item {i+1}: {item.get('filename' if transfer_type == 'photos' else 'name', 'Unknown')}")
                     
             except Exception as e:
-                logger.error(f"Error listing files: {str(e)}")
+                logger.error(f"Error listing items: {str(e)}")
                 obj.status = 'failed'
                 obj.save()
-                return JsonResponse({'error': 'Error accessing source folder'}, status=500)
+                return JsonResponse({'error': f'Error accessing source {transfer_type}'}, status=500)
 
             # Save file count and log details
-            files_only = [item for item in all_items if item['mimeType'] != 'application/vnd.google-apps.folder']
-            folders_only = [item for item in all_items if item['mimeType'] == 'application/vnd.google-apps.folder']
-            obj.total_files = len(files_only)
+            if transfer_type == 'photos':
+                # For photos, all items are media files
+                obj.total_files = len(all_items)
+                folders_only = []
+            else:
+                # For drive, separate files and folders
+                files_only = [item for item in all_items if item['mimeType'] != 'application/vnd.google-apps.folder']
+                folders_only = [item for item in all_items if item['mimeType'] == 'application/vnd.google-apps.folder']
+                obj.total_files = len(files_only)
+            
             obj.save()
             
-            logger.info(f"Transfer {obj.transfer_uuid}: Found {len(all_items)} total items ({obj.total_files} files, {len(folders_only)} folders)")
+            logger.info(f"Transfer {obj.transfer_uuid}: Found {len(all_items)} total items ({obj.total_files} files, {len(folders_only) if transfer_type != 'photos' else 0} folders)")
             
             if len(all_items) == 0:
                 obj.status = 'completed'
-                obj.current_file = 'No items found in selected folder'
+                obj.current_file = f'No items found in selected {transfer_type} source'
                 obj.save()
-                logger.warning(f"Transfer {obj.transfer_uuid} completed immediately - no items found in folder {obj.source_folder_id}")
+                logger.warning(f"Transfer {obj.transfer_uuid} completed immediately - no items found")
                 TransferLog.objects.create(
                     transfer=obj,
                     file_name='Transfer Completed',
@@ -424,9 +571,13 @@ def transfer_file(request):
                 )
             else:
                 # Pass all_items to thread
-                thread = threading.Thread(target=start_transfer, args=(obj.id, all_items, service_source, service_destination))
+                if transfer_type == 'photos':
+                    photos_credentials = build_photos_service(creds_source)
+                    thread = threading.Thread(target=start_transfer, args=(obj.id, all_items, service_source, service_destination, photos_credentials))
+                else:
+                    thread = threading.Thread(target=start_transfer, args=(obj.id, all_items, service_source, service_destination, None))
                 thread.start()
-                logger.info(f"File transfer thread started for transfer UUID: {obj.transfer_uuid} with {len(all_items)} items")
+                logger.info(f"{transfer_type.title()} transfer thread started for transfer UUID: {obj.transfer_uuid} with {len(all_items)} items")
 
             request.session['transfer_id'] = obj.transfer_uuid
             messages.success(request, f"Transfer started successfully! Monitoring progress...")
@@ -437,7 +588,7 @@ def transfer_file(request):
             return JsonResponse({'error': 'Error creating file transfer'}, status=500)
     return redirect('home')
 
-def start_transfer(obj_id, all_items, service_source, service_destination):
+def start_transfer(obj_id, all_items, service_source, service_destination, photos_credentials=None):
     """Start the file transfer process with detailed logging and real-time updates"""
     try:
         obj = FileTransfer.objects.get(id=obj_id)
@@ -451,9 +602,130 @@ def start_transfer(obj_id, all_items, service_source, service_destination):
             file_name='Transfer Started',
             file_type='system',
             status='info',
-            message=f'Starting transfer of {len(all_items)} items'
+            message=f'Starting {obj.get_transfer_type_display()} transfer of {len(all_items)} items'
         )
 
+        # Handle different transfer types
+        if obj.is_photos_transfer:
+            transfer_photos_to_drive(obj, all_items, photos_credentials, service_destination)
+        else:
+            transfer_drive_to_drive(obj, all_items, service_source, service_destination)
+        
+    except Exception as e:
+        logger.error(f"Error in transfer process: {str(e)}")
+        try:
+            obj = FileTransfer.objects.get(id=obj_id)
+            obj.status = 'failed'
+            obj.current_file = 'Transfer failed'
+            obj.save()
+            
+            # Log transfer failure
+            TransferLog.objects.create(
+                transfer=obj,
+                file_name='Transfer Failed',
+                file_type='system',
+                status='failed',
+                message=f'Transfer failed with error: {str(e)}'
+            )
+        except:
+            logger.error(f"Could not update transfer status to failed for ID: {obj_id}")
+
+def transfer_photos_to_drive(obj, all_items, photos_credentials, service_destination):
+    """Transfer Google Photos media items to Google Drive"""
+    try:
+        from .photos_utils import download_media_item
+        
+        destination_folder_id = obj.destination_folder_id
+        file_count = 0
+        
+        obj.current_file = 'Starting Photos transfer...'
+        obj.save()
+        
+        for idx, media_item in enumerate(all_items):
+            try:
+                # Update current file being processed
+                filename = media_item.get('filename', f'Media Item {idx+1}')
+                obj.current_file = f"Transferring: {filename}"
+                obj.save()
+                
+                # Download from Photos and upload to Drive
+                download_media_item(photos_credentials, media_item, destination_folder_id, service_destination)
+                file_count += 1
+                
+                # Update transfer progress
+                obj.transferred_files = file_count
+                obj.save()
+                
+                # Log successful media transfer
+                TransferLog.objects.create(
+                    transfer=obj,
+                    file_name=filename,
+                    file_type='media',
+                    status='success',
+                    message=f'Media item transferred successfully'
+                )
+                
+                logger.info(f"Transferred media: {filename}")
+                
+                # Check if transfer was cancelled
+                obj.refresh_from_db()
+                if obj.status == 'cancelled':
+                    TransferLog.objects.create(
+                        transfer=obj,
+                        file_name='Transfer Cancelled',
+                        file_type='system',
+                        status='cancelled',
+                        message='Transfer was cancelled by user'
+                    )
+                    logger.info(f"Transfer {obj.transfer_uuid} was cancelled")
+                    return
+                    
+            except Exception as e:
+                # Log media transfer failure
+                TransferLog.objects.create(
+                    transfer=obj,
+                    file_name=filename,
+                    file_type='media',
+                    status='failed',
+                    message=f'Error transferring media: {str(e)}'
+                )
+                logger.error(f"Error transferring media {filename}: {str(e)}")
+                # Continue with other files even if one fails
+                
+        # Transfer completed
+        obj.status = 'completed'
+        obj.current_file = 'Photos transfer completed successfully!'
+        obj.save()
+        
+        # Log transfer completion
+        TransferLog.objects.create(
+            transfer=obj,
+            file_name='Transfer Completed',
+            file_type='system',
+            status='success',
+            message=f'Successfully transferred {file_count} photos/videos'
+        )
+        
+        logger.info(f"Photos transfer completed for UUID: {obj.transfer_uuid}. Media items: {file_count}")
+        
+    except Exception as e:
+        logger.error(f"Error in Photos transfer: {str(e)}")
+        obj.status = 'failed'
+        obj.current_file = 'Photos transfer failed'
+        obj.save()
+        
+        # Log transfer failure
+        TransferLog.objects.create(
+            transfer=obj,
+            file_name='Transfer Failed',
+            file_type='system',
+            status='failed',
+            message=f'Photos transfer failed: {str(e)}'
+        )
+
+def transfer_drive_to_drive(obj, all_items, service_source, service_destination):
+    """Transfer Google Drive files and folders to another Drive account"""
+    try:
         source_folder_id = obj.source_folder_id
         destination_folder_id = obj.destination_folder_id
         folder_mapping = {source_folder_id: destination_folder_id}
@@ -590,26 +862,22 @@ def start_transfer(obj_id, all_items, service_source, service_destination):
             message=f'Successfully transferred {file_count} files and {folder_count} folders'
         )
         
-        logger.info(f"Transfer completed for UUID: {obj.transfer_uuid}. Files: {file_count}, Folders: {folder_count}")
+        logger.info(f"Drive transfer completed for UUID: {obj.transfer_uuid}. Files: {file_count}, Folders: {folder_count}")
         
     except Exception as e:
-        logger.error(f"Error in transfer process: {str(e)}")
-        try:
-            obj = FileTransfer.objects.get(id=obj_id)
-            obj.status = 'failed'
-            obj.current_file = 'Transfer failed'
-            obj.save()
-            
-            # Log transfer failure
-            TransferLog.objects.create(
-                transfer=obj,
-                file_name='Transfer Failed',
-                file_type='system',
-                status='failed',
-                message=f'Transfer failed with error: {str(e)}'
-            )
-        except:
-            logger.error(f"Could not update transfer status to failed for ID: {obj_id}")
+        logger.error(f"Error in Drive transfer: {str(e)}")
+        obj.status = 'failed'
+        obj.current_file = 'Drive transfer failed'
+        obj.save()
+        
+        # Log transfer failure
+        TransferLog.objects.create(
+            transfer=obj,
+            file_name='Transfer Failed',
+            file_type='system',
+            status='failed',
+            message=f'Drive transfer failed: {str(e)}'
+        )
 
 @require_auth
 def transfer_status_page(request, transfer_uuid):
@@ -708,3 +976,103 @@ def cancel_transfer(request, transfer_uuid):
 def dashboard(request):
     transfers = FileTransfer.objects.filter(user=request.user).order_by('-created_at')  # Latest first
     return render(request, 'driveapp/dashboard.html', {'transfers': transfers})
+
+# Footer Pages Views
+def help_center(request):
+    """Help Center page with comprehensive guides and documentation"""
+    return render(request, 'driveapp/help_center.html')
+
+def faq(request):
+    """Frequently Asked Questions page"""
+    return render(request, 'driveapp/faq.html')
+
+def tutorials(request):
+    """Tutorials and how-to guides page"""
+    return render(request, 'driveapp/tutorials.html')
+
+def contact(request):
+    """Contact Us page with support information"""
+    return render(request, 'driveapp/contact.html')
+
+def status(request):
+    """System Status page showing service health"""
+    return render(request, 'driveapp/status.html')
+
+def about(request):
+    """About Us page with company information"""
+    return render(request, 'driveapp/about.html')
+
+def blog(request):
+    """Blog page with latest updates and articles"""
+    return render(request, 'driveapp/blog.html')
+
+def careers(request):
+    """Careers page with job opportunities"""
+    return render(request, 'driveapp/careers.html')
+
+def press(request):
+    """Press Kit page with media resources"""
+    return render(request, 'driveapp/press.html')
+
+def partners(request):
+    """Partners page with partnership information"""
+    return render(request, 'driveapp/partners.html')
+
+def terms(request):
+    """Terms of Service page"""
+    return render(request, 'driveapp/terms.html')
+
+def cookies(request):
+    """Cookie Policy page"""
+    return render(request, 'driveapp/cookies.html')
+
+@require_auth
+def get_photos_albums(request):
+    """API endpoint to fetch Google Photos albums"""
+    try:
+        logger.info("Photos albums API called")
+        creds_source = request.session.get('credentials_source')
+        if not creds_source:
+            logger.error("No source credentials found in session")
+            return JsonResponse({'error': 'Source account not authenticated'}, status=401)
+        
+        logger.info("Building Photos service...")
+        logger.info(f"Source credentials scopes: {creds_source.get('scopes', 'No scopes found')}")
+        
+        # Build Photos service (returns credentials)
+        photos_credentials = build_photos_service(creds_source)
+        
+        logger.info("Fetching albums from Google Photos...")
+        # Get albums
+        albums = list_albums(photos_credentials)
+        logger.info(f"Found {len(albums)} albums")
+        
+        # Format albums for frontend
+        formatted_albums = []
+        for album in albums:
+            formatted_albums.append({
+                'id': album.get('id'),
+                'title': album.get('title', 'Untitled Album'),
+                'mediaItemsCount': album.get('mediaItemsCount', 0)
+            })
+        
+        logger.info(f"Returning {len(formatted_albums)} formatted albums")
+        return JsonResponse({
+            'success': True,
+            'albums': formatted_albums
+        })
+        
+    except Exception as e:
+        error_str = str(e)
+        logger.error(f"Error fetching Photos albums: {error_str}")
+        import traceback
+        logger.error(f"Full traceback: {traceback.format_exc()}")
+        
+        # Check if it's a scope/permission error (403 Forbidden)
+        if '403' in error_str or 'forbidden' in error_str.lower() or 'insufficient' in error_str.lower() or 'scope' in error_str.lower() or 'permission' in error_str.lower():
+            return JsonResponse({
+                'error': 'Google Photos permission required. Please re-authenticate your source account to grant Photos access.',
+                'needs_reauth': True
+            }, status=403)
+        
+        return JsonResponse({'error': f'Failed to fetch albums: {error_str}'}, status=500)

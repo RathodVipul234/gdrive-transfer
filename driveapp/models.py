@@ -29,14 +29,24 @@ class UserCredentials(models.Model):
 
 class FileTransfer(models.Model):
     """Model to store file transfer details"""
+    TRANSFER_TYPE_CHOICES = [
+        ('drive', 'Google Drive'),
+        ('photos', 'Google Photos'),
+    ]
+    
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     transfer_uuid = models.CharField(max_length=50, unique=True)
+    transfer_type = models.CharField(max_length=20, choices=TRANSFER_TYPE_CHOICES, default='drive')
 
     source_email = models.EmailField(null=False, blank=False)
     destination_email = models.EmailField(null=False, blank=False)
     
     source_folder_id = models.CharField(max_length=100, blank=True, null=True)
     destination_folder_id = models.CharField(max_length=100, blank=True, null=True)
+    
+    # For Google Photos transfers
+    photos_album_id = models.CharField(max_length=100, blank=True, null=True)
+    photos_date_filter = models.CharField(max_length=50, blank=True, null=True)  # 'all', 'year', 'month', etc.
     
     status = models.CharField(max_length=20, default='pending')  # pending, in_progress, completed, failed
     total_files = models.IntegerField(default=0)
@@ -47,7 +57,15 @@ class FileTransfer(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.user} - {self.source_folder_id} to {self.destination_folder_id}"
+        return f"{self.user} - {self.get_transfer_type_display()} - {self.source_folder_id} to {self.destination_folder_id}"
+    
+    @property
+    def is_photos_transfer(self):
+        return self.transfer_type == 'photos'
+    
+    @property
+    def is_drive_transfer(self):
+        return self.transfer_type == 'drive'
 
 class TransferLog(models.Model):
     """Model to store detailed logs for each file transfer"""
@@ -144,41 +162,3 @@ class DataExportRequest(models.Model):
     def __str__(self):
         return f"{self.request_type.title()} request by {self.user.username} - {self.status}"
     
-# class TransferJob(models.Model):
-#     """Model to track transfer job details and progress"""
-#     STATUS_CHOICES = (
-#         ('pending', 'Pending'),
-#         ('authenticating', 'Authenticating'),
-#         ('listing', 'Listing Files'),
-#         ('transferring', 'Transferring'),
-#         ('completed', 'Completed'),
-#         ('failed', 'Failed'),
-#     )
-    
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     job_id = models.CharField(max_length=50, unique=True)
-#     source_folder_id = models.CharField(max_length=100, blank=True, null=True)
-#     dest_folder_id = models.CharField(max_length=100, blank=True, null=True)
-#     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
-#     progress = models.IntegerField(default=0)  # 0-100%
-#     total_files = models.IntegerField(default=0)
-#     transferred_files = models.IntegerField(default=0)
-#     error_message = models.TextField(blank=True, null=True)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-    
-#     def __str__(self):
-#         return f"Transfer Job {self.job_id} - {self.status}"
-
-# class TransferLog(models.Model):
-#     """Model to store detailed logs for each transfer job"""
-#     transfer_job = models.ForeignKey(TransferJob, on_delete=models.CASCADE, related_name='logs')
-#     timestamp = models.DateTimeField(auto_now_add=True)
-#     level = models.CharField(max_length=10)  # INFO, WARNING, ERROR
-#     message = models.TextField()
-    
-#     class Meta:
-#         ordering = ['-timestamp']
-    
-#     def __str__(self):
-#         return f"{self.timestamp} - {self.level}: {self.message[:50]}"

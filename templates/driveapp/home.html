@@ -36,31 +36,20 @@
           </div>
           
           {% if user.is_authenticated %}
-            {% if not source_logged_in %}
-              <div class="hero-buttons">
-                <a href="{% url 'login_source' %}" class="btn btn-primary btn-lg btn-hero">
-                  <i class="fab fa-google me-2"></i>Start Transfer Now
-                </a>
-                <a href="#how-it-works" class="btn btn-secondary btn-lg btn-hero">
-                  <i class="fas fa-play me-2"></i>Watch Demo
-                </a>
-              </div>
-            {% else %}
-              <div class="hero-buttons">
-                <a href="#transfer-wizard" class="btn btn-primary btn-lg btn-hero">
-                  <i class="fas fa-rocket me-2"></i>Continue Transfer
-                </a>
-                <a href="{% url 'dashboard' %}" class="btn btn-secondary btn-lg btn-hero">
-                  <i class="fas fa-chart-line me-2"></i>View Dashboard
-                </a>
-              </div>
-            {% endif %}
+            <div class="hero-buttons">
+              <a href="{% url 'transfer_wizard' %}" class="btn btn-primary btn-lg btn-hero">
+                <i class="fas fa-rocket me-2"></i>Start Transfer Now
+              </a>
+              <a href="{% url 'dashboard' %}" class="btn btn-secondary btn-lg btn-hero">
+                <i class="fas fa-chart-line me-2"></i>View Dashboard
+              </a>
+            </div>
           {% else %}
             <div class="hero-buttons">
               <a href="{% url 'register' %}" class="btn btn-primary btn-lg btn-hero">
                 <i class="fas fa-rocket me-2"></i>Get Started Free
               </a>
-              <a href="#demo" class="btn btn-secondary btn-lg btn-hero">
+              <a href="#how-it-works" class="btn btn-secondary btn-lg btn-hero">
                 <i class="fas fa-play me-2"></i>Watch Demo
               </a>
             </div>
@@ -135,7 +124,7 @@
 
 {% block content %}
 <!-- Value Proposition Section -->
-<section class="py-5 value-proposition">
+<section id="value-proposition" class="py-5 value-proposition">
   <div class="container">
     <div class="text-center mb-5">
       <h2 class="section-title">Why Choose GDrive Transfer?</h2>
@@ -287,160 +276,6 @@
   </div>
 </section>
 
-{% if user.is_authenticated %}
-<!-- Transfer Wizard -->
-<section id="transfer-wizard" class="py-5">
-  <div class="step-wizard">
-    <div class="card-header">
-      <h3 class="card-title mb-0">
-        <i class="fas fa-rocket me-2"></i>Drive Transfer Wizard
-      </h3>
-    </div>
-    
-    <!-- Step Indicator -->
-    <div class="step-indicator">
-      <div class="step {% if source_logged_in %}completed{% elif not source_logged_in %}active{% else %}pending{% endif %}">
-        <div class="step-number">
-          {% if source_logged_in %}<i class="fas fa-check"></i>{% else %}1{% endif %}
-        </div>
-        <div class="step-label">Connect Source</div>
-      </div>
-      
-      <div class="step {% if dest_logged_in %}completed{% elif source_logged_in and not dest_logged_in %}active{% else %}pending{% endif %}">
-        <div class="step-number">
-          {% if dest_logged_in %}<i class="fas fa-check"></i>{% else %}2{% endif %}
-        </div>
-        <div class="step-label">Connect Destination</div>
-      </div>
-      
-      <div class="step {% if source_logged_in and dest_logged_in and source_folders %}active{% else %}pending{% endif %}">
-        <div class="step-number">3</div>
-        <div class="step-label">Select Folders</div>
-      </div>
-      
-      <div class="step pending">
-        <div class="step-number">4</div>
-        <div class="step-label">Transfer</div>
-      </div>
-    </div>
-
-    <!-- Step Content -->
-    <div class="step-content">
-      {% if not source_logged_in %}
-        <!-- Step 1: Connect Source Account -->
-        <div class="text-center">
-          <div class="mb-4">
-            <i class="fas fa-google-drive" style="font-size: 4rem; color: #4285F4; margin-bottom: 1rem;"></i>
-            <h4>Connect Your Source Google Drive</h4>
-            <p class="text-secondary">Sign in to the Google account containing the files you want to transfer.</p>
-          </div>
-          <a href="{% url 'login_source' %}" class="btn btn-primary btn-lg">
-            <i class="fab fa-google me-2"></i>Connect Source Account
-          </a>
-        </div>
-
-      {% elif not dest_logged_in %}
-        <!-- Step 2: Connect Destination Account -->
-        <div class="text-center">
-          <div class="mb-4">
-            <div class="d-flex justify-content-center mb-3">
-              <div class="badge badge-success">✓ Source Connected</div>
-            </div>
-            <i class="fas fa-google-drive" style="font-size: 4rem; color: #34A853; margin-bottom: 1rem;"></i>
-            <h4>Connect Your Destination Google Drive</h4>
-            <p class="text-secondary">Sign in to the Google account where you want to transfer the files.</p>
-            <div class="alert alert-info">
-              <i class="fas fa-user me-2"></i>
-              <strong>Source Account:</strong> {{ source_email }}
-            </div>
-          </div>
-          <a href="{% url 'login_destination' %}" class="btn btn-success btn-lg">
-            <i class="fab fa-google me-2"></i>Connect Destination Account
-          </a>
-        </div>
-
-      {% elif source_logged_in and dest_logged_in %}
-        <!-- Step 3: Select Folders and Transfer -->
-        <div class="row">
-          <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-              <h4>Ready to Transfer</h4>
-              <div class="d-flex gap-2">
-                <div class="badge badge-success">✓ Source: {{ source_email|truncatechars:30 }}</div>
-                <div class="badge badge-success">✓ Destination: {{ dest_email|truncatechars:30 }}</div>
-              </div>
-            </div>
-
-            <form method="post" action="{% url 'transfer_file' %}" data-validate>
-              {% csrf_token %}
-              
-              <div class="row">
-                <!-- Source Folder Selection -->
-                <div class="col-12 md:col-6">
-                  <div class="form-group">
-                    <label for="source_folder_id" class="form-label">
-                      <i class="fas fa-folder-open me-2 text-primary"></i>Source Folder
-                    </label>
-                    <select name="source_folder_id" id="source_folder_id" class="form-control form-select" required>
-                      <option value="">Select source folder...</option>
-                      <option value="root">📁 Root Folder (My Drive)</option>
-                      {% for folder in source_folders %}
-                        <option value="{{ folder.id }}">
-                          {% if folder.mimeType == 'application/vnd.google-apps.folder' %}📁{% else %}📄{% endif %}
-                          {{ folder.name }}
-                        </option>
-                      {% endfor %}
-                    </select>
-                  </div>
-                </div>
-
-                <!-- Destination Folder Selection -->
-                <div class="col-12 md:col-6">
-                  <div class="form-group">
-                    <label for="destination_folder_id" class="form-label">
-                      <i class="fas fa-folder me-2 text-success"></i>Destination Folder
-                    </label>
-                    <select name="destination_folder_id" id="destination_folder_id" class="form-control form-select" required>
-                      <option value="">Select destination folder...</option>
-                      <option value="root">📁 Root Folder (My Drive)</option>
-                      {% for folder in destination_folders %}
-                        <option value="{{ folder.id }}">📁 {{ folder.name }}</option>
-                      {% endfor %}
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary btn-lg" id="transferBtn">
-                  <i class="fas fa-exchange-alt me-2"></i>Start Transfer
-                </button>
-              </div>
-            </form>
-
-            {% if transfer_id %}
-              <div class="alert alert-info mt-4">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <i class="fas fa-spinner fa-spin me-2"></i>
-                    <strong>Active Transfer:</strong> {{ transfer_id|truncatechars:16 }}...
-                    <br><small class="text-muted">Transfer is currently in progress</small>
-                  </div>
-                  <div class="d-flex gap-2">
-                    <a href="{% url 'transfer_status_page' transfer_id %}" class="btn btn-sm btn-primary">
-                      <i class="fas fa-eye me-1"></i>View Progress
-                    </a>
-                  </div>
-                </div>
-              </div>
-            {% endif %}
-          </div>
-        </div>
-      {% endif %}
-    </div>
-  </div>
-</section>
-{% endif %}
 
 <!-- Security & Trust Section -->
 <section id="security" class="py-5 security-section">
@@ -607,7 +442,7 @@
 </section>
 
 <!-- CTA Section -->
-<section class="py-5 cta-section">
+<section id="cta-section" class="py-5 cta-section">
   <div class="container">
     <div class="cta-content text-center">
       <h2 class="cta-title">Ready to Transfer Your Files?</h2>
@@ -633,7 +468,7 @@
         <a href="{% url 'register' %}" class="btn btn-primary btn-lg btn-cta">
           <i class="fas fa-rocket me-2"></i>Start Free Transfer
         </a>
-        <a href="#demo" class="btn btn-secondary btn-lg btn-cta">
+        <a href="#how-it-works" class="btn btn-secondary btn-lg btn-cta">
           <i class="fas fa-play me-2"></i>Watch Demo
         </a>
       </div>
@@ -818,6 +653,125 @@
   .accordion .card-header i {
     transition: transform var(--transition-fast);
   }
+  
+  .new-folder-section {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-top: 1rem;
+    animation: slideDown 0.3s ease-out;
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .new-folder-section .form-label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  .new-folder-section .form-text {
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+  }
+  
+  /* Transfer Type Selection Styles */
+  .transfer-type-selection {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .transfer-type-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  
+  .type-option {
+    position: relative;
+  }
+  
+  .type-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  .type-label {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background: var(--bg-card);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    margin: 0;
+  }
+  
+  .type-label:hover {
+    border-color: var(--primary-color);
+    background: var(--bg-hover);
+  }
+  
+  .type-option input[type="radio"]:checked + .type-label {
+    border-color: var(--primary-color);
+    background: rgba(102, 126, 234, 0.1);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+  
+  .type-icon {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-right: 1rem;
+    flex-shrink: 0;
+  }
+  
+  .type-content h6 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+  
+  .type-content p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+  
+  .source-section {
+    transition: opacity 0.3s ease;
+  }
+  
+  @media (max-width: 768px) {
+    .transfer-type-options {
+      grid-template-columns: 1fr;
+    }
+    
+    .transfer-type-selection {
+      padding: 1.5rem;
+    }
+    
+    .type-label {
+      padding: 1rem;
+    }
+    
+    .type-icon {
+      font-size: 1.5rem;
+    }
+  }
 </style>
 {% endblock %}
 
@@ -844,12 +798,159 @@
   // Form submission with loading state
   document.addEventListener('DOMContentLoaded', function() {
     const transferForm = document.querySelector('form[data-validate]');
+    const destinationSelect = document.getElementById('destination_folder_id');
+    const newFolderFields = document.getElementById('new-folder-fields');
+    const newFolderNameInput = document.getElementById('new_folder_name');
+    
+    // Transfer type handling
+    const driveTypeRadio = document.getElementById('type_drive');
+    const photosTypeRadio = document.getElementById('type_photos');
+    const driveSourceSection = document.getElementById('drive-source-section');
+    const photosSourceSection = document.getElementById('photos-source-section');
+    const sourceAlbumSelect = document.getElementById('source_album_id');
+    const sourceFolderSelect = document.getElementById('source_folder_id');
+    
+    // Function to switch between Drive and Photos UI
+    function switchTransferType() {
+      if (driveTypeRadio && driveTypeRadio.checked) {
+        driveSourceSection.style.display = 'block';
+        photosSourceSection.style.display = 'none';
+        sourceFolderSelect.required = true;
+        sourceAlbumSelect.required = false;
+      } else if (photosTypeRadio && photosTypeRadio.checked) {
+        driveSourceSection.style.display = 'none';
+        photosSourceSection.style.display = 'block';
+        sourceFolderSelect.required = false;
+        sourceAlbumSelect.required = true;
+        loadGooglePhotosAlbums();
+      }
+    }
+    
+    // Function to load Google Photos albums
+    function loadGooglePhotosAlbums() {
+      if (!sourceAlbumSelect) return;
+      
+      sourceAlbumSelect.innerHTML = '<option value="">Loading albums...</option>';
+      
+      // Make AJAX request to fetch albums
+      fetch('/api/photos/albums/', {
+        method: 'GET',
+        headers: {
+          'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.error) {
+          throw new Error(data.error);
+        }
+        
+        sourceAlbumSelect.innerHTML = '';
+        
+        // Add "All Photos" option
+        sourceAlbumSelect.innerHTML += '<option value="all">📸 All Photos</option>';
+        
+        if (data.albums && data.albums.length > 0) {
+          data.albums.forEach(album => {
+            sourceAlbumSelect.innerHTML += `<option value="${album.id}">📂 ${album.title}</option>`;
+          });
+        } else {
+          sourceAlbumSelect.innerHTML += '<option value="">No albums found</option>';
+        }
+      })
+      .catch(error => {
+        console.error('Error loading albums:', error);
+        sourceAlbumSelect.innerHTML = '<option value="">❌ Need Photos Permission</option>';
+        
+        // Check if it's an authentication/permission error (403 or 401)
+        if (error.message.includes('403') || error.message.includes('401') || 
+            error.message.includes('Forbidden') || error.message.includes('auth') ||
+            error.message.includes('permission')) {
+          
+          // Show user-friendly re-authentication message
+          const photosSection = document.getElementById('photos-source-section');
+          if (photosSection && !photosSection.querySelector('.reauth-warning')) {
+            photosSection.innerHTML += `
+              <div class="alert alert-warning mt-3 reauth-warning">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <strong>Google Photos Permission Required</strong><br>
+                Your account needs Google Photos permission to access albums. This requires re-authentication.
+                <br><br>
+                <a href="/login/source/" class="btn btn-warning btn-sm">
+                  <i class="fab fa-google me-1"></i>Re-authenticate Source Account
+                </a>
+                <small class="d-block mt-2 text-muted">
+                  You'll be asked to grant both Drive and Photos permissions.
+                </small>
+              </div>
+            `;
+          }
+        } else {
+          sourceAlbumSelect.innerHTML += '<option value="" disabled>Check console for details</option>';
+        }
+      });
+    }
+    
+    // Add event listeners for transfer type change
+    if (driveTypeRadio) {
+      driveTypeRadio.addEventListener('change', switchTransferType);
+    }
+    if (photosTypeRadio) {
+      photosTypeRadio.addEventListener('change', switchTransferType);
+    }
+    
+    // Initialize the correct UI on page load
+    switchTransferType();
+    
+    // Handle destination folder selection change
+    if (destinationSelect) {
+      destinationSelect.addEventListener('change', function() {
+        if (this.value === 'create_new') {
+          newFolderFields.style.display = 'block';
+          newFolderNameInput.required = true;
+          newFolderNameInput.focus();
+        } else {
+          newFolderFields.style.display = 'none';
+          newFolderNameInput.required = false;
+          newFolderNameInput.value = '';
+        }
+      });
+    }
+    
+    // Form validation and submission
     if (transferForm) {
       transferForm.addEventListener('submit', function(e) {
         const submitBtn = document.getElementById('transferBtn');
+        
+        // Validate new folder name if creating new folder
+        if (destinationSelect.value === 'create_new') {
+          const folderName = newFolderNameInput.value.trim();
+          if (!folderName) {
+            e.preventDefault();
+            alert('Please enter a name for the new folder.');
+            newFolderNameInput.focus();
+            return false;
+          }
+          
+          // Validate folder name (no special characters that could cause issues)
+          const invalidChars = /[<>:"/\\|?*]/;
+          if (invalidChars.test(folderName)) {
+            e.preventDefault();
+            alert('Folder name cannot contain the following characters: < > : " / \\ | ? *');
+            newFolderNameInput.focus();
+            return false;
+          }
+        }
+        
         if (submitBtn) {
           submitBtn.classList.add('loading');
           submitBtn.disabled = true;
+          submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Starting Transfer...';
         }
       });
     }

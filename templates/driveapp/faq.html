@@ -1,0 +1,420 @@
+{% extends 'driveapp/base.html' %}
+
+{% block title %}FAQ - Frequently Asked Questions - GDrive Transfer{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12">
+        <div class="page-header-content text-center">
+          <h1 class="page-title">
+            <i class="fas fa-question-circle me-3"></i>Frequently Asked Questions
+          </h1>
+          <p class="page-subtitle">Quick answers to the most common questions about GDrive Transfer</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- FAQ Search -->
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 lg:col-8">
+        <div class="faq-search">
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fas fa-search"></i>
+            </span>
+            <input type="text" class="form-control" placeholder="Search FAQ..." id="faqSearch">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Categories -->
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 lg:col-10">
+        
+        <!-- General Questions -->
+        <div class="faq-category mb-5">
+          <h2 class="category-title">
+            <i class="fas fa-info-circle me-2"></i>General Questions
+          </h2>
+          
+          <div class="faq-accordion">
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFAQ(this)">
+                <h5>What is GDrive Transfer?</h5>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>GDrive Transfer is a secure web application that allows you to transfer files and folders between different Google Drive accounts. Whether you're switching to a new personal account or migrating to a business account, our service makes it easy to move your data safely and efficiently.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFAQ(this)">
+                <h5>Is GDrive Transfer free to use?</h5>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>Yes! GDrive Transfer is completely free to use. There are no hidden fees, premium features, or subscription costs. We provide full functionality to all users at no charge.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFAQ(this)">
+                <h5>How many files can I transfer?</h5>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>There's no limit on the number of files you can transfer. You can transfer individual files, entire folders, or your complete Google Drive. The only limitation is the available storage space in your destination Google Drive account.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Security & Privacy -->
+        <div class="faq-category mb-5">
+          <h2 class="category-title">
+            <i class="fas fa-shield-alt me-2"></i>Security & Privacy
+          </h2>
+          
+          <div class="faq-accordion">
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFAQ(this)">
+                <h5>Is my data safe during the transfer?</h5>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>Absolutely! Your files are transferred directly between your Google accounts using secure OAuth authentication. We never store, access, or view your files during the transfer process. All data transmission is encrypted and follows industry-standard security practices.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFAQ(this)">
+                <h5>What permissions do you need to access my Google Drive?</h5>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>We request only the minimum permissions necessary: read access to your source Google Drive (to list and copy files) and write access to your destination Google Drive (to create folders and copy files). We cannot read your emails, access other Google services, or modify files in your source drive.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFAQ(this)">
+                <h5>Do you store my files or Google account information?</h5>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>No, we never store your files or personal Google account information. Files are transferred directly between your accounts, and authentication tokens are only kept temporarily in your browser session for the duration of the transfer.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFAQ(this)">
+                <h5>Can I revoke access after the transfer is complete?</h5>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>Yes! You can revoke GDrive Transfer's access to your Google accounts at any time through your Google Account settings or through our privacy dashboard. We recommend doing this after your transfers are complete for additional security.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Transfer Process -->
+        <div class="faq-category mb-5">
+          <h2 class="category-title">
+            <i class="fas fa-exchange-alt me-2"></i>Transfer Process
+          </h2>
+          
+          <div class="faq-accordion">
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFAQ(this)">
+                <h5>How long does a transfer take?</h5>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>Transfer speed depends on several factors: the number and size of files, your internet connection, and Google's server load. Small folders (under 100 files) typically complete in minutes, while large archives with thousands of files may take several hours. You can monitor progress in real-time on the transfer status page.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFAQ(this)">
+                <h5>What happens if my transfer fails or gets interrupted?</h5>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>If a transfer fails or gets interrupted, you can simply restart it. Our system will skip files that were already successfully transferred, so you won't get duplicates. Check the transfer logs to see which files may need to be retried.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFAQ(this)">
+                <h5>Are folder structures preserved during transfer?</h5>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>Yes! GDrive Transfer maintains your exact folder hierarchy and file organization. All folders, subfolders, and file locations will be preserved exactly as they were in your source account.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFAQ(this)">
+                <h5>Can I cancel a transfer that's in progress?</h5>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>Yes, you can cancel any active transfer from the transfer status page. Files that have already been transferred will remain in your destination drive, but the process will stop immediately.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Technical Questions -->
+        <div class="faq-category mb-5">
+          <h2 class="category-title">
+            <i class="fas fa-cogs me-2"></i>Technical Questions
+          </h2>
+          
+          <div class="faq-accordion">
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFAQ(this)">
+                <h5>What file types are supported?</h5>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>GDrive Transfer supports all file types that Google Drive supports, including documents, images, videos, archives, and Google Workspace files (Docs, Sheets, Slides, etc.). There are no restrictions on file types or formats.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFAQ(this)">
+                <h5>Can I transfer shared files or files shared with me?</h5>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>You can only transfer files that you own or have edit access to. Files that are simply shared with you (view-only) cannot be transferred due to Google Drive's permissions system. However, files you own that are shared with others can be transferred.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFAQ(this)">
+                <h5>Do sharing permissions transfer with the files?</h5>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>No, sharing permissions do not transfer. All transferred files will be owned by the destination account and will not have any sharing permissions. You'll need to reshare files manually if needed.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFAQ(this)">
+                <h5>What browsers are supported?</h5>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>GDrive Transfer works on all modern browsers including Chrome, Firefox, Safari, and Edge. We recommend using the latest version of your browser for the best experience.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Troubleshooting -->
+        <div class="faq-category mb-5">
+          <h2 class="category-title">
+            <i class="fas fa-tools me-2"></i>Troubleshooting
+          </h2>
+          
+          <div class="faq-accordion">
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFAQ(this)">
+                <h5>I'm getting an authentication error. What should I do?</h5>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>Authentication errors usually occur when you're signed into multiple Google accounts. Try signing out of all Google accounts in your browser, then sign back in with just the account you want to use. Make sure you're using the correct account for each step of the transfer process.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFAQ(this)">
+                <h5>My transfer is stuck or moving very slowly. What can I do?</h5>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>Slow transfers can be caused by large files, network issues, or high server load. Try refreshing the status page to see if progress updates. If the transfer appears stuck for more than 30 minutes, you can cancel it and restart with a smaller batch of files.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <div class="faq-question" onclick="toggleFAQ(this)">
+                <h5>Some files didn't transfer. Why?</h5>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>Files may not transfer due to permission issues, file corruption, or Google Drive API limits. Check the transfer logs for specific error messages. Common issues include files that are too large, files with special characters in names, or temporary Google API errors.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Still Need Help -->
+<section class="py-5" style="background-color: var(--bg-secondary);">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 lg:col-8">
+        <div class="help-cta text-center">
+          <h3>Still Have Questions?</h3>
+          <p>Can't find the answer you're looking for? We're here to help!</p>
+          <div class="help-actions mt-4">
+            <a href="{% url 'contact' %}" class="btn btn-primary btn-lg me-3">
+              <i class="fas fa-envelope me-2"></i>Contact Support
+            </a>
+            <a href="{% url 'help_center' %}" class="btn btn-secondary btn-lg">
+              <i class="fas fa-life-ring me-2"></i>Help Center
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.faq-search {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 2rem;
+}
+
+.faq-category {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.category-title {
+  color: var(--primary-color);
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: 1rem;
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.faq-question {
+  display: flex;
+  justify-content: between;
+  align-items: center;
+  padding: 1.5rem 0;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.faq-question:hover {
+  color: var(--primary-color);
+}
+
+.faq-question h5 {
+  margin: 0;
+  flex: 1;
+  font-weight: 600;
+}
+
+.faq-question i {
+  transition: transform var(--transition-fast);
+  color: var(--primary-color);
+}
+
+.faq-question.active i {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  display: none;
+  padding: 0 0 1.5rem 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.faq-answer.active {
+  display: block;
+}
+
+.help-cta {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 3rem;
+}
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function toggleFAQ(question) {
+  const answer = question.nextElementSibling;
+  const isActive = question.classList.contains('active');
+  
+  // Close all other FAQ items
+  document.querySelectorAll('.faq-question').forEach(q => {
+    q.classList.remove('active');
+    q.nextElementSibling.classList.remove('active');
+  });
+  
+  // Toggle current item
+  if (!isActive) {
+    question.classList.add('active');
+    answer.classList.add('active');
+  }
+}
+
+// FAQ Search functionality
+document.getElementById('faqSearch').addEventListener('input', function(e) {
+  const searchTerm = e.target.value.toLowerCase();
+  const faqItems = document.querySelectorAll('.faq-item');
+  
+  faqItems.forEach(item => {
+    const question = item.querySelector('.faq-question h5').textContent.toLowerCase();
+    const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+    
+    if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+});
+</script>
+{% endblock %}

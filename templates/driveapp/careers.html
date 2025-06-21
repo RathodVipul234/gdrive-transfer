@@ -1,0 +1,931 @@
+{% extends 'driveapp/base.html' %}
+
+{% block title %}Careers - Join Our Team - GDrive Transfer{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12">
+        <div class="page-header-content text-center">
+          <h1 class="page-title">
+            <i class="fas fa-briefcase me-3"></i>Join Our Team
+          </h1>
+          <p class="page-subtitle">Build the future of data migration with passionate people who love what they do</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- Why Work With Us -->
+<section class="py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12 lg:col-6 mb-5">
+        <div class="why-section">
+          <h2 class="section-title">Why GDrive Transfer?</h2>
+          <p class="lead">We're not just building software – we're solving real problems for millions of users worldwide. Join us in creating the tools that make data migration simple, secure, and accessible for everyone.</p>
+          
+          <div class="perks-list">
+            <div class="perk-item">
+              <div class="perk-icon">
+                <i class="fas fa-rocket"></i>
+              </div>
+              <div class="perk-content">
+                <h4>Impact at Scale</h4>
+                <p>Your work directly affects millions of users and billions of files transferred worldwide.</p>
+              </div>
+            </div>
+            
+            <div class="perk-item">
+              <div class="perk-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="perk-content">
+                <h4>Amazing Team</h4>
+                <p>Work alongside talented, passionate people who care about building exceptional products.</p>
+              </div>
+            </div>
+            
+            <div class="perk-item">
+              <div class="perk-icon">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <div class="perk-content">
+                <h4>Growth Opportunities</h4>
+                <p>Continuous learning, skill development, and career advancement in a fast-growing company.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-12 lg:col-6">
+        <div class="team-culture">
+          <div class="culture-grid">
+            <div class="culture-card">
+              <i class="fas fa-laptop-code"></i>
+              <h5>Remote-First</h5>
+              <p>Work from anywhere with flexible hours and autonomy</p>
+            </div>
+            <div class="culture-card">
+              <i class="fas fa-heart"></i>
+              <h5>Work-Life Balance</h5>
+              <p>Unlimited PTO and mental health support</p>
+            </div>
+            <div class="culture-card">
+              <i class="fas fa-graduation-cap"></i>
+              <h5>Learning Budget</h5>
+              <p>$2,000 annual budget for courses and conferences</p>
+            </div>
+            <div class="culture-card">
+              <i class="fas fa-shield-alt"></i>
+              <h5>Great Benefits</h5>
+              <p>Health, dental, vision, and equity packages</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Open Positions -->
+<section class="py-5" style="background-color: var(--bg-secondary);">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="section-title">Open Positions</h2>
+      <p class="section-subtitle">Find your perfect role and help us shape the future of data migration</p>
+    </div>
+    
+    <!-- Job Filters -->
+    <div class="job-filters mb-5">
+      <div class="row justify-content-center">
+        <div class="col-12 lg:col-8">
+          <div class="filter-buttons">
+            <button class="filter-btn active" data-department="all">
+              <i class="fas fa-th-large me-2"></i>All Jobs
+            </button>
+            <button class="filter-btn" data-department="engineering">
+              <i class="fas fa-code me-2"></i>Engineering
+            </button>
+            <button class="filter-btn" data-department="design">
+              <i class="fas fa-paint-brush me-2"></i>Design
+            </button>
+            <button class="filter-btn" data-department="marketing">
+              <i class="fas fa-bullhorn me-2"></i>Marketing
+            </button>
+            <button class="filter-btn" data-department="support">
+              <i class="fas fa-life-ring me-2"></i>Support
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Job Listings -->
+    <div class="row" id="job-listings">
+      <!-- Engineering Jobs -->
+      <div class="col-12 lg:col-6 mb-4 job-card" data-department="engineering">
+        <div class="job-listing">
+          <div class="job-header">
+            <div class="job-title-section">
+              <h3>Senior Full-Stack Engineer</h3>
+              <div class="job-meta">
+                <span class="department">Engineering</span>
+                <span class="location">Remote</span>
+                <span class="type">Full-time</span>
+              </div>
+            </div>
+            <div class="job-salary">$120k - $160k</div>
+          </div>
+          
+          <div class="job-description">
+            <p>Lead the development of our core transfer engine and user interface. Work with React, Python, and Google APIs to build scalable solutions.</p>
+            
+            <div class="job-requirements">
+              <h5>Key Requirements:</h5>
+              <ul>
+                <li>5+ years full-stack development experience</li>
+                <li>Expertise in React, Python/Django, and cloud services</li>
+                <li>Experience with API integrations and security</li>
+                <li>Strong problem-solving and communication skills</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="job-actions">
+            <button class="btn btn-primary">
+              <i class="fas fa-paper-plane me-2"></i>Apply Now
+            </button>
+            <button class="btn btn-outline-secondary">
+              <i class="fas fa-bookmark me-2"></i>Save Job
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-12 lg:col-6 mb-4 job-card" data-department="engineering">
+        <div class="job-listing">
+          <div class="job-header">
+            <div class="job-title-section">
+              <h3>DevOps Engineer</h3>
+              <div class="job-meta">
+                <span class="department">Engineering</span>
+                <span class="location">Remote</span>
+                <span class="type">Full-time</span>
+              </div>
+            </div>
+            <div class="job-salary">$100k - $140k</div>
+          </div>
+          
+          <div class="job-description">
+            <p>Build and maintain our cloud infrastructure, ensuring 99.9% uptime for millions of users. Work with AWS, Docker, and Kubernetes.</p>
+            
+            <div class="job-requirements">
+              <h5>Key Requirements:</h5>
+              <ul>
+                <li>3+ years DevOps/Infrastructure experience</li>
+                <li>Strong AWS, Docker, and Kubernetes knowledge</li>
+                <li>Experience with monitoring and alerting systems</li>
+                <li>Passion for automation and reliability</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="job-actions">
+            <button class="btn btn-primary">
+              <i class="fas fa-paper-plane me-2"></i>Apply Now
+            </button>
+            <button class="btn btn-outline-secondary">
+              <i class="fas fa-bookmark me-2"></i>Save Job
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Design Jobs -->
+      <div class="col-12 lg:col-6 mb-4 job-card" data-department="design">
+        <div class="job-listing">
+          <div class="job-header">
+            <div class="job-title-section">
+              <h3>Senior UX/UI Designer</h3>
+              <div class="job-meta">
+                <span class="department">Design</span>
+                <span class="location">Remote</span>
+                <span class="type">Full-time</span>
+              </div>
+            </div>
+            <div class="job-salary">$90k - $120k</div>
+          </div>
+          
+          <div class="job-description">
+            <p>Design intuitive user experiences that make complex data migration simple. Lead design thinking and create beautiful, functional interfaces.</p>
+            
+            <div class="job-requirements">
+              <h5>Key Requirements:</h5>
+              <ul>
+                <li>4+ years UX/UI design experience</li>
+                <li>Strong portfolio showcasing complex problem-solving</li>
+                <li>Proficiency in Figma, Sketch, and prototyping tools</li>
+                <li>Experience with user research and testing</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="job-actions">
+            <button class="btn btn-primary">
+              <i class="fas fa-paper-plane me-2"></i>Apply Now
+            </button>
+            <button class="btn btn-outline-secondary">
+              <i class="fas fa-bookmark me-2"></i>Save Job
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Marketing Jobs -->
+      <div class="col-12 lg:col-6 mb-4 job-card" data-department="marketing">
+        <div class="job-listing">
+          <div class="job-header">
+            <div class="job-title-section">
+              <h3>Growth Marketing Manager</h3>
+              <div class="job-meta">
+                <span class="department">Marketing</span>
+                <span class="location">Remote</span>
+                <span class="type">Full-time</span>
+              </div>
+            </div>
+            <div class="job-salary">$80k - $110k</div>
+          </div>
+          
+          <div class="job-description">
+            <p>Drive user acquisition and engagement through data-driven marketing strategies. Own the full funnel from awareness to conversion.</p>
+            
+            <div class="job-requirements">
+              <h5>Key Requirements:</h5>
+              <ul>
+                <li>3+ years growth marketing experience</li>
+                <li>Strong analytical skills and data-driven mindset</li>
+                <li>Experience with SEO, content marketing, and paid ads</li>
+                <li>SaaS or tech product marketing preferred</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="job-actions">
+            <button class="btn btn-primary">
+              <i class="fas fa-paper-plane me-2"></i>Apply Now
+            </button>
+            <button class="btn btn-outline-secondary">
+              <i class="fas fa-bookmark me-2"></i>Save Job
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Support Jobs -->
+      <div class="col-12 lg:col-6 mb-4 job-card" data-department="support">
+        <div class="job-listing">
+          <div class="job-header">
+            <div class="job-title-section">
+              <h3>Customer Success Specialist</h3>
+              <div class="job-meta">
+                <span class="department">Support</span>
+                <span class="location">Remote</span>
+                <span class="type">Full-time</span>
+              </div>
+            </div>
+            <div class="job-salary">$50k - $70k</div>
+          </div>
+          
+          <div class="job-description">
+            <p>Help users succeed with their data migrations while providing exceptional support. Be the voice of our users and drive product improvements.</p>
+            
+            <div class="job-requirements">
+              <h5>Key Requirements:</h5>
+              <ul>
+                <li>2+ years customer support experience</li>
+                <li>Strong technical aptitude and problem-solving skills</li>
+                <li>Excellent written and verbal communication</li>
+                <li>Empathy and patience in helping users</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="job-actions">
+            <button class="btn btn-primary">
+              <i class="fas fa-paper-plane me-2"></i>Apply Now
+            </button>
+            <button class="btn btn-outline-secondary">
+              <i class="fas fa-bookmark me-2"></i>Save Job
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-12 lg:col-6 mb-4 job-card" data-department="engineering">
+        <div class="job-listing">
+          <div class="job-header">
+            <div class="job-title-section">
+              <h3>Security Engineer</h3>
+              <div class="job-meta">
+                <span class="department">Engineering</span>
+                <span class="location">Remote</span>
+                <span class="type">Full-time</span>
+              </div>
+            </div>
+            <div class="job-salary">$130k - $170k</div>
+          </div>
+          
+          <div class="job-description">
+            <p>Ensure the highest security standards for our platform. Lead security audits, implement best practices, and protect user data.</p>
+            
+            <div class="job-requirements">
+              <h5>Key Requirements:</h5>
+              <ul>
+                <li>5+ years cybersecurity experience</li>
+                <li>Strong knowledge of OAuth, encryption, and security protocols</li>
+                <li>Experience with security audits and compliance</li>
+                <li>Relevant security certifications preferred</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="job-actions">
+            <button class="btn btn-primary">
+              <i class="fas fa-paper-plane me-2"></i>Apply Now
+            </button>
+            <button class="btn btn-outline-secondary">
+              <i class="fas fa-bookmark me-2"></i>Save Job
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- No positions message -->
+    <div class="text-center" id="no-jobs" style="display: none;">
+      <div class="no-jobs-message">
+        <i class="fas fa-search"></i>
+        <h4>No positions found</h4>
+        <p>We don't have any open positions in this department right now, but we're always looking for great talent!</p>
+        <a href="#general-application" class="btn btn-outline-primary">
+          <i class="fas fa-user-plus me-2"></i>Submit General Application
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Application Process -->
+<section class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="section-title">Our Hiring Process</h2>
+      <p class="section-subtitle">Transparent, efficient, and designed to help you succeed</p>
+    </div>
+    
+    <div class="row">
+      <div class="col-12 lg:col-3 mb-4">
+        <div class="process-step">
+          <div class="step-number">1</div>
+          <h4>Application</h4>
+          <p>Submit your application and we'll review it within 48 hours. Include your resume and a cover letter explaining why you're excited about GDrive Transfer.</p>
+        </div>
+      </div>
+      
+      <div class="col-12 lg:col-3 mb-4">
+        <div class="process-step">
+          <div class="step-number">2</div>
+          <h4>Phone Screen</h4>
+          <p>30-minute conversation with our hiring team to discuss your background, interests, and learn more about the role and company culture.</p>
+        </div>
+      </div>
+      
+      <div class="col-12 lg:col-3 mb-4">
+        <div class="process-step">
+          <div class="step-number">3</div>
+          <h4>Technical Interview</h4>
+          <p>Role-specific assessment that might include coding challenges, design exercises, or case studies. We'll share details in advance.</p>
+        </div>
+      </div>
+      
+      <div class="col-12 lg:col-3 mb-4">
+        <div class="process-step">
+          <div class="step-number">4</div>
+          <h4>Final Interview</h4>
+          <p>Meet with team members and leadership to discuss collaboration, culture fit, and answer any questions you have about the role.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Benefits & Perks -->
+<section class="py-5" style="background-color: var(--bg-secondary);">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="section-title">Benefits & Perks</h2>
+      <p class="section-subtitle">We invest in our team's health, growth, and happiness</p>
+    </div>
+    
+    <div class="row">
+      <div class="col-12 md:col-6 lg:col-4 mb-4">
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-heart"></i>
+          </div>
+          <h4>Health & Wellness</h4>
+          <ul>
+            <li>100% covered health, dental, and vision insurance</li>
+            <li>Mental health support and counseling</li>
+            <li>Fitness and wellness stipend</li>
+            <li>Annual health checkup coverage</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-4 mb-4">
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <h4>Time & Flexibility</h4>
+          <ul>
+            <li>Unlimited paid time off</li>
+            <li>Flexible working hours</li>
+            <li>Remote-first culture</li>
+            <li>4-day work week trials</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-4 mb-4">
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <h4>Growth & Learning</h4>
+          <ul>
+            <li>$2,000 annual learning budget</li>
+            <li>Conference and workshop attendance</li>
+            <li>Internal mentorship program</li>
+            <li>Career development planning</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-4 mb-4">
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-dollar-sign"></i>
+          </div>
+          <h4>Financial</h4>
+          <ul>
+            <li>Competitive salary and equity</li>
+            <li>401(k) with company matching</li>
+            <li>Performance bonuses</li>
+            <li>Stock option program</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-4 mb-4">
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-laptop"></i>
+          </div>
+          <h4>Equipment & Setup</h4>
+          <ul>
+            <li>Top-tier laptop and equipment</li>
+            <li>Home office setup stipend</li>
+            <li>Co-working space allowance</li>
+            <li>Latest software and tools</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-4 mb-4">
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <h4>Community</h4>
+          <ul>
+            <li>Annual team retreats</li>
+            <li>Virtual team building events</li>
+            <li>Employee resource groups</li>
+            <li>Diversity and inclusion initiatives</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Don't See a Fit -->
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 lg:col-8">
+        <div class="general-application text-center" id="general-application">
+          <h3>Don't See the Perfect Role?</h3>
+          <p>We're always looking for exceptional talent. Send us your resume and tell us what kind of role you're interested in. We'll keep you in mind for future openings that match your skills.</p>
+          
+          <form class="general-app-form mt-4">
+            <div class="row">
+              <div class="col-12 md:col-6 mb-3">
+                <input type="text" class="form-control" placeholder="Your Name" required>
+              </div>
+              <div class="col-12 md:col-6 mb-3">
+                <input type="email" class="form-control" placeholder="Email Address" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <select class="form-control form-select" required>
+                <option value="">Area of Interest</option>
+                <option value="engineering">Engineering</option>
+                <option value="design">Design</option>
+                <option value="marketing">Marketing</option>
+                <option value="sales">Sales</option>
+                <option value="support">Customer Support</option>
+                <option value="operations">Operations</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <textarea class="form-control" rows="4" placeholder="Tell us about yourself and what type of role interests you..." required></textarea>
+            </div>
+            <div class="mb-3">
+              <input type="file" class="form-control" accept=".pdf,.doc,.docx">
+              <small class="form-text">Upload your resume (PDF or Word document)</small>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-lg">
+              <i class="fas fa-paper-plane me-2"></i>Submit Application
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.perks-list {
+  margin-top: 2rem;
+}
+
+.perk-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.perk-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.perk-icon {
+  background: var(--primary-gradient);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1.5rem;
+  flex-shrink: 0;
+  font-size: 1.2rem;
+}
+
+.culture-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.culture-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  text-align: center;
+  transition: all var(--transition-smooth);
+}
+
+.culture-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.culture-card i {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 0.75rem 1.5rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.filter-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.filter-btn.active {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+.job-listing {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  height: 100%;
+  transition: all var(--transition-smooth);
+}
+
+.job-listing:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.job-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.job-title-section h3 {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.job-meta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.job-meta span {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.job-salary {
+  background: var(--success-gradient);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.job-description {
+  margin-bottom: 2rem;
+}
+
+.job-requirements {
+  margin-top: 1rem;
+}
+
+.job-requirements h5 {
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.job-requirements ul {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.job-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.process-step {
+  text-align: center;
+  padding: 2rem;
+}
+
+.step-number {
+  background: var(--primary-gradient);
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.benefit-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  height: 100%;
+  text-align: center;
+}
+
+.benefit-icon {
+  background: var(--secondary-gradient);
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  font-size: 1.5rem;
+}
+
+.benefit-card h4 {
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+}
+
+.benefit-card ul {
+  text-align: left;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.general-application {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-xl);
+  padding: 3rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.no-jobs-message {
+  padding: 3rem;
+  color: var(--text-muted);
+}
+
+.no-jobs-message i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.job-card.hidden {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .culture-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .job-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .job-salary {
+    align-self: flex-start;
+  }
+  
+  .filter-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .job-actions {
+    flex-direction: column;
+  }
+}
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const jobCards = document.querySelectorAll('.job-card');
+  const noJobsMessage = document.getElementById('no-jobs');
+  
+  // Department filtering
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const department = this.getAttribute('data-department');
+      
+      // Update active filter
+      filterBtns.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      
+      // Filter jobs
+      let visibleJobs = 0;
+      jobCards.forEach(card => {
+        if (department === 'all' || card.getAttribute('data-department') === department) {
+          card.classList.remove('hidden');
+          visibleJobs++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+      
+      // Show/hide no jobs message
+      if (visibleJobs === 0) {
+        noJobsMessage.style.display = 'block';
+      } else {
+        noJobsMessage.style.display = 'none';
+      }
+    });
+  });
+  
+  // Apply button handlers
+  document.querySelectorAll('.job-listing .btn-primary').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const jobTitle = this.closest('.job-listing').querySelector('h3').textContent;
+      alert(`Application form for "${jobTitle}" would open here. In a real implementation, this would redirect to an application page or open a modal form.`);
+    });
+  });
+  
+  // Save job button handlers
+  document.querySelectorAll('.job-listing .btn-outline-secondary').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const icon = this.querySelector('i');
+      if (icon.classList.contains('fa-bookmark')) {
+        icon.classList.remove('fa-bookmark');
+        icon.classList.add('fa-bookmark', 'fas');
+        this.innerHTML = '<i class="fas fa-bookmark me-2"></i>Saved';
+        this.classList.remove('btn-outline-secondary');
+        this.classList.add('btn-success');
+      } else {
+        icon.classList.remove('fas');
+        icon.classList.add('far');
+        this.innerHTML = '<i class="far fa-bookmark me-2"></i>Save Job';
+        this.classList.remove('btn-success');
+        this.classList.add('btn-outline-secondary');
+      }
+    });
+  });
+  
+  // General application form
+  const generalForm = document.querySelector('.general-app-form');
+  generalForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Submitting...';
+    submitBtn.disabled = true;
+    
+    setTimeout(() => {
+      alert('Thank you for your application! We\'ll review it and get back to you soon.');
+      this.reset();
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
+    }, 2000);
+  });
+});
+</script>
+{% endblock %}

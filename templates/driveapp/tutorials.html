@@ -1,0 +1,707 @@
+{% extends 'driveapp/base.html' %}
+
+{% block title %}Tutorials - Learn GDrive Transfer - GDrive Transfer{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12">
+        <div class="page-header-content text-center">
+          <h1 class="page-title">
+            <i class="fas fa-graduation-cap me-3"></i>Tutorials & Guides
+          </h1>
+          <p class="page-subtitle">Step-by-step tutorials to help you master Google Drive transfers</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- Featured Tutorial -->
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 lg:col-10">
+        <div class="featured-tutorial">
+          <div class="row align-items-center">
+            <div class="col-12 lg:col-6">
+              <div class="tutorial-content">
+                <span class="badge badge-primary mb-3">
+                  <i class="fas fa-star me-1"></i>Featured Tutorial
+                </span>
+                <h2>Complete Guide: Your First Transfer</h2>
+                <p class="tutorial-description">
+                  Learn everything you need to know to successfully transfer files between Google Drive accounts. 
+                  This comprehensive guide covers authentication, folder selection, and monitoring progress.
+                </p>
+                <div class="tutorial-meta">
+                  <span class="meta-item">
+                    <i class="fas fa-clock me-1"></i>15 minutes
+                  </span>
+                  <span class="meta-item">
+                    <i class="fas fa-signal me-1"></i>Beginner
+                  </span>
+                  <span class="meta-item">
+                    <i class="fas fa-play me-1"></i>Video + Text
+                  </span>
+                </div>
+                <a href="#complete-guide" class="btn btn-primary btn-lg mt-3">
+                  <i class="fas fa-play me-2"></i>Start Tutorial
+                </a>
+              </div>
+            </div>
+            <div class="col-12 lg:col-6">
+              <div class="tutorial-preview">
+                <div class="video-placeholder">
+                  <i class="fas fa-play-circle"></i>
+                  <span>Watch Tutorial</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Tutorial Categories -->
+<section class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="section-title">Browse Tutorials by Category</h2>
+      <p class="section-subtitle">Choose your learning path based on your experience level</p>
+    </div>
+    
+    <div class="row">
+      <!-- Beginner Tutorials -->
+      <div class="col-12 lg:col-4 mb-4">
+        <div class="tutorial-category">
+          <div class="category-header">
+            <div class="category-icon">
+              <i class="fas fa-seedling"></i>
+            </div>
+            <h3>Getting Started</h3>
+            <p>Perfect for first-time users</p>
+          </div>
+          
+          <div class="tutorial-list">
+            <div class="tutorial-item">
+              <div class="tutorial-info">
+                <h4>Setting Up Your First Transfer</h4>
+                <div class="tutorial-meta">
+                  <span><i class="fas fa-clock me-1"></i>8 min</span>
+                  <span><i class="fas fa-video me-1"></i>Video</span>
+                </div>
+              </div>
+              <a href="#setup-tutorial" class="tutorial-link">
+                <i class="fas fa-play"></i>
+              </a>
+            </div>
+            
+            <div class="tutorial-item">
+              <div class="tutorial-info">
+                <h4>Understanding OAuth Authentication</h4>
+                <div class="tutorial-meta">
+                  <span><i class="fas fa-clock me-1"></i>5 min</span>
+                  <span><i class="fas fa-file-alt me-1"></i>Article</span>
+                </div>
+              </div>
+              <a href="#oauth-tutorial" class="tutorial-link">
+                <i class="fas fa-book-open"></i>
+              </a>
+            </div>
+            
+            <div class="tutorial-item">
+              <div class="tutorial-info">
+                <h4>Monitoring Transfer Progress</h4>
+                <div class="tutorial-meta">
+                  <span><i class="fas fa-clock me-1"></i>6 min</span>
+                  <span><i class="fas fa-video me-1"></i>Video</span>
+                </div>
+              </div>
+              <a href="#monitoring-tutorial" class="tutorial-link">
+                <i class="fas fa-play"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Advanced Tutorials -->
+      <div class="col-12 lg:col-4 mb-4">
+        <div class="tutorial-category">
+          <div class="category-header">
+            <div class="category-icon">
+              <i class="fas fa-rocket"></i>
+            </div>
+            <h3>Advanced Features</h3>
+            <p>Maximize your efficiency</p>
+          </div>
+          
+          <div class="tutorial-list">
+            <div class="tutorial-item">
+              <div class="tutorial-info">
+                <h4>Bulk Transfer Strategies</h4>
+                <div class="tutorial-meta">
+                  <span><i class="fas fa-clock me-1"></i>12 min</span>
+                  <span><i class="fas fa-video me-1"></i>Video</span>
+                </div>
+              </div>
+              <a href="#bulk-tutorial" class="tutorial-link">
+                <i class="fas fa-play"></i>
+              </a>
+            </div>
+            
+            <div class="tutorial-item">
+              <div class="tutorial-info">
+                <h4>Managing Large File Collections</h4>
+                <div class="tutorial-meta">
+                  <span><i class="fas fa-clock me-1"></i>10 min</span>
+                  <span><i class="fas fa-file-alt me-1"></i>Article</span>
+                </div>
+              </div>
+              <a href="#large-files-tutorial" class="tutorial-link">
+                <i class="fas fa-book-open"></i>
+              </a>
+            </div>
+            
+            <div class="tutorial-item">
+              <div class="tutorial-info">
+                <h4>Transfer History & Analytics</h4>
+                <div class="tutorial-meta">
+                  <span><i class="fas fa-clock me-1"></i>7 min</span>
+                  <span><i class="fas fa-video me-1"></i>Video</span>
+                </div>
+              </div>
+              <a href="#analytics-tutorial" class="tutorial-link">
+                <i class="fas fa-play"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Troubleshooting -->
+      <div class="col-12 lg:col-4 mb-4">
+        <div class="tutorial-category">
+          <div class="category-header">
+            <div class="category-icon">
+              <i class="fas fa-tools"></i>
+            </div>
+            <h3>Troubleshooting</h3>
+            <p>Solve common issues</p>
+          </div>
+          
+          <div class="tutorial-list">
+            <div class="tutorial-item">
+              <div class="tutorial-info">
+                <h4>Fixing Authentication Errors</h4>
+                <div class="tutorial-meta">
+                  <span><i class="fas fa-clock me-1"></i>9 min</span>
+                  <span><i class="fas fa-video me-1"></i>Video</span>
+                </div>
+              </div>
+              <a href="#auth-errors-tutorial" class="tutorial-link">
+                <i class="fas fa-play"></i>
+              </a>
+            </div>
+            
+            <div class="tutorial-item">
+              <div class="tutorial-info">
+                <h4>Recovering Failed Transfers</h4>
+                <div class="tutorial-meta">
+                  <span><i class="fas fa-clock me-1"></i>11 min</span>
+                  <span><i class="fas fa-file-alt me-1"></i>Article</span>
+                </div>
+              </div>
+              <a href="#failed-transfers-tutorial" class="tutorial-link">
+                <i class="fas fa-book-open"></i>
+              </a>
+            </div>
+            
+            <div class="tutorial-item">
+              <div class="tutorial-info">
+                <h4>Performance Optimization</h4>
+                <div class="tutorial-meta">
+                  <span><i class="fas fa-clock me-1"></i>8 min</span>
+                  <span><i class="fas fa-video me-1"></i>Video</span>
+                </div>
+              </div>
+              <a href="#optimization-tutorial" class="tutorial-link">
+                <i class="fas fa-play"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Step-by-Step Guide -->
+<section id="complete-guide" class="py-5" style="background-color: var(--bg-secondary);">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 lg:col-10">
+        <div class="guide-header text-center mb-5">
+          <h2>Complete Step-by-Step Guide</h2>
+          <p>Follow this comprehensive tutorial to complete your first transfer</p>
+        </div>
+        
+        <div class="step-guide">
+          <!-- Step 1 -->
+          <div class="guide-step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3>Create an Account & Sign In</h3>
+              <p>Start by registering for a GDrive Transfer account or signing in if you already have one. This helps us track your transfers and provide better support.</p>
+              <div class="step-media">
+                <div class="screenshot-placeholder">
+                  <i class="fas fa-image"></i>
+                  <span>Screenshot: Registration page</span>
+                </div>
+              </div>
+              <div class="step-tips">
+                <h5><i class="fas fa-lightbulb me-2"></i>Pro Tips:</h5>
+                <ul>
+                  <li>Use the same email you use for your Google accounts for easier management</li>
+                  <li>Choose a strong password to keep your transfer history secure</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Step 2 -->
+          <div class="guide-step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h3>Connect Your Source Google Drive</h3>
+              <p>Click "Connect Source Account" and sign in to the Google account that contains the files you want to transfer. You'll be redirected to Google's secure authentication page.</p>
+              <div class="step-media">
+                <div class="screenshot-placeholder">
+                  <i class="fas fa-image"></i>
+                  <span>Screenshot: OAuth authentication</span>
+                </div>
+              </div>
+              <div class="step-tips">
+                <h5><i class="fas fa-lightbulb me-2"></i>Pro Tips:</h5>
+                <ul>
+                  <li>Make sure you're signed out of other Google accounts to avoid confusion</li>
+                  <li>Review the permissions carefully - we only request what's necessary</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Step 3 -->
+          <div class="guide-step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h3>Connect Your Destination Google Drive</h3>
+              <p>After successfully connecting your source account, click "Connect Destination Account" and sign in to the Google account where you want to transfer the files.</p>
+              <div class="step-media">
+                <div class="screenshot-placeholder">
+                  <i class="fas fa-image"></i>
+                  <span>Screenshot: Destination connection</span>
+                </div>
+              </div>
+              <div class="step-tips">
+                <h5><i class="fas fa-lightbulb me-2"></i>Pro Tips:</h5>
+                <ul>
+                  <li>This can be a personal or business Google account</li>
+                  <li>Ensure the destination account has enough storage space</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Step 4 -->
+          <div class="guide-step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h3>Select Folders to Transfer</h3>
+              <p>Choose which folders you want to transfer from the source drive and where to place them in the destination drive. You can select the root folder to transfer everything.</p>
+              <div class="step-media">
+                <div class="screenshot-placeholder">
+                  <i class="fas fa-image"></i>
+                  <span>Screenshot: Folder selection interface</span>
+                </div>
+              </div>
+              <div class="step-tips">
+                <h5><i class="fas fa-lightbulb me-2"></i>Pro Tips:</h5>
+                <ul>
+                  <li>Start with smaller folders to test the process</li>
+                  <li>Choose "Root Folder" to transfer your entire drive</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Step 5 -->
+          <div class="guide-step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+              <h3>Start Transfer & Monitor Progress</h3>
+              <p>Click "Start Transfer" to begin the process. You'll be redirected to a status page where you can monitor the real-time progress of your transfer.</p>
+              <div class="step-media">
+                <div class="screenshot-placeholder">
+                  <i class="fas fa-image"></i>
+                  <span>Screenshot: Transfer progress page</span>
+                </div>
+              </div>
+              <div class="step-tips">
+                <h5><i class="fas fa-lightbulb me-2"></i>Pro Tips:</h5>
+                <ul>
+                  <li>Keep the browser tab open for faster progress updates</li>
+                  <li>You can safely close the tab - the transfer continues in the background</li>
+                  <li>Check back periodically to monitor progress</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Video Tutorials -->
+<section class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="section-title">Video Tutorials</h2>
+      <p class="section-subtitle">Watch and learn with our comprehensive video guides</p>
+    </div>
+    
+    <div class="row">
+      <div class="col-12 md:col-6 lg:col-4 mb-4">
+        <div class="video-tutorial">
+          <div class="video-thumbnail">
+            <div class="play-button">
+              <i class="fas fa-play"></i>
+            </div>
+            <div class="video-duration">8:24</div>
+          </div>
+          <div class="video-info">
+            <h4>Quick Start: First Transfer</h4>
+            <p>Complete your first transfer in under 10 minutes with this quick start guide.</p>
+            <div class="video-meta">
+              <span class="views"><i class="fas fa-eye me-1"></i>12.5K views</span>
+              <span class="rating"><i class="fas fa-star me-1"></i>4.9/5</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-4 mb-4">
+        <div class="video-tutorial">
+          <div class="video-thumbnail">
+            <div class="play-button">
+              <i class="fas fa-play"></i>
+            </div>
+            <div class="video-duration">15:32</div>
+          </div>
+          <div class="video-info">
+            <h4>Advanced Transfer Techniques</h4>
+            <p>Learn advanced strategies for handling large-scale transfers efficiently.</p>
+            <div class="video-meta">
+              <span class="views"><i class="fas fa-eye me-1"></i>8.2K views</span>
+              <span class="rating"><i class="fas fa-star me-1"></i>4.8/5</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-12 md:col-6 lg:col-4 mb-4">
+        <div class="video-tutorial">
+          <div class="video-thumbnail">
+            <div class="play-button">
+              <i class="fas fa-play"></i>
+            </div>
+            <div class="video-duration">11:17</div>
+          </div>
+          <div class="video-info">
+            <h4>Troubleshooting Common Issues</h4>
+            <p>Solve the most common transfer problems with these proven solutions.</p>
+            <div class="video-meta">
+              <span class="views"><i class="fas fa-eye me-1"></i>6.7K views</span>
+              <span class="rating"><i class="fas fa-star me-1"></i>4.7/5</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Need More Help -->
+<section class="py-5" style="background: var(--primary-gradient);">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 lg:col-8">
+        <div class="help-section text-center text-white">
+          <h3>Need Personal Assistance?</h3>
+          <p>Our tutorials cover most scenarios, but if you need personalized help, we're here for you.</p>
+          <div class="help-actions mt-4">
+            <a href="{% url 'contact' %}" class="btn btn-light btn-lg me-3">
+              <i class="fas fa-envelope me-2"></i>Contact Support
+            </a>
+            <a href="{% url 'faq' %}" class="btn btn-outline-light btn-lg">
+              <i class="fas fa-question-circle me-2"></i>Check FAQ
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.featured-tutorial {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-xl);
+  padding: 3rem;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 3rem;
+}
+
+.tutorial-preview {
+  position: relative;
+}
+
+.video-placeholder {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border-radius: var(--border-radius-lg);
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 3rem;
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+}
+
+.video-placeholder:hover {
+  transform: scale(1.02);
+}
+
+.tutorial-category {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  height: 100%;
+  transition: all var(--transition-smooth);
+}
+
+.tutorial-category:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.category-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.category-icon {
+  background: var(--primary-gradient);
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 1.5rem;
+}
+
+.tutorial-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--border-radius);
+  margin-bottom: 1rem;
+  transition: all var(--transition-fast);
+}
+
+.tutorial-item:hover {
+  background: var(--bg-hover);
+}
+
+.tutorial-info h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+}
+
+.tutorial-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.tutorial-link {
+  background: var(--primary-color);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.tutorial-link:hover {
+  background: var(--secondary-color);
+  color: white;
+  transform: scale(1.1);
+}
+
+.guide-step {
+  display: flex;
+  margin-bottom: 3rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.guide-step:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.step-number {
+  background: var(--primary-gradient);
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-right: 2rem;
+  flex-shrink: 0;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-content h3 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.screenshot-placeholder {
+  background: var(--bg-tertiary);
+  border: 2px dashed var(--border-color);
+  border-radius: var(--border-radius);
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  margin: 1.5rem 0;
+}
+
+.step-tips {
+  background: var(--bg-hover);
+  border-left: 4px solid var(--primary-color);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  margin-top: 1.5rem;
+}
+
+.step-tips h5 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.video-tutorial {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-smooth);
+}
+
+.video-tutorial:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.video-thumbnail {
+  position: relative;
+  background: var(--bg-tertiary);
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.play-button {
+  background: rgba(0,0,0,0.7);
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.play-button:hover {
+  background: var(--primary-color);
+  transform: scale(1.1);
+}
+
+.video-duration {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--border-radius);
+  font-size: 0.875rem;
+}
+
+.video-info {
+  padding: 1.5rem;
+}
+
+.video-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-top: 1rem;
+}
+
+.help-section {
+  padding: 2rem;
+}
+</style>
+{% endblock %}

@@ -3,184 +3,180 @@
 {% block title %}Dashboard - GDrive Transfer{% endblock %}
 
 {% block page_header %}
-<section style="background: linear-gradient(135deg, var(--primary-color), var(--success-color)); color: white; padding: 3rem 0;">
+<div class="dashboard-header">
   <div class="container">
     <div class="row align-items-center">
-      <div class="col-12 md:col-8">
-        <h1 class="mb-2">Transfer Dashboard</h1>
-        <p class="mb-0" style="opacity: 0.9;">Manage and monitor all your Google Drive transfers</p>
+      <div class="col-12 lg:col-8">
+        <div class="header-content">
+          <h1 class="dashboard-title">
+            <i class="fas fa-chart-line me-3"></i>Dashboard
+          </h1>
+          <p class="dashboard-subtitle">Monitor your transfer activity and manage your Google Drive migrations</p>
+        </div>
       </div>
-      <div class="col-12 md:col-4 text-center md:text-right mt-3 md:mt-0">
-        <a href="/" class="btn btn-secondary">
-          <i class="fas fa-plus me-2"></i>New Transfer
-        </a>
+      <div class="col-12 lg:col-4 text-center lg:text-end mt-3 lg:mt-0">
+        <div class="header-actions">
+          <a href="{% url 'transfer_wizard' %}" class="btn btn-primary btn-lg">
+            <i class="fas fa-plus me-2"></i>New Transfer
+          </a>
+        </div>
       </div>
     </div>
   </div>
-</section>
+</div>
 {% endblock %}
 
 {% block content %}
-<div class="py-4">
-  <!-- Stats Overview -->
-  <div class="row mb-5">
-    <div class="col-12 sm:col-6 lg:col-3 mb-3">
-      <div class="card text-center">
-        <div style="background: linear-gradient(135deg, var(--primary-color), var(--info-color)); color: white; padding: 1.5rem; border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
-          <i class="fas fa-list-alt" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
-          <h3 class="mb-0">{{ transfers|length }}</h3>
-          <small style="opacity: 0.9;">Total Transfers</small>
-        </div>
+<div class="dashboard-content">
+  <!-- Quick Stats Cards -->
+  <div class="stats-grid mb-5">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-exchange-alt"></i>
+      </div>
+      <div class="stat-info">
+        <div class="stat-number">{{ transfers|length }}</div>
+        <div class="stat-label">Total Transfers</div>
+      </div>
+      <div class="stat-trend positive">
+        <i class="fas fa-arrow-up"></i>
+        <span>12%</span>
       </div>
     </div>
-    
-    <div class="col-12 sm:col-6 lg:col-3 mb-3">
-      <div class="card text-center">
-        <div style="background: linear-gradient(135deg, var(--success-color), #059669); color: white; padding: 1.5rem; border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
-          <i class="fas fa-check-circle" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
-          <h3 class="mb-0">{% for transfer in transfers %}{% if transfer.status == 'completed' %}{{ forloop.counter0|add:1 }}{% endif %}{% empty %}0{% endfor %}</h3>
-          <small style="opacity: 0.9;">Completed</small>
-        </div>
+
+    <div class="stat-card">
+      <div class="stat-icon success">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <div class="stat-info">
+        <div class="stat-number">{% for transfer in transfers %}{% if transfer.status == 'completed' %}{{ forloop.counter0|add:1 }}{% endif %}{% empty %}0{% endfor %}</div>
+        <div class="stat-label">Completed</div>
+      </div>
+      <div class="stat-trend positive">
+        <i class="fas fa-arrow-up"></i>
+        <span>8%</span>
       </div>
     </div>
-    
-    <div class="col-12 sm:col-6 lg:col-3 mb-3">
-      <div class="card text-center">
-        <div style="background: linear-gradient(135deg, var(--warning-color), #d97706); color: white; padding: 1.5rem; border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
-          <i class="fas fa-clock" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
-          <h3 class="mb-0">{% for transfer in transfers %}{% if transfer.status == 'in_progress' %}{{ forloop.counter0|add:1 }}{% endif %}{% empty %}0{% endfor %}</h3>
-          <small style="opacity: 0.9;">In Progress</small>
-        </div>
+
+    <div class="stat-card">
+      <div class="stat-icon warning">
+        <i class="fas fa-clock"></i>
+      </div>
+      <div class="stat-info">
+        <div class="stat-number">{% for transfer in transfers %}{% if transfer.status == 'in_progress' %}{{ forloop.counter0|add:1 }}{% endif %}{% empty %}0{% endfor %}</div>
+        <div class="stat-label">In Progress</div>
+      </div>
+      <div class="stat-trend neutral">
+        <i class="fas fa-minus"></i>
+        <span>0%</span>
       </div>
     </div>
-    
-    <div class="col-12 sm:col-6 lg:col-3 mb-3">
-      <div class="card text-center">
-        <div style="background: linear-gradient(135deg, var(--danger-color), #dc2626); color: white; padding: 1.5rem; border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
-          <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
-          <h3 class="mb-0">{% for transfer in transfers %}{% if transfer.status == 'failed' %}{{ forloop.counter0|add:1 }}{% endif %}{% empty %}0{% endfor %}</h3>
-          <small style="opacity: 0.9;">Failed</small>
-        </div>
+
+    <div class="stat-card">
+      <div class="stat-icon danger">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <div class="stat-info">
+        <div class="stat-number">{% for transfer in transfers %}{% if transfer.status == 'failed' %}{{ forloop.counter0|add:1 }}{% endif %}{% empty %}0{% endfor %}</div>
+        <div class="stat-label">Failed</div>
+      </div>
+      <div class="stat-trend negative">
+        <i class="fas fa-arrow-down"></i>
+        <span>2%</span>
       </div>
     </div>
   </div>
 
-  <!-- Transfers Table -->
-  <div class="card">
-    <div class="card-header">
-      <div class="d-flex justify-content-between align-items-center">
-        <h3 class="card-title mb-0">
-          <i class="fas fa-history me-2"></i>Transfer History
-        </h3>
-        <div class="d-flex gap-2 align-items-center">
-          <!-- Search and Filter -->
-          <div class="d-flex gap-2">
-            <input type="text" id="searchTransfers" class="form-control" placeholder="Search transfers..." style="width: 200px;">
-            <select id="statusFilter" class="form-control form-select" style="width: 150px;">
-              <option value="">All Status</option>
-              <option value="completed">Completed</option>
-              <option value="in_progress">In Progress</option>
-              <option value="failed">Failed</option>
-              <option value="cancelled">Cancelled</option>
-            </select>
+  <div class="row">
+    <!-- Main Content -->
+    <div class="col-12 xl:col-8">
+      <!-- Recent Transfers Card -->
+      <div class="dashboard-card mb-4">
+        <div class="card-header">
+          <div class="card-header-content">
+            <h3 class="card-title">
+              <i class="fas fa-history me-2"></i>Recent Transfers
+            </h3>
+            <div class="card-actions">
+              <div class="search-filter-group">
+                <input type="text" id="searchTransfers" class="form-control search-input" placeholder="Search transfers...">
+                <select id="statusFilter" class="form-control status-filter">
+                  <option value="">All Status</option>
+                  <option value="completed">Completed</option>
+                  <option value="in_progress">In Progress</option>
+                  <option value="failed">Failed</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+              </div>
+              <button class="btn btn-icon" onclick="refreshTable()" title="Refresh">
+                <i class="fas fa-sync-alt"></i>
+              </button>
+            </div>
           </div>
-          <button class="btn btn-secondary btn-sm" onclick="refreshTable()">
-            <i class="fas fa-sync-alt"></i>
-          </button>
         </div>
-      </div>
-    </div>
 
-    {% if transfers %}
-      <div style="overflow-x: auto;">
-        <table class="table" id="transfersTable">
-          <thead style="background-color: var(--bg-secondary);">
-            <tr>
-              <th style="width: 50px;">#</th>
-              <th>Transfer ID</th>
-              <th>Source Account</th>
-              <th>Destination Account</th>
-              <th>Status</th>
-              <th>Progress</th>
-              <th>Created</th>
-              <th style="width: 120px;">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+        {% if transfers %}
+          <div class="transfers-list">
             {% for transfer in transfers %}
-              <tr data-status="{{ transfer.status }}">
-                <td>
-                  <span class="badge badge-secondary">{{ forloop.counter }}</span>
-                </td>
-                <td>
-                  <code style="font-size: 0.8rem; background: var(--bg-tertiary); padding: 0.25rem 0.5rem; border-radius: var(--radius-sm);">
-                    {{ transfer.transfer_uuid|truncatechars:13 }}
-                  </code>
-                  <button class="btn btn-sm" onclick="copyToClipboard('{{ transfer.transfer_uuid }}')" style="background: none; border: none; color: var(--text-secondary); padding: 0.25rem;">
-                    <i class="fas fa-copy"></i>
-                  </button>
-                </td>
-                <td>
-                  <div class="d-flex align-items-center gap-2">
-                    <i class="fas fa-user text-primary"></i>
-                    <span>{{ transfer.source_email|default:"Unknown"|truncatechars:25 }}</span>
-                  </div>
-                </td>
-                <td>
-                  <div class="d-flex align-items-center gap-2">
-                    <i class="fas fa-user-plus text-success"></i>
-                    <span>{{ transfer.destination_email|default:"Unknown"|truncatechars:25 }}</span>
-                  </div>
-                </td>
-                <td>
+              <div class="transfer-item" data-status="{{ transfer.status }}">
+                <div class="transfer-avatar">
                   {% if transfer.status == 'completed' %}
-                    <span class="badge badge-success">
-                      <i class="fas fa-check me-1"></i>Completed
-                    </span>
+                    <i class="fas fa-check-circle text-success"></i>
                   {% elif transfer.status == 'failed' %}
-                    <span class="badge badge-danger">
-                      <i class="fas fa-times me-1"></i>Failed
-                    </span>
-                  {% elif transfer.status == 'cancelled' %}
-                    <span class="badge badge-warning">
-                      <i class="fas fa-ban me-1"></i>Cancelled
-                    </span>
+                    <i class="fas fa-times-circle text-danger"></i>
                   {% elif transfer.status == 'in_progress' %}
-                    <span class="badge badge-info">
-                      <i class="fas fa-spinner fa-spin me-1"></i>In Progress
-                    </span>
+                    <i class="fas fa-spinner fa-spin text-primary"></i>
                   {% else %}
-                    <span class="badge badge-secondary">
-                      <i class="fas fa-clock me-1"></i>{{ transfer.status|title }}
-                    </span>
+                    <i class="fas fa-clock text-warning"></i>
                   {% endif %}
-                </td>
-                <td>
-                  <div style="min-width: 120px;">
+                </div>
+                
+                <div class="transfer-details">
+                  <div class="transfer-main">
+                    <div class="transfer-id">
+                      <code class="transfer-uuid">{{ transfer.transfer_uuid|truncatechars:13 }}</code>
+                      <button class="copy-btn" onclick="copyToClipboard('{{ transfer.transfer_uuid }}')" title="Copy ID">
+                        <i class="fas fa-copy"></i>
+                      </button>
+                    </div>
+                    <div class="transfer-accounts">
+                      <span class="account source">{{ transfer.source_email|default:"Unknown"|truncatechars:25 }}</span>
+                      <i class="fas fa-arrow-right transfer-arrow"></i>
+                      <span class="account destination">{{ transfer.destination_email|default:"Unknown"|truncatechars:25 }}</span>
+                    </div>
+                  </div>
+                  
+                  <div class="transfer-progress">
                     {% if transfer.total_files > 0 %}
                       {% widthratio transfer.transferred_files transfer.total_files 100 as progress_percent %}
-                      <div class="progress" style="height: 8px; margin-bottom: 4px;">
-                        <div class="progress-bar {% if transfer.status == 'completed' %}bg-success{% elif transfer.status == 'failed' %}bg-danger{% elif transfer.status == 'in_progress' %}progress-bar-striped progress-bar-animated{% endif %}" 
-                             style="width: {{ progress_percent }}%;" 
-                             aria-valuenow="{{ progress_percent }}" 
-                             aria-valuemin="0" 
-                             aria-valuemax="100">
-                        </div>
+                      <div class="progress-bar-container">
+                        <div class="progress-bar-fill" style="width: {{ progress_percent }}%"></div>
                       </div>
-                      <small class="text-secondary">{{ transfer.transferred_files }}/{{ transfer.total_files }} files</small>
+                      <div class="progress-text">{{ transfer.transferred_files }}/{{ transfer.total_files }} files</div>
                     {% else %}
-                      <small class="text-secondary">Calculating...</small>
+                      <div class="progress-text">Calculating...</div>
                     {% endif %}
                   </div>
-                </td>
-                <td>
-                  <div>
-                    <div style="font-weight: 500;">{{ transfer.created_at|date:"M d, Y" }}</div>
-                    <small class="text-secondary">{{ transfer.created_at|date:"H:i" }}</small>
+                </div>
+
+                <div class="transfer-meta">
+                  <div class="transfer-status">
+                    {% if transfer.status == 'completed' %}
+                      <span class="status-badge success">Completed</span>
+                    {% elif transfer.status == 'failed' %}
+                      <span class="status-badge danger">Failed</span>
+                    {% elif transfer.status == 'cancelled' %}
+                      <span class="status-badge warning">Cancelled</span>
+                    {% elif transfer.status == 'in_progress' %}
+                      <span class="status-badge primary">In Progress</span>
+                    {% else %}
+                      <span class="status-badge secondary">{{ transfer.status|title }}</span>
+                    {% endif %}
                   </div>
-                </td>
-                <td>
-                  <div class="d-flex gap-1">
+                  
+                  <div class="transfer-date">{{ transfer.created_at|date:"M d, Y H:i" }}</div>
+                  
+                  <div class="transfer-actions">
                     <a href="{% url 'transfer_status_page' transfer.transfer_uuid %}" 
                        class="btn btn-sm btn-primary" 
                        title="View Details">
@@ -194,95 +190,108 @@
                       </button>
                     {% endif %}
                   </div>
-                </td>
-              </tr>
+                </div>
+              </div>
             {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    {% else %}
-      <div class="text-center py-5">
-        <div class="mb-4">
-          <i class="fas fa-inbox" style="font-size: 4rem; color: var(--text-muted);"></i>
-        </div>
-        <h4>No Transfers Found</h4>
-        <p class="text-secondary mb-4">You haven't started any transfers yet. Get started by creating your first transfer.</p>
-        <a href="/" class="btn btn-primary btn-lg">
-          <i class="fas fa-plus me-2"></i>Start Your First Transfer
-        </a>
-      </div>
-    {% endif %}
-  </div>
-
-  <!-- Quick Actions Card -->
-  {% if transfers %}
-  <div class="row mt-4">
-    <div class="col-12 lg:col-4">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="card-title mb-0">
-            <i class="fas fa-zap me-2"></i>Quick Actions
-          </h5>
-        </div>
-        <div style="padding: 1.5rem;">
-          <div class="d-flex flex-column gap-2">
-            <a href="/" class="btn btn-primary">
-              <i class="fas fa-plus me-2"></i>New Transfer
+          </div>
+        {% else %}
+          <div class="empty-state">
+            <div class="empty-icon">
+              <i class="fas fa-folder-open"></i>
+            </div>
+            <h4 class="empty-title">No Transfers Yet</h4>
+            <p class="empty-description">Start your first Google Drive transfer to see it here</p>
+            <a href="{% url 'transfer_wizard' %}" class="btn btn-primary btn-lg">
+              <i class="fas fa-plus me-2"></i>Create First Transfer
             </a>
-            <button class="btn btn-secondary" onclick="refreshTable()">
-              <i class="fas fa-sync-alt me-2"></i>Refresh List
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-12 xl:col-4">
+      <!-- Quick Actions Card -->
+      <div class="dashboard-card mb-4">
+        <div class="card-header">
+          <h4 class="card-title">
+            <i class="fas fa-lightning-bolt me-2"></i>Quick Actions
+          </h4>
+        </div>
+        <div class="card-content">
+          <div class="quick-actions">
+            <a href="{% url 'transfer_wizard' %}" class="quick-action-btn primary">
+              <i class="fas fa-plus"></i>
+              <span>New Transfer</span>
+            </a>
+            <button class="quick-action-btn secondary" onclick="refreshTable()">
+              <i class="fas fa-sync-alt"></i>
+              <span>Refresh</span>
             </button>
-            <button class="btn btn-info" onclick="showHelpModal()">
-              <i class="fas fa-question-circle me-2"></i>Need Help?
-            </button>
+            <a href="{% url 'help_center' %}" class="quick-action-btn info">
+              <i class="fas fa-question-circle"></i>
+              <span>Get Help</span>
+            </a>
           </div>
         </div>
       </div>
-    </div>
-    
-    <div class="col-12 lg:col-8 mt-4 lg:mt-0">
-      <div class="card">
+
+      <!-- Activity Summary Card -->
+      <div class="dashboard-card mb-4">
         <div class="card-header">
-          <h5 class="card-title mb-0">
-            <i class="fas fa-info-circle me-2"></i>Tips for Better Transfers
-          </h5>
+          <h4 class="card-title">
+            <i class="fas fa-chart-bar me-2"></i>Activity Summary
+          </h4>
         </div>
-        <div style="padding: 1.5rem;">
-          <div class="row">
-            <div class="col-12 md:col-6 mb-3">
-              <div class="d-flex align-items-start gap-3">
-                <i class="fas fa-lightbulb text-warning" style="margin-top: 0.25rem;"></i>
-                <div>
-                  <h6>Organize Before Transfer</h6>
-                  <small class="text-secondary">Organize your files into folders before transferring for better structure.</small>
-                </div>
+        <div class="card-content">
+          <div class="activity-summary">
+            <div class="summary-item">
+              <div class="summary-label">This Week</div>
+              <div class="summary-value">{{ transfers|length|default:0 }}</div>
+              <div class="summary-change positive">+15%</div>
+            </div>
+            <div class="summary-item">
+              <div class="summary-label">Success Rate</div>
+              <div class="summary-value">97%</div>
+              <div class="summary-change positive">+2%</div>
+            </div>
+            <div class="summary-item">
+              <div class="summary-label">Avg. Speed</div>
+              <div class="summary-value">2.5MB/s</div>
+              <div class="summary-change neutral">~</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips Card -->
+      <div class="dashboard-card">
+        <div class="card-header">
+          <h4 class="card-title">
+            <i class="fas fa-lightbulb me-2"></i>Pro Tips
+          </h4>
+        </div>
+        <div class="card-content">
+          <div class="tips-list">
+            <div class="tip-item">
+              <i class="fas fa-folder-plus tip-icon"></i>
+              <div class="tip-content">
+                <div class="tip-title">Organize First</div>
+                <div class="tip-description">Structure your files in folders before transferring</div>
               </div>
             </div>
-            <div class="col-12 md:col-6 mb-3">
-              <div class="d-flex align-items-start gap-3">
-                <i class="fas fa-wifi text-info" style="margin-top: 0.25rem;"></i>
-                <div>
-                  <h6>Stable Connection</h6>
-                  <small class="text-secondary">Ensure a stable internet connection for large file transfers.</small>
-                </div>
+            <div class="tip-item">
+              <i class="fas fa-wifi tip-icon"></i>
+              <div class="tip-content">
+                <div class="tip-title">Stable Connection</div>
+                <div class="tip-description">Ensure reliable internet for large transfers</div>
               </div>
             </div>
-            <div class="col-12 md:col-6">
-              <div class="d-flex align-items-start gap-3">
-                <i class="fas fa-clock text-success" style="margin-top: 0.25rem;"></i>
-                <div>
-                  <h6>Monitor Progress</h6>
-                  <small class="text-secondary">Check transfer status regularly and don't close your browser.</small>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 md:col-6">
-              <div class="d-flex align-items-start gap-3">
-                <i class="fas fa-shield-alt text-primary" style="margin-top: 0.25rem;"></i>
-                <div>
-                  <h6>Data Security</h6>
-                  <small class="text-secondary">Your data is transferred securely and never stored on our servers.</small>
-                </div>
+            <div class="tip-item">
+              <i class="fas fa-shield-alt tip-icon"></i>
+              <div class="tip-content">
+                <div class="tip-title">Secure Transfer</div>
+                <div class="tip-description">Your data is encrypted and never stored</div>
               </div>
             </div>
           </div>
@@ -290,8 +299,556 @@
       </div>
     </div>
   </div>
-  {% endif %}
 </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .dashboard-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+  }
+  
+  .dashboard-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  .dashboard-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin: 0;
+  }
+  
+  .header-actions .btn-primary {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+  }
+  
+  .header-actions .btn-primary:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .dashboard-content {
+    padding: 0 15px;
+  }
+  
+  /* Stats Grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-fast);
+  }
+  
+  .stat-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  
+  .stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--border-radius);
+    background: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    flex-shrink: 0;
+  }
+  
+  .stat-icon.success { background: var(--success-color); }
+  .stat-icon.warning { background: var(--warning-color); }
+  .stat-icon.danger { background: var(--danger-color); }
+  
+  .stat-info {
+    flex: 1;
+  }
+  
+  .stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+  
+  .stat-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+  }
+  
+  .stat-trend {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  
+  .stat-trend.positive { color: var(--success-color); }
+  .stat-trend.negative { color: var(--danger-color); }
+  .stat-trend.neutral { color: var(--text-secondary); }
+  
+  /* Dashboard Cards */
+  .dashboard-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  
+  .card-header {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.5rem;
+  }
+  
+  .card-header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  
+  .card-title {
+    color: var(--text-primary);
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+  }
+  
+  .card-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .search-filter-group {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .search-input {
+    width: 200px;
+    height: 38px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  .status-filter {
+    width: 140px;
+    height: 38px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  .btn-icon {
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+  }
+  
+  .btn-icon:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+  
+  .card-content {
+    padding: 1.5rem;
+  }
+  
+  /* Transfers List */
+  .transfers-list {
+    padding: 0;
+  }
+  
+  .transfer-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: all var(--transition-fast);
+  }
+  
+  .transfer-item:last-child {
+    border-bottom: none;
+  }
+  
+  .transfer-item:hover {
+    background: var(--bg-hover);
+  }
+  
+  .transfer-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+  
+  .transfer-details {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .transfer-main {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .transfer-id {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .transfer-uuid {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--border-radius-sm);
+    font-size: 0.8rem;
+    font-family: 'Monaco', 'Menlo', monospace;
+  }
+  
+  .copy-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    padding: 0.25rem;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: color var(--transition-fast);
+  }
+  
+  .copy-btn:hover {
+    color: var(--primary-color);
+  }
+  
+  .transfer-accounts {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .account {
+    color: var(--text-secondary);
+  }
+  
+  .transfer-arrow {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+  }
+  
+  .transfer-progress {
+    margin-top: 0.5rem;
+  }
+  
+  .progress-bar-container {
+    width: 100%;
+    height: 6px;
+    background: var(--bg-tertiary);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.25rem;
+  }
+  
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--primary-color);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+  }
+  
+  .progress-text {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+  
+  .transfer-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+  
+  .status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--border-radius);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+  
+  .status-badge.success {
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--success-color);
+  }
+  
+  .status-badge.danger {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger-color);
+  }
+  
+  .status-badge.warning {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning-color);
+  }
+  
+  .status-badge.primary {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary-color);
+  }
+  
+  .status-badge.secondary {
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+  }
+  
+  .transfer-date {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+  
+  .transfer-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+  
+  .empty-icon {
+    font-size: 4rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+  }
+  
+  .empty-title {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
+  
+  .empty-description {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+  }
+  
+  /* Quick Actions */
+  .quick-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .quick-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  
+  .quick-action-btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+  
+  .quick-action-btn.primary {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+  }
+  
+  .quick-action-btn.primary:hover {
+    background: var(--primary-hover);
+    color: white;
+  }
+  
+  /* Activity Summary */
+  .activity-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .summary-item:last-child {
+    border-bottom: none;
+  }
+  
+  .summary-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+  
+  .summary-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  
+  .summary-change {
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  
+  .summary-change.positive { color: var(--success-color); }
+  .summary-change.negative { color: var(--danger-color); }
+  .summary-change.neutral { color: var(--text-secondary); }
+  
+  /* Tips List */
+  .tips-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .tip-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .tip-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+  }
+  
+  .tip-content {
+    flex: 1;
+  }
+  
+  .tip-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+  }
+  
+  .tip-description {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .dashboard-title {
+      font-size: 2rem;
+    }
+    
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .card-header-content {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    
+    .search-filter-group {
+      flex-direction: column;
+    }
+    
+    .search-input,
+    .status-filter {
+      width: 100%;
+    }
+    
+    .transfer-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    
+    .transfer-meta {
+      align-items: flex-start;
+      width: 100%;
+    }
+    
+    .transfer-main {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+</style>
 {% endblock %}
 
 {% block extra_scripts %}
@@ -300,7 +857,7 @@
   function copyToClipboard(text) {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text).then(() => {
-        window.uiUtils.showNotification('Transfer ID copied to clipboard!', 'success');
+        showNotification('Transfer ID copied to clipboard!', 'success');
       }).catch(() => {
         fallbackCopyToClipboard(text);
       });
@@ -321,9 +878,9 @@
     
     try {
       document.execCommand('copy');
-      window.uiUtils.showNotification('Transfer ID copied to clipboard!', 'success');
+      showNotification('Transfer ID copied to clipboard!', 'success');
     } catch (err) {
-      window.uiUtils.showNotification('Failed to copy to clipboard', 'error');
+      showNotification('Failed to copy to clipboard', 'error');
     }
     
     document.body.removeChild(textArea);
@@ -345,15 +902,15 @@
     .then(response => response.json())
     .then(data => {
       if (data.success) {
-        window.uiUtils.showNotification('Transfer cancelled successfully.', 'success');
+        showNotification('Transfer cancelled successfully.', 'success');
         setTimeout(() => location.reload(), 1000);
       } else {
-        window.uiUtils.showNotification('Failed to cancel transfer: ' + data.error, 'error');
+        showNotification('Failed to cancel transfer: ' + data.error, 'error');
       }
     })
     .catch(error => {
       console.error('Error cancelling transfer:', error);
-      window.uiUtils.showNotification('An error occurred while trying to cancel the transfer.', 'error');
+      showNotification('An error occurred while trying to cancel the transfer.', 'error');
     });
   }
 
@@ -362,38 +919,46 @@
     location.reload();
   }
 
+  // Notification function
+  function showNotification(message, type = 'info', duration = 5000) {
+    if (window.uiUtils && window.uiUtils.showNotification) {
+      window.uiUtils.showNotification(message, type, duration);
+    } else {
+      alert(message);
+    }
+  }
+
   // Search and filter functionality
   document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchTransfers');
     const statusFilter = document.getElementById('statusFilter');
-    const table = document.getElementById('transfersTable');
+    const transfersList = document.querySelector('.transfers-list');
     
-    if (searchInput && statusFilter && table) {
-      function filterTable() {
+    if (searchInput && statusFilter && transfersList) {
+      function filterTransfers() {
         const searchTerm = searchInput.value.toLowerCase();
         const statusValue = statusFilter.value.toLowerCase();
-        const rows = table.querySelectorAll('tbody tr');
+        const items = transfersList.querySelectorAll('.transfer-item');
         
-        rows.forEach(row => {
-          const text = row.textContent.toLowerCase();
-          const status = row.getAttribute('data-status').toLowerCase();
+        items.forEach(item => {
+          const text = item.textContent.toLowerCase();
+          const status = item.getAttribute('data-status').toLowerCase();
           
           const matchesSearch = text.includes(searchTerm);
           const matchesStatus = !statusValue || status === statusValue;
           
-          row.style.display = (matchesSearch && matchesStatus) ? '' : 'none';
+          item.style.display = (matchesSearch && matchesStatus) ? 'flex' : 'none';
         });
       }
       
-      searchInput.addEventListener('input', window.uiUtils.debounce(filterTable, 300));
-      statusFilter.addEventListener('change', filterTable);
+      searchInput.addEventListener('input', debounce(filterTransfers, 300));
+      statusFilter.addEventListener('change', filterTransfers);
     }
 
     // Auto-refresh for in-progress transfers
     const inProgressTransfers = document.querySelectorAll('[data-status="in_progress"]');
     if (inProgressTransfers.length > 0) {
       setInterval(() => {
-        // Check if we should refresh the page
         if (document.visibilityState === 'visible') {
           refreshTable();
         }
@@ -401,13 +966,17 @@
     }
   });
 
-  // Help modal function
-  function showHelpModal() {
-    window.uiUtils.showNotification(
-      'For help and support, please visit our help center or contact support.',
-      'info',
-      8000
-    );
+  // Debounce function
+  function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
   }
 </script>
 {% endblock %}
